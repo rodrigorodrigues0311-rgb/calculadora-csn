@@ -1,3 +1,4 @@
+<!-- CSN Automação v3.0 - 2026 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,10 +9,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="CSN Automação">
 <meta name="theme-color" content="#1a6fd4">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<title>Automação CSN – Ferramentas</title>
+<title>Automação CSN v3 – Ferramentas</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -27,45 +31,41 @@
 body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:999;}
 
-/* ── NAV BAR ── */
+/* NAV */
 .navbar{position:sticky;top:0;z-index:100;background:#0d1620;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
 .navbar::-webkit-scrollbar{display:none;}
-.nav-btn{flex:0 0 auto;padding:12px 14px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;}
-.nav-btn .nav-icon{font-size:1.1rem;}
+.nav-btn{flex:0 0 auto;padding:10px 13px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.nav-btn .ni{font-size:1rem;}
 .nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
-.nav-btn:hover{color:var(--text);}
 
-/* ── PAGES ── */
-.page{display:none;padding:20px 14px 60px;max-width:660px;margin:0 auto;}
+/* PAGES */
+.page{display:none;padding:18px 14px 70px;max-width:660px;margin:0 auto;}
 .page.active{display:block;}
 
-/* ── HEADER ── */
-.csn-header{text-align:center;margin-bottom:20px;}
-.csn-brand{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:10px;}
+/* HEADER */
 .csn-svg{width:80px;height:80px;filter:drop-shadow(0 0 12px rgba(26,111,212,.7));}
 @keyframes gearSpin{to{transform:rotate(360deg);}}
 .gear-spin{transform-box:fill-box;transform-origin:center;animation:gearSpin 12s linear infinite;}
-.csn-text-auto{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:5px;text-transform:uppercase;color:#e0eeff;}
-.csn-divider{width:44px;height:2px;background:linear-gradient(90deg,transparent,var(--csn),transparent);}
-.csn-text-csn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:8px;text-transform:uppercase;color:var(--csn);text-shadow:0 0 16px rgba(26,111,212,.5);}
-.page-title{font-size:1.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;}
+.page-title{font-size:1.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:4px;}
 .page-title span{color:var(--accent);}
-.page-sub{font-size:.8rem;color:var(--label);margin-top:4px;letter-spacing:1px;}
+.page-sub{font-size:.8rem;color:var(--label);letter-spacing:1px;}
 
-/* ── CARDS ── */
+/* CARD */
 .card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
 .card-bar{position:absolute;top:0;left:0;right:0;height:2px;}
+
+/* SECTION */
 .sec{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .sec::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* ── GRIDS ── */
+/* GRIDS */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
 
-/* ── BUTTONS ── */
+/* BUTTONS */
 .btn-sel{padding:9px 6px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;}
-.btn-sel .bs-icon{font-size:1.3rem;}
+.btn-sel .bs-icon{font-size:1.2rem;}
 .btn-sel:hover{border-color:var(--dim);color:var(--text);}
 .btn-sel.active{border-color:var(--accent);background:rgba(0,212,255,.09);color:var(--accent);}
 
@@ -75,23 +75,82 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .btn-main:hover{color:#000;}
 .btn-main span{position:relative;z-index:1;}
 
-/* ── INPUTS ── */
+/* INPUTS */
 .inp-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
-.inp-group label{font-size:.75rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
+.inp-group label{font-size:.73rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
 .inp-row{display:flex;}
 .inp-pfx{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--dim);padding:8px 10px;background:#0d1620;border:1px solid var(--border);border-right:none;border-radius:3px 0 0 3px;white-space:nowrap;display:flex;align-items:center;}
-input[type=number]{flex:1;min-width:0;background:#0d1620;border:1px solid var(--border);border-radius:0 3px 3px 0;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:1rem;padding:8px 10px;outline:none;-moz-appearance:textfield;}
+input[type=number],input[type=text]{flex:1;min-width:0;background:#0d1620;border:1px solid var(--border);border-radius:0 3px 3px 0;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:1rem;padding:8px 10px;outline:none;-moz-appearance:textfield;width:100%;}
+input[type=text]{color:var(--text);}
 input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;}
 input:focus{border-color:var(--accent);}
 
-/* ── TOGGLE BITS ── */
+/* TOGGLE ROW */
+.toggle-row{display:flex;margin-bottom:14px;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.toggle-btn{flex:1;padding:8px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;}
+.toggle-btn.active{background:var(--accent);color:#000;}
+
+/* LOCAL/REMOTA TOGGLE */
+.lr-row{display:flex;gap:8px;margin-bottom:16px;}
+.lr-btn{flex:1;padding:12px 8px;background:#0d1620;border:2px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.lr-btn .lr-icon{font-size:1.4rem;}
+.lr-btn .lr-sub{font-family:'Share Tech Mono',monospace;font-size:.6rem;opacity:.5;}
+.lr-btn.active-local{border-color:var(--accent);background:rgba(0,212,255,.08);color:var(--accent);}
+.lr-btn.active-remote{border-color:var(--orange);background:rgba(255,136,0,.08);color:var(--orange);}
+
+/* REMOTE CONFIG BOX */
+.remote-cfg{background:#0d1620;border:1px solid var(--orange);border-radius:4px;padding:14px;margin-bottom:14px;display:none;}
+.remote-cfg.show{display:block;}
+.remote-cfg-title{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.remote-cfg-title::after{content:'';flex:1;height:1px;background:rgba(255,136,0,.3);}
+.addr-preview{background:#060a0f;border:1px solid var(--border);border-radius:3px;padding:10px 14px;margin-top:10px;display:flex;align-items:center;gap:10px;}
+.addr-preview .ap-label{font-size:.68rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;flex-shrink:0;}
+.addr-preview .ap-val{font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--orange);}
+
+/* MFR GRID */
+.mfr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.mfr-btn{padding:10px 5px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .18s;}
+.mfr-btn .ml{font-size:1.3rem;}
+.mfr-btn .mn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.5px;text-transform:uppercase;text-align:center;line-height:1.2;}
+.mfr-btn .mm{font-family:'Share Tech Mono',monospace;font-size:.58rem;opacity:.5;text-align:center;}
+.mfr-btn:hover{border-color:var(--dim);color:var(--text);}
+.mfr-btn.active-GE{border-color:var(--ge);background:rgba(0,170,255,.09);color:var(--ge);}
+.mfr-btn.active-ROCK{border-color:var(--rock);background:rgba(212,32,26,.09);color:var(--rock);}
+.mfr-btn.active-SIEM{border-color:var(--siem);background:rgba(0,153,153,.09);color:var(--siem);}
+
+/* TYPE GRID */
+.type-grid{display:grid;gap:6px;margin-bottom:14px;}
+.type-btn{padding:9px 10px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;gap:8px;}
+.type-btn .ti{font-size:1rem;flex-shrink:0;}
+.type-btn .tinfo{display:flex;flex-direction:column;gap:1px;}
+.type-btn .ttag{font-family:'Share Tech Mono',monospace;font-size:.6rem;opacity:.5;font-weight:400;}
+
+/* RESULT */
+.result-panel{margin-top:14px;display:none;}
+.result-panel.visible{display:block;}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ri{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;transition:border-color .3s,background .3s;}
+.ri.hl{grid-column:1/-1;}
+.ri.fw{grid-column:1/-1;}
+.rl{font-size:.67rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.rv{font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:var(--text);word-break:break-all;}
+.ri.hl .rv{font-size:1.2rem;}
+.rsub{font-size:.68rem;color:var(--dim);margin-top:2px;}
+
+/* CHANNEL DIAGRAM */
+.ch-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:10px;}
+.ch-cell{border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:.52rem;color:var(--dim);transition:all .2s;}
+.info-row{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:.7rem;color:var(--dim);font-family:'Share Tech Mono',monospace;text-align:center;letter-spacing:1px;}
+
+/* ERR */
+.err{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--accent2);padding:8px 12px;border:1px solid rgba(255,107,0,.3);border-radius:3px;margin-top:10px;display:none;}
+.err.visible{display:block;}
+
+/* GATE */
 .bit-toggle{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;}
 .bit-btn{width:48px;height:48px;border-radius:4px;border:2px solid var(--border);background:#0d1620;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.8rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all .18s;flex-shrink:0;}
-.bit-btn .bit-lbl{font-size:.55rem;color:var(--dim);opacity:.7;}
+.bit-btn .bl{font-size:.55rem;opacity:.7;}
 .bit-btn.on{border-color:var(--green);background:rgba(0,255,136,.12);color:var(--green);}
-.bit-btn.on .bit-lbl{color:var(--green);}
-
-/* ── RESULT BOX ── */
 .res-box{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-top:10px;}
 .res-box.ok{border-color:var(--green);}
 .res-box.off{border-color:var(--red);}
@@ -100,107 +159,50 @@ input:focus{border-color:var(--accent);}
 .res-val.green{color:var(--green);}
 .res-val.red{color:var(--red);}
 .res-sub{font-size:.7rem;color:var(--dim);margin-top:3px;}
-
-/* ── GATE SYMBOL SVG ── */
 .gate-svg-wrap{display:flex;justify-content:center;margin:10px 0;}
-.gate-svg-wrap svg{filter:drop-shadow(0 0 8px rgba(0,212,255,.3));}
 
-/* ── TRUTH TABLE ── */
-.truth-table{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:.78rem;margin-top:8px;}
-.truth-table th{background:#0d1620;color:var(--accent);padding:6px 8px;text-align:center;border:1px solid var(--border);font-size:.7rem;letter-spacing:1px;}
-.truth-table td{padding:5px 8px;text-align:center;border:1px solid var(--border);color:var(--text);}
-.truth-table tr.highlight-row td{background:rgba(0,212,255,.07);color:var(--accent);}
-.truth-table .val1{color:var(--green);}
-.truth-table .val0{color:var(--red);}
+/* TRUTH TABLE */
+.tt{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:.78rem;margin-top:8px;}
+.tt th{background:#0d1620;color:var(--accent);padding:6px 8px;text-align:center;border:1px solid var(--border);font-size:.68rem;letter-spacing:1px;}
+.tt td{padding:5px 8px;text-align:center;border:1px solid var(--border);color:var(--text);}
+.tt tr.hrow td{background:rgba(0,212,255,.07);color:var(--accent);}
+.tt .v1{color:var(--green);}
+.tt .v0{color:var(--red);}
 
-/* ── RJ45 ── */
-.rj45-wrap{display:flex;justify-content:center;margin:12px 0;}
+/* RJ45 */
 .pin-row{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
 .pin{width:36px;padding:6px 2px;border-radius:3px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Share Tech Mono',monospace;font-size:.6rem;text-align:center;}
-.pin .pnum{font-size:.7rem;font-weight:700;color:#fff;}
-.pin .pname{font-size:.52rem;color:rgba(255,255,255,.6);line-height:1.1;}
+.pin .pn{font-size:.7rem;font-weight:700;color:#fff;}
+.pin .pname{font-size:.5rem;color:rgba(255,255,255,.65);line-height:1.1;}
+.wOW{background:#8b5500;border-color:#cc7700;}.wO{background:#7a4000;border-color:#ff8800;}
+.wGW{background:#1a5c1a;border-color:#22aa22;}.wG{background:#155015;border-color:#22cc22;}
+.wBL{background:#003380;border-color:#0055cc;}.wBLW{background:#1a4d99;border-color:#3388ff;}
+.wBR{background:#5c2e00;border-color:#8b4513;}.wBRW{background:#7a3d00;border-color:#cd853f;}
 
-/* Wire colors */
-.wOW{background:#cc7700;border-color:#cc7700;}
-.wO{background:#ff8800;border-color:#ff8800;}
-.wGW{background:#1a7a1a;border-color:#1a7a1a;}
-.wBL{background:#0055cc;border-color:#0055cc;}
-.wBLW{background:#3399ff;border-color:#3399ff;}
-.wG{background:#22aa22;border-color:#22aa22;}
-.wBR{background:#8b4513;border-color:#8b4513;}
-.wBRW{background:#d2691e;border-color:#d2691e;}
+/* FIBER */
+.fiber-card{background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px;}
+.fiber-card.sm{border-left-color:var(--yellow);}
+.fiber-card.mm{border-left-color:var(--orange);}
+.ft{width:100%;border-collapse:collapse;font-size:.75rem;}
+.ft td{padding:5px 8px;border:1px solid var(--border);vertical-align:top;}
+.ft td:first-child{color:var(--label);font-size:.68rem;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;width:38%;}
+.ft td:last-child{color:var(--text);font-family:'Share Tech Mono',monospace;}
+.ft tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+.tip-box{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.18);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.77rem;color:var(--text);line-height:1.6;}
+.tip-title{color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.67rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.warn-box{background:rgba(255,136,0,.04);border:1px solid rgba(255,136,0,.22);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.77rem;color:var(--text);line-height:1.6;}
+.warn-title{color:var(--orange);font-family:'Share Tech Mono',monospace;font-size:.67rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.pt{width:100%;border-collapse:collapse;font-size:.75rem;margin-top:6px;}
+.pt th{background:#0d1620;color:var(--yellow);padding:5px 7px;text-align:left;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:1px;}
+.pt td{padding:5px 8px;border:1px solid var(--border);color:var(--text);font-size:.75rem;}
+.pt tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+.chip-row{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0;}
+.chip{padding:3px 9px;border-radius:2px;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.65rem;background:#0d1620;}
+.chip.y{border-color:var(--yellow);color:var(--yellow);}
+.chip.o{border-color:var(--orange);color:var(--orange);}
+.chip.b{border-color:var(--accent);color:var(--accent);}
 
-.poe-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px;}
-.poe-table th{background:#0d1620;color:var(--yellow);padding:6px;text-align:left;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:1px;}
-.poe-table td{padding:6px 8px;border:1px solid var(--border);color:var(--text);font-size:.78rem;}
-.poe-table tr:nth-child(even) td{background:rgba(255,255,255,.02);}
-
-/* ── FIBER ── */
-.fiber-card{background:#0d1620;border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px;}
-.fiber-card.mm{border-left:3px solid var(--orange);}
-.fiber-card.sm{border-left:3px solid var(--yellow);}
-.fiber-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.fiber-title .ft-badge{font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:2px 7px;border-radius:2px;border:1px solid;letter-spacing:1px;}
-.fiber-table{width:100%;border-collapse:collapse;font-size:.75rem;}
-.fiber-table td{padding:5px 8px;border:1px solid var(--border);vertical-align:top;}
-.fiber-table td:first-child{color:var(--label);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;width:38%;}
-.fiber-table td:last-child{color:var(--text);font-family:'Share Tech Mono',monospace;}
-.fiber-table tr:nth-child(even) td{background:rgba(255,255,255,.02);}
-
-.tip-box{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.78rem;color:var(--text);line-height:1.5;}
-.tip-box .tip-title{color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
-.warn-box{background:rgba(255,136,0,.05);border:1px solid rgba(255,136,0,.25);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.78rem;color:var(--text);line-height:1.5;}
-.warn-box .tip-title{color:var(--orange);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
-
-/* ── CONNECTOR CHIPS ── */
-.chip-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;}
-.chip{padding:4px 10px;border-radius:2px;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--text);background:#0d1620;letter-spacing:1px;}
-.chip.blue{border-color:var(--accent);color:var(--accent);}
-.chip.green{border-color:var(--green);color:var(--green);}
-.chip.yellow{border-color:var(--yellow);color:var(--yellow);}
-.chip.orange{border-color:var(--orange);color:var(--orange);}
-
-/* ── MFR GRID (CLP) ── */
-.mfr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
-.mfr-btn{padding:10px 5px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .18s;}
-.mfr-btn .mfr-logo{font-size:1.4rem;}
-.mfr-btn .mfr-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.5px;text-transform:uppercase;text-align:center;line-height:1.2;}
-.mfr-btn .mfr-model{font-family:'Share Tech Mono',monospace;font-size:.6rem;opacity:.5;text-align:center;}
-.mfr-btn:hover{border-color:var(--dim);color:var(--text);}
-.mfr-btn.active-GE{border-color:var(--ge);background:rgba(0,170,255,.09);color:var(--ge);}
-.mfr-btn.active-ROCK{border-color:var(--rock);background:rgba(212,32,26,.09);color:var(--rock);}
-.mfr-btn.active-SIEM{border-color:var(--siem);background:rgba(0,153,153,.09);color:var(--siem);}
-
-.type-grid{display:grid;gap:6px;margin-bottom:16px;}
-.type-btn{padding:9px 10px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;gap:8px;text-align:left;}
-.type-btn .tb-icon{font-size:1rem;flex-shrink:0;}
-.type-btn .tb-info{display:flex;flex-direction:column;gap:1px;}
-.type-btn .tb-tag{font-family:'Share Tech Mono',monospace;font-size:.62rem;opacity:.5;font-weight:400;}
-
-.toggle-row{display:flex;margin-bottom:16px;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
-.toggle-btn{flex:1;padding:8px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;}
-.toggle-btn.active{background:var(--accent);color:#000;}
-
-.clp-prefix{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--dim);padding:8px 9px;background:#0d1620;border:1px solid var(--border);border-right:none;border-radius:3px 0 0 3px;white-space:nowrap;display:flex;align-items:center;}
-
-.err{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--accent2);padding:8px 12px;border:1px solid rgba(255,107,0,.3);border-radius:3px;margin-top:10px;display:none;}
-.err.visible{display:block;}
-
-.result-panel{margin-top:16px;display:none;}
-.result-panel.visible{display:block;}
-.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.ri{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;transition:border-color .3s,background .3s;}
-.ri.hl{grid-column:1/-1;}
-.ri.fw{grid-column:1/-1;}
-.ri .rl{font-size:.67rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
-.ri .rv{font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:var(--text);word-break:break-all;}
-.ri.hl .rv{font-size:1.25rem;}
-.ri .rsub{font-size:.68rem;color:var(--dim);margin-top:2px;}
-.ch-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:10px;}
-.ch-cell{border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--dim);transition:all .2s;cursor:default;}
-.info-row{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:.7rem;color:var(--dim);font-family:'Share Tech Mono',monospace;text-align:center;letter-spacing:1px;}
-
-/* ── INSTALL BANNER ── */
+/* INSTALL BANNER */
 .install-banner{position:fixed;bottom:0;left:0;right:0;background:#111820;border-top:2px solid var(--csn);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:1000;transform:translateY(100%);transition:transform .35s;box-shadow:0 -4px 20px rgba(26,111,212,.3);}
 .install-banner.show{transform:translateY(0);}
 .install-banner p{font-size:.8rem;color:var(--text);flex:1;}
@@ -209,7 +211,6 @@ input:focus{border-color:var(--accent);}
 .dbtn{background:transparent;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:4px 8px;}
 
 @media(max-width:400px){
-  .grid4{grid-template-columns:repeat(4,1fr);}
   .result-grid{grid-template-columns:1fr;}
   .ri.hl,.ri.fw{grid-column:1;}
 }
@@ -217,36 +218,24 @@ input:focus{border-color:var(--accent);}
 </head>
 <body>
 
-<!-- Install Banner -->
 <div class="install-banner" id="install-banner">
   <p>📱 Instalar <strong>CSN Automação</strong> na tela inicial?</p>
   <button class="ibtn" id="install-btn">Instalar</button>
   <button class="dbtn" onclick="document.getElementById('install-banner').classList.remove('show')">✕</button>
 </div>
 
-<!-- Navigation -->
 <nav class="navbar">
-  <button class="nav-btn active" onclick="goPage('home')" id="nav-home">
-    <span class="nav-icon">🏠</span>Home
-  </button>
-  <button class="nav-btn" onclick="goPage('clp')" id="nav-clp">
-    <span class="nav-icon">⚙️</span>CLP I/O
-  </button>
-  <button class="nav-btn" onclick="goPage('gates')" id="nav-gates">
-    <span class="nav-icon">🔲</span>Portas
-  </button>
-  <button class="nav-btn" onclick="goPage('rj45')" id="nav-rj45">
-    <span class="nav-icon">🔌</span>RJ45
-  </button>
-  <button class="nav-btn" onclick="goPage('fiber')" id="nav-fiber">
-    <span class="nav-icon">💡</span>Fibra
-  </button>
+  <button class="nav-btn active" onclick="goPage('home')" id="nav-home"><span class="ni">🏠</span>Home</button>
+  <button class="nav-btn" onclick="goPage('clp')"   id="nav-clp"  ><span class="ni">⚙️</span>CLP I/O</button>
+  <button class="nav-btn" onclick="goPage('gates')" id="nav-gates"><span class="ni">🔲</span>Portas</button>
+  <button class="nav-btn" onclick="goPage('rj45')"  id="nav-rj45" ><span class="ni">🔌</span>RJ45</button>
+  <button class="nav-btn" onclick="goPage('fiber')" id="nav-fiber"><span class="ni">💡</span>Fibra</button>
 </nav>
 
-<!-- ═══════════════ HOME ═══════════════ -->
+<!-- ══════ HOME ══════ -->
 <div class="page active" id="page-home">
-  <div class="csn-header">
-    <div class="csn-brand">
+  <div style="text-align:center;margin-bottom:20px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:12px;">
       <svg class="csn-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#c8dfff"/><stop offset="100%" stop-color="#1a6fd4"/></linearGradient>
@@ -272,77 +261,121 @@ input:focus{border-color:var(--accent);}
           <circle cx="41" cy="21" r="2.8" fill="#5aaaff"/><circle cx="59" cy="21" r="2.8" fill="#5aaaff"/>
         </g>
       </svg>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-        <span class="csn-text-auto">Automação</span>
-        <div class="csn-divider"></div>
-        <span class="csn-text-csn">CSN</span>
-      </div>
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:5px;text-transform:uppercase;color:#e0eeff;">Automação</div>
+      <div style="width:44px;height:2px;background:linear-gradient(90deg,transparent,#1a6fd4,transparent);"></div>
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:8px;text-transform:uppercase;color:#1a6fd4;text-shadow:0 0 16px rgba(26,111,212,.5);">CSN</div>
     </div>
-    <div class="page-title">Ferramentas de<br><span>Automação</span></div>
+    <div class="page-title">Ferramentas de <span>Automação</span></div>
     <p class="page-sub">CLP · Portas Lógicas · Redes · Fibra Óptica</p>
   </div>
-
   <div class="grid2">
     <div class="card" style="cursor:pointer" onclick="goPage('clp')">
       <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00aaff,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:8px;">⚙️</div>
-      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">CLP I/O</div>
-      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">GE · Rockwell · Siemens</div>
+      <div style="font-size:2rem;margin-bottom:6px;">⚙️</div>
+      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">CLP I/O</div>
+      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">GE · Rockwell · Siemens<br>Local · Remota</div>
     </div>
     <div class="card" style="cursor:pointer" onclick="goPage('gates')">
       <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:8px;">🔲</div>
-      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Portas</div>
-      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">AND OR NOT XOR…</div>
+      <div style="font-size:2rem;margin-bottom:6px;">🔲</div>
+      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Portas</div>
+      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">AND OR NOT XOR<br>NAND NOR XNOR BUF</div>
     </div>
     <div class="card" style="cursor:pointer" onclick="goPage('rj45')">
       <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:8px;">🔌</div>
-      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">RJ45</div>
-      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">T568A · T568B · PoE</div>
+      <div style="font-size:2rem;margin-bottom:6px;">🔌</div>
+      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">RJ45</div>
+      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">T568A · T568B<br>Crossover · PoE</div>
     </div>
     <div class="card" style="cursor:pointer" onclick="goPage('fiber')">
       <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:8px;">💡</div>
-      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Fibra Óptica</div>
-      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">SM · MM · Conectores</div>
+      <div style="font-size:2rem;margin-bottom:6px;">💡</div>
+      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Fibra Óptica</div>
+      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">SM · MM · Conectores<br>Cálculo de link</div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ CLP I/O ═══════════════ -->
+<!-- ══════ CLP I/O ══════ -->
 <div class="page" id="page-clp">
-  <div class="page-title" style="margin-bottom:16px;">⚙️ Calculadora <span>CLP I/O</span></div>
+  <div class="page-title" style="margin-bottom:14px;">⚙️ Calculadora <span>CLP I/O</span></div>
 
   <div class="card" id="clp-card">
     <div class="card-bar" id="clp-bar"></div>
-    <div class="sec">1 · Fabricante</div>
-    <div class="mfr-grid">
-      <button class="mfr-btn" id="mfr-GE" onclick="setMfr('GE')"><span class="mfr-logo">⚡</span><span class="mfr-name">GE Emerson</span><span class="mfr-model">PACSystems</span></button>
-      <button class="mfr-btn" id="mfr-ROCK" onclick="setMfr('ROCK')"><span class="mfr-logo">🔴</span><span class="mfr-name">Rockwell</span><span class="mfr-model">ControlLogix</span></button>
-      <button class="mfr-btn" id="mfr-SIEM" onclick="setMfr('SIEM')"><span class="mfr-logo">🟦</span><span class="mfr-name">Siemens</span><span class="mfr-model">S7-400</span></button>
+
+    <!-- STEP 1: Local ou Remota -->
+    <div class="sec">1 · Tipo de Instalação</div>
+    <div class="lr-row">
+      <button class="lr-btn" id="lr-local" onclick="setLR('local')">
+        <span class="lr-icon">🏭</span>
+        <span>CLP Local</span>
+        <span class="lr-sub">Endereço inicia em 1</span>
+      </button>
+      <button class="lr-btn" id="lr-remote" onclick="setLR('remote')">
+        <span class="lr-icon">📡</span>
+        <span>Remota de Campo</span>
+        <span class="lr-sub">Endereço inicial variável</span>
+      </button>
     </div>
 
-    <div id="clp-sig-wrap" style="display:none">
-      <div class="sec">2 · Tipo de Sinal</div>
-      <div class="type-grid" id="clp-type-grid"></div>
-    </div>
-
-    <div id="clp-dir-wrap" style="display:none">
-      <div class="sec">3 · Direção</div>
-      <div class="toggle-row">
-        <button class="toggle-btn active" id="clp-btn-addr" onclick="setClpDir('addr')">Endereço → Local</button>
-        <button class="toggle-btn" id="clp-btn-slot" onclick="setClpDir('slot')">Local → Endereço</button>
+    <!-- Remote config box -->
+    <div class="remote-cfg" id="remote-cfg">
+      <div class="remote-cfg-title">⚠ Configuração da Remota</div>
+      <div class="inp-group" style="margin-bottom:8px;">
+        <label>Endereço inicial da remota</label>
+        <div class="inp-row">
+          <span class="inp-pfx">%I / %Q / %AI</span>
+          <input type="number" id="remote-start" placeholder="2313" min="1" max="99999"
+                 oninput="updateRemotePreview()">
+        </div>
+      </div>
+      <div class="addr-preview" id="remote-preview" style="display:none;">
+        <span class="ap-label">Faixa ED:</span>
+        <span class="ap-val" id="remote-preview-val">—</span>
+      </div>
+      <div class="tip-box" style="margin-top:8px;font-size:.73rem;">
+        <div class="tip-title">ℹ️ Como funciona</div>
+        O endereço que você digitar será o <strong>offset base</strong> para todos os sinais da remota.
+        Ex: início em <strong>2313</strong> → Cartão ED01 BIT 01 = <strong>%I2313</strong>
       </div>
     </div>
 
+    <!-- STEP 2: Fabricante -->
+    <div class="sec" id="clp-step2" style="display:none;">2 · Fabricante</div>
+    <div class="mfr-grid" id="clp-mfr-grid" style="display:none;">
+      <button class="mfr-btn" id="mfr-GE"   onclick="setMfr('GE')"  ><span class="ml">⚡</span><span class="mn">GE Emerson</span><span class="mm">PACSystems</span></button>
+      <button class="mfr-btn" id="mfr-ROCK" onclick="setMfr('ROCK')" ><span class="ml">🔴</span><span class="mn">Rockwell</span><span class="mm">ControlLogix</span></button>
+      <button class="mfr-btn" id="mfr-SIEM" onclick="setMfr('SIEM')" ><span class="ml">🟦</span><span class="mn">Siemens</span><span class="mm">S7-400</span></button>
+    </div>
+
+    <!-- STEP 3: Tipo de Sinal -->
+    <div class="sec" id="clp-step3" style="display:none;">3 · Tipo de Sinal</div>
+    <div class="type-grid" id="clp-type-grid" style="display:none;"></div>
+
+    <!-- STEP 4: Direção -->
+    <div class="sec" id="clp-step4" style="display:none;">4 · Direção do Cálculo</div>
+    <div class="toggle-row" id="clp-dir-row" style="display:none;">
+      <button class="toggle-btn active" id="clp-btn-addr" onclick="setClpDir('addr')">Endereço → Local</button>
+      <button class="toggle-btn"        id="clp-btn-slot" onclick="setClpDir('slot')">Local → Endereço</button>
+    </div>
+
+    <!-- Inputs -->
     <div id="clp-inputs"></div>
-    <button class="btn-main" id="clp-calc-btn" style="display:none" onclick="calcClp()"><span>⚡ Calcular</span></button>
+
+    <button class="btn-main" id="clp-calc-btn" style="display:none;" onclick="calcClp()">
+      <span>⚡ Calcular</span>
+    </button>
     <div class="err" id="clp-err"></div>
 
+    <!-- Result -->
     <div class="result-panel" id="clp-result">
       <div class="sec" style="margin-top:8px;">Resultado</div>
-      <div id="clp-badge" style="margin-bottom:10px;"></div>
+      <div id="clp-badge" style="margin-bottom:8px;"></div>
+      <div id="clp-remote-tag" style="display:none;margin-bottom:8px;">
+        <div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:2px;border:1px solid var(--orange);color:var(--orange);background:rgba(255,136,0,.08);font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:2px;">
+          📡 REMOTA · OFFSET: <span id="clp-offset-display">0</span>
+        </div>
+      </div>
       <div class="result-grid" id="clp-res-grid"></div>
       <div class="sec" style="margin-top:14px;" id="clp-diag-title"></div>
       <div class="ch-row" id="clp-ch-row"></div>
@@ -351,68 +384,54 @@ input:focus{border-color:var(--accent);}
   </div>
 </div>
 
-<!-- ═══════════════ LOGIC GATES ═══════════════ -->
+<!-- ══════ LOGIC GATES ══════ -->
 <div class="page" id="page-gates">
-  <div class="page-title" style="margin-bottom:16px;">🔲 Portas <span>Lógicas</span></div>
-
+  <div class="page-title" style="margin-bottom:14px;">🔲 Portas <span>Lógicas</span></div>
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
     <div class="sec">Selecione a Porta</div>
-    <div class="grid4" style="gap:6px;margin-bottom:16px;">
-      <button class="btn-sel" id="g-AND"    onclick="setGate('AND')"   ><span class="bs-icon">🔷</span>AND</button>
-      <button class="btn-sel" id="g-OR"     onclick="setGate('OR')"    ><span class="bs-icon">🔶</span>OR</button>
-      <button class="btn-sel" id="g-NOT"    onclick="setGate('NOT')"   ><span class="bs-icon">🔸</span>NOT</button>
-      <button class="btn-sel" id="g-NAND"   onclick="setGate('NAND')"  ><span class="bs-icon">🔹</span>NAND</button>
-      <button class="btn-sel" id="g-NOR"    onclick="setGate('NOR')"   ><span class="bs-icon">🔺</span>NOR</button>
-      <button class="btn-sel" id="g-XOR"    onclick="setGate('XOR')"   ><span class="bs-icon">🔻</span>XOR</button>
-      <button class="btn-sel" id="g-XNOR"   onclick="setGate('XNOR')"  ><span class="bs-icon">⬛</span>XNOR</button>
-      <button class="btn-sel" id="g-BUF"    onclick="setGate('BUF')"   ><span class="bs-icon">⬜</span>BUF</button>
+    <div class="grid4" style="margin-bottom:14px;">
+      <button class="btn-sel" id="g-AND"  onclick="setGate('AND')" ><span class="bs-icon">🔷</span>AND</button>
+      <button class="btn-sel" id="g-OR"   onclick="setGate('OR')"  ><span class="bs-icon">🔶</span>OR</button>
+      <button class="btn-sel" id="g-NOT"  onclick="setGate('NOT')" ><span class="bs-icon">🔸</span>NOT</button>
+      <button class="btn-sel" id="g-NAND" onclick="setGate('NAND')"><span class="bs-icon">🔹</span>NAND</button>
+      <button class="btn-sel" id="g-NOR"  onclick="setGate('NOR')" ><span class="bs-icon">🔺</span>NOR</button>
+      <button class="btn-sel" id="g-XOR"  onclick="setGate('XOR')" ><span class="bs-icon">🔻</span>XOR</button>
+      <button class="btn-sel" id="g-XNOR" onclick="setGate('XNOR')"><span class="bs-icon">⬛</span>XNOR</button>
+      <button class="btn-sel" id="g-BUF"  onclick="setGate('BUF')" ><span class="bs-icon">⬜</span>BUF</button>
     </div>
-
     <div id="gate-panel" style="display:none;">
       <div class="sec" id="gate-sec-title">Entradas</div>
-
-      <!-- Gate SVG symbol -->
       <div class="gate-svg-wrap" id="gate-svg-wrap"></div>
-
-      <!-- Input toggles -->
-      <div style="font-size:.75rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">ENTRADAS — toque para alternar 0/1</div>
+      <div style="font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">ENTRADAS — toque para alternar 0/1</div>
       <div class="bit-toggle" id="gate-inputs"></div>
-
-      <!-- Output -->
       <div id="gate-output"></div>
-
-      <!-- Truth Table -->
-      <div class="sec" style="margin-top:16px;">Tabela Verdade</div>
+      <div class="sec" style="margin-top:14px;">Tabela Verdade</div>
       <div id="gate-truth"></div>
-
-      <!-- Description -->
-      <div class="tip-box" id="gate-desc" style="margin-top:12px;"></div>
+      <div class="tip-box" id="gate-desc" style="margin-top:10px;"></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ RJ45 ═══════════════ -->
+<!-- ══════ RJ45 ══════ -->
 <div class="page" id="page-rj45">
-  <div class="page-title" style="margin-bottom:16px;">🔌 Crimpagem <span>RJ45</span></div>
+  <div class="page-title" style="margin-bottom:14px;">🔌 Crimpagem <span>RJ45</span></div>
 
-  <!-- T568A -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
     <div class="sec">Padrão T568A</div>
-    <div style="font-size:.78rem;color:var(--label);margin-bottom:10px;">Usado em redes residenciais e alguns ambientes industriais. Compatível com T568B via cabo cruzado.</div>
+    <div style="font-size:.75rem;color:var(--label);margin-bottom:8px;">Usado em redes residenciais. Compatível via cabo cruzado com T568B.</div>
     <div class="pin-row">
-      <div class="pin wGW"><span class="pnum">1</span><span class="pname">B.Verde TX+</span></div>
-      <div class="pin wG"> <span class="pnum">2</span><span class="pname">Verde TX-</span></div>
-      <div class="pin wOW"><span class="pnum">3</span><span class="pname">B.Laran RX+</span></div>
-      <div class="pin wBL"><span class="pnum">4</span><span class="pname">Azul</span></div>
-      <div class="pin wBLW"><span class="pnum">5</span><span class="pname">B.Azul</span></div>
-      <div class="pin wO"> <span class="pnum">6</span><span class="pname">Laranja RX-</span></div>
-      <div class="pin wBR"><span class="pnum">7</span><span class="pname">B.Marrom</span></div>
-      <div class="pin wBRW"><span class="pnum">8</span><span class="pname">Marrom</span></div>
+      <div class="pin wGW"><span class="pn">1</span><span class="pname">Bco Verde TX+</span></div>
+      <div class="pin wG"> <span class="pn">2</span><span class="pname">Verde TX-</span></div>
+      <div class="pin wOW"><span class="pn">3</span><span class="pname">Bco Laran RX+</span></div>
+      <div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
+      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div>
+      <div class="pin wO"> <span class="pn">6</span><span class="pname">Laranja RX-</span></div>
+      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div>
+      <div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
     </div>
-    <table class="truth-table" style="margin-top:8px;">
-      <tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
+    <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
       <tr><td>1</td><td style="color:#4caf50;">Branco/Verde</td><td>TX+</td><td>Par 3</td></tr>
       <tr><td>2</td><td style="color:#4caf50;">Verde</td><td>TX−</td><td>Par 3</td></tr>
       <tr><td>3</td><td style="color:#ff8800;">Branco/Laranja</td><td>RX+</td><td>Par 2</td></tr>
@@ -424,23 +443,21 @@ input:focus{border-color:var(--accent);}
     </table>
   </div>
 
-  <!-- T568B -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
     <div class="sec">Padrão T568B</div>
-    <div style="font-size:.78rem;color:var(--label);margin-bottom:10px;">Padrão mais comum em ambientes corporativos e industriais. Recomendado para novas instalações.</div>
+    <div style="font-size:.75rem;color:var(--label);margin-bottom:8px;">Padrão mais comum em ambientes corporativos e industriais.</div>
     <div class="pin-row">
-      <div class="pin wOW"><span class="pnum">1</span><span class="pname">B.Laran TX+</span></div>
-      <div class="pin wO"> <span class="pnum">2</span><span class="pname">Laranja TX-</span></div>
-      <div class="pin wGW"><span class="pnum">3</span><span class="pname">B.Verde RX+</span></div>
-      <div class="pin wBL"><span class="pnum">4</span><span class="pname">Azul</span></div>
-      <div class="pin wBLW"><span class="pnum">5</span><span class="pname">B.Azul</span></div>
-      <div class="pin wG"> <span class="pnum">6</span><span class="pname">Verde RX-</span></div>
-      <div class="pin wBR"><span class="pnum">7</span><span class="pname">B.Marrom</span></div>
-      <div class="pin wBRW"><span class="pnum">8</span><span class="pname">Marrom</span></div>
+      <div class="pin wOW"><span class="pn">1</span><span class="pname">Bco Laran TX+</span></div>
+      <div class="pin wO"> <span class="pn">2</span><span class="pname">Laranja TX-</span></div>
+      <div class="pin wGW"><span class="pn">3</span><span class="pname">Bco Verde RX+</span></div>
+      <div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
+      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div>
+      <div class="pin wG"> <span class="pn">6</span><span class="pname">Verde RX-</span></div>
+      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div>
+      <div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
     </div>
-    <table class="truth-table" style="margin-top:8px;">
-      <tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
+    <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
       <tr><td>1</td><td style="color:#ff8800;">Branco/Laranja</td><td>TX+</td><td>Par 2</td></tr>
       <tr><td>2</td><td style="color:#ff8800;">Laranja</td><td>TX−</td><td>Par 2</td></tr>
       <tr><td>3</td><td style="color:#4caf50;">Branco/Verde</td><td>RX+</td><td>Par 3</td></tr>
@@ -452,537 +469,370 @@ input:focus{border-color:var(--accent);}
     </table>
   </div>
 
-  <!-- Crossover -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ff4466,transparent)"></div>
     <div class="sec">Cabo Crossover (Cruzado)</div>
-    <div style="font-size:.78rem;color:var(--label);margin-bottom:10px;">Conecta dois equipamentos iguais diretamente (switch-switch, PC-PC). Ponta A = T568B, Ponta B = T568A.</div>
-    <table class="truth-table">
-      <tr><th>Pino A (T568B)</th><th>↔</th><th>Pino B (T568A)</th><th>Sinal</th></tr>
-      <tr><td style="color:#ff8800;">1 Bco/Laranja TX+</td><td>↔</td><td style="color:#4caf50;">3 Bco/Verde RX+</td><td>TX↔RX</td></tr>
-      <tr><td style="color:#ff8800;">2 Laranja TX−</td><td>↔</td><td style="color:#4caf50;">6 Verde RX−</td><td>TX↔RX</td></tr>
-      <tr><td style="color:#4caf50;">3 Bco/Verde RX+</td><td>↔</td><td style="color:#ff8800;">1 Bco/Laranja TX+</td><td>RX↔TX</td></tr>
-      <tr><td style="color:#4caf50;">6 Verde RX−</td><td>↔</td><td style="color:#ff8800;">2 Laranja TX−</td><td>RX↔TX</td></tr>
-      <tr><td colspan="4" style="color:var(--dim);font-size:.7rem;">Pinos 4,5,7,8 — diretos nos dois lados</td></tr>
+    <div style="font-size:.75rem;color:var(--label);margin-bottom:8px;">Liga dois equipamentos iguais. Ponta A = T568B · Ponta B = T568A.</div>
+    <table class="tt">
+      <tr><th>Pino A (T568B)</th><th>↔</th><th>Pino B (T568A)</th></tr>
+      <tr><td style="color:#ff8800;">1 Bco/Laranja TX+</td><td>↔</td><td style="color:#4caf50;">3 Bco/Verde RX+</td></tr>
+      <tr><td style="color:#ff8800;">2 Laranja TX−</td><td>↔</td><td style="color:#4caf50;">6 Verde RX−</td></tr>
+      <tr><td style="color:#4caf50;">3 Bco/Verde RX+</td><td>↔</td><td style="color:#ff8800;">1 Bco/Laranja TX+</td></tr>
+      <tr><td style="color:#4caf50;">6 Verde RX−</td><td>↔</td><td style="color:#ff8800;">2 Laranja TX−</td></tr>
+      <tr><td colspan="3" style="color:var(--dim);font-size:.68rem;">Pinos 4,5,7,8 — diretos nos dois lados</td></tr>
     </table>
-    <div class="tip-box" style="margin-top:10px;">
-      <div class="tip-title">💡 Dica</div>
-      Equipamentos modernos com <strong>Auto-MDIX</strong> não precisam de cabo cruzado — detectam e ajustam automaticamente. Use crossover apenas em equipamentos mais antigos.
-    </div>
+    <div class="tip-box" style="margin-top:8px;"><div class="tip-title">💡 Auto-MDIX</div>Equipamentos modernos detectam e ajustam automaticamente. Crossover necessário apenas em equipamentos legados.</div>
   </div>
 
-  <!-- Par trançado -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
     <div class="sec">Categorias de Cabo (Par Trançado)</div>
-    <table class="poe-table">
-      <tr><th>Categoria</th><th>Velocidade</th><th>Freq.</th><th>Dist. máx.</th></tr>
+    <table class="pt">
+      <tr><th>Categoria</th><th>Velocidade</th><th>Freq.</th><th>Dist.</th></tr>
       <tr><td>Cat 5e</td><td>1 Gbps</td><td>100 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 6</td><td>1 Gbps</td><td>250 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 6A</td><td>10 Gbps</td><td>500 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 7</td><td>10 Gbps</td><td>600 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 8</td><td>25/40 Gbps</td><td>2000 MHz</td><td>30 m</td></tr>
     </table>
-    <div class="tip-box" style="margin-top:10px;">
-      <div class="tip-title">⚠️ Blindagem</div>
-      Em ambientes industriais com alta interferência eletromagnética (motores, inversores, CLPs), use sempre cabos <strong>STP (Shielded Twisted Pair)</strong> ou <strong>FTP</strong>. O aterramento da blindagem é essencial — blindagem sem terra pode piorar a interferência.
-    </div>
+    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚠️ Industrial</div>Em ambientes com motores e inversores, use cabos <strong>STP/FTP blindados</strong>. O aterramento da blindagem é obrigatório — sem terra pode piorar a interferência.</div>
   </div>
 
-  <!-- PoE -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
     <div class="sec">PoE — Power over Ethernet</div>
-    <table class="poe-table">
-      <tr><th>Padrão</th><th>IEEE</th><th>Potência</th><th>Pinos Usados</th></tr>
-      <tr><td>PoE</td><td>802.3af</td><td>até 15,4W</td><td>1,2,3,6 ou 4,5,7,8</td></tr>
-      <tr><td>PoE+</td><td>802.3at</td><td>até 30W</td><td>1,2,3,6 ou 4,5,7,8</td></tr>
-      <tr><td>PoE++</td><td>802.3bt T3</td><td>até 60W</td><td>Todos os 4 pares</td></tr>
-      <tr><td>PoE++</td><td>802.3bt T4</td><td>até 100W</td><td>Todos os 4 pares</td></tr>
+    <table class="pt">
+      <tr><th>Padrão</th><th>IEEE</th><th>Potência</th><th>Pares</th></tr>
+      <tr><td>PoE</td><td>802.3af</td><td>15,4 W</td><td>2 pares</td></tr>
+      <tr><td>PoE+</td><td>802.3at</td><td>30 W</td><td>2 pares</td></tr>
+      <tr><td>PoE++ T3</td><td>802.3bt</td><td>60 W</td><td>4 pares</td></tr>
+      <tr><td>PoE++ T4</td><td>802.3bt</td><td>100 W</td><td>4 pares</td></tr>
     </table>
-    <div style="margin-top:10px;font-size:.75rem;color:var(--label);">Modos de alimentação PoE:</div>
-    <table class="poe-table" style="margin-top:6px;">
-      <tr><th>Modo</th><th>Pinos +</th><th>Pinos −</th><th>Padrão</th></tr>
-      <tr><td>Modo A</td><td>1, 2</td><td>3, 6</td><td>802.3af/at</td></tr>
-      <tr><td>Modo B</td><td>4, 5</td><td>7, 8</td><td>802.3af/at</td></tr>
-      <tr><td>4-par</td><td>1,2,4,5</td><td>3,6,7,8</td><td>802.3bt</td></tr>
+    <table class="pt" style="margin-top:8px;">
+      <tr><th>Modo</th><th>Pinos +</th><th>Pinos −</th></tr>
+      <tr><td>Modo A</td><td>1, 2</td><td>3, 6</td></tr>
+      <tr><td>Modo B</td><td>4, 5</td><td>7, 8</td></tr>
+      <tr><td>4-par</td><td>1,2,4,5</td><td>3,6,7,8</td></tr>
     </table>
-    <div class="warn-box">
-      <div class="tip-title">⚠️ Atenção</div>
-      Verifique sempre a potência total do switch PoE. Um switch com 8 portas PoE+ (30W cada) precisa de fonte de pelo menos 240W. Em ambientes industriais, considere margem de 25% acima da demanda calculada.
-    </div>
+    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚠️ Dimensionamento</div>Calcule a potência total do switch PoE. 8 portas PoE+ = mínimo 240 W na fonte. Adicione 25% de margem em ambientes industriais.</div>
   </div>
 </div>
 
-<!-- ═══════════════ FIBER OPTICS ═══════════════ -->
+<!-- ══════ FIBER ══════ -->
 <div class="page" id="page-fiber">
-  <div class="page-title" style="margin-bottom:16px;">💡 Fibra <span>Óptica</span></div>
+  <div class="page-title" style="margin-bottom:14px;">💡 Fibra <span>Óptica</span></div>
 
-  <!-- Monomodo -->
   <div class="fiber-card sm">
-    <div class="fiber-title" style="color:var(--yellow);">
-      Fibra Monomodo (SM)
-      <span class="ft-badge" style="border-color:var(--yellow);color:var(--yellow);">Single-Mode · OS1/OS2</span>
+    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--yellow);">
+      Fibra Monomodo (SM) <span style="font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:2px 7px;border-radius:2px;border:1px solid var(--yellow);margin-left:4px;">OS1 / OS2</span>
     </div>
-    <table class="fiber-table">
+    <table class="ft">
       <tr><td>Núcleo / Revestimento</td><td>9 µm / 125 µm</td></tr>
       <tr><td>Janelas Ópticas</td><td>1310 nm · 1550 nm · 1625 nm</td></tr>
-      <tr><td>Distância típica</td><td>OS1: até 10 km · OS2: até 200 km</td></tr>
+      <tr><td>Distância OS1</td><td>até 10 km</td></tr>
+      <tr><td>Distância OS2</td><td>até 200 km</td></tr>
       <tr><td>Atenuação OS1</td><td>≤ 1,0 dB/km @ 1310 nm</td></tr>
       <tr><td>Atenuação OS2</td><td>≤ 0,4 dB/km @ 1550 nm</td></tr>
-      <tr><td>Largura de banda</td><td>Ilimitada (teórica)</td></tr>
       <tr><td>Fonte de luz</td><td>Laser (LD)</td></tr>
       <tr><td>Cor do cabo</td><td>Amarelo (padrão)</td></tr>
       <tr><td>Aplicações</td><td>Backbone, links longos, WDM, telecom</td></tr>
     </table>
-    <div class="chip-row" style="margin-top:8px;">
-      <span class="chip yellow">OS1</span>
-      <span class="chip yellow">OS2</span>
-      <span class="chip yellow">DWDM</span>
-      <span class="chip yellow">CWDM</span>
-      <span class="chip yellow">1310nm</span>
-      <span class="chip yellow">1550nm</span>
-    </div>
-    <div class="tip-box" style="margin-top:10px;">
-      <div class="tip-title">💡 Manutenção SM</div>
-      • Sempre limpe os conectores antes de conectar — use kit IEC 61300-3-35<br>
-      • Reflexão de retorno (ORL) deve ser &gt; 55 dB para SM polido UPC e &gt; 65 dB para APC<br>
-      • Conectores APC (ângulo 8°) têm melhor retorno — use em sistemas sensíveis<br>
-      • Use OTDR com janela 1310nm e 1550nm para localizar falhas precisamente
+    <div class="chip-row"><span class="chip y">OS1</span><span class="chip y">OS2</span><span class="chip y">DWDM</span><span class="chip y">CWDM</span><span class="chip y">1310nm</span><span class="chip y">1550nm</span></div>
+    <div class="tip-box"><div class="tip-title">💡 Manutenção SM</div>
+      • Limpe conectores com kit IEC 61300-3-35 antes de conectar<br>
+      • ORL deve ser &gt;55 dB (UPC) ou &gt;65 dB (APC)<br>
+      • Conectores APC (8°) para sistemas sensíveis — sempre verdes<br>
+      • Use OTDR nas janelas 1310 nm e 1550 nm para localizar falhas
     </div>
   </div>
 
-  <!-- Multimodo -->
   <div class="fiber-card mm">
-    <div class="fiber-title" style="color:var(--orange);">
-      Fibra Multimodo (MM)
-      <span class="ft-badge" style="border-color:var(--orange);color:var(--orange);">Multi-Mode · OM1~OM5</span>
+    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--orange);">
+      Fibra Multimodo (MM) <span style="font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:2px 7px;border-radius:2px;border:1px solid var(--orange);margin-left:4px;">OM1 ~ OM5</span>
     </div>
-    <table class="fiber-table">
+    <table class="ft">
       <tr><td>Núcleo / Revestimento</td><td>50 µm ou 62,5 µm / 125 µm</td></tr>
       <tr><td>Janelas Ópticas</td><td>850 nm · 1300 nm</td></tr>
       <tr><td>Fonte de luz</td><td>LED ou VCSEL</td></tr>
       <tr><td>Cor do cabo</td><td>Laranja (OM1/OM2) · Aqua (OM3/OM4) · Lilás (OM5)</td></tr>
     </table>
-    <div style="margin-top:10px;font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Comparativo por Categoria</div>
-    <table class="poe-table">
-      <tr><th>Tipo</th><th>Núcleo</th><th>BW @850nm</th><th>Dist. 1G</th><th>Dist. 10G</th></tr>
+    <table class="pt" style="margin-top:8px;">
+      <tr><th>Tipo</th><th>Núcleo</th><th>BW @850nm</th><th>Dist.1G</th><th>Dist.10G</th></tr>
       <tr><td>OM1</td><td>62,5µm</td><td>200 MHz·km</td><td>275 m</td><td>33 m</td></tr>
       <tr><td>OM2</td><td>50µm</td><td>500 MHz·km</td><td>550 m</td><td>82 m</td></tr>
       <tr><td>OM3</td><td>50µm</td><td>2000 MHz·km</td><td>1000 m</td><td>300 m</td></tr>
       <tr><td>OM4</td><td>50µm</td><td>4700 MHz·km</td><td>1000 m</td><td>550 m</td></tr>
       <tr><td>OM5</td><td>50µm</td><td>28000 MHz·km</td><td>1000 m</td><td>550 m</td></tr>
     </table>
-    <div class="chip-row" style="margin-top:8px;">
-      <span class="chip orange">OM1</span>
-      <span class="chip orange">OM2</span>
-      <span class="chip orange">OM3</span>
-      <span class="chip orange">OM4</span>
-      <span class="chip orange">OM5</span>
-      <span class="chip orange">850nm</span>
-    </div>
-    <div class="tip-box" style="margin-top:10px;">
-      <div class="tip-title">💡 Manutenção MM</div>
+    <div class="chip-row"><span class="chip o">OM1</span><span class="chip o">OM2</span><span class="chip o">OM3</span><span class="chip o">OM4</span><span class="chip o">OM5</span><span class="chip o">850nm</span></div>
+    <div class="tip-box"><div class="tip-title">💡 Manutenção MM</div>
       • Atenuação típica: ≤ 3,5 dB/km @ 850 nm (OM3/OM4)<br>
       • Perda por conector: ≤ 0,75 dB (típico 0,3 dB limpo)<br>
-      • Perda por emenda por fusão: ≤ 0,1 dB<br>
-      • Inspeção visual com microscópio antes de qualquer medição<br>
-      • Use fonte de luz 850 nm + medidor de potência para teste de link
+      • Perda por emenda fusão: ≤ 0,1 dB<br>
+      • Inspeção com microscópio antes de qualquer medição
     </div>
   </div>
 
-  <!-- Conectores -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
     <div class="sec">Tipos de Conectores</div>
-    <table class="fiber-table">
-      <tr><td>SC</td><td>Push-pull · mais usado em telecom e industrial · SM e MM</td></tr>
-      <tr><td>LC</td><td>Small form factor · data centers · duplex compacto · SM e MM</td></tr>
+    <table class="ft">
+      <tr><td>SC</td><td>Push-pull · telecom e industrial · SM e MM</td></tr>
+      <tr><td>LC</td><td>Small form factor · data centers · duplex compacto</td></tr>
       <tr><td>FC</td><td>Rosca · alta vibração · industrial · SM preferencial</td></tr>
       <tr><td>ST</td><td>Baioneta · legado · MM predominante</td></tr>
-      <tr><td>MPO/MTP</td><td>Multi-fibra (8/12/24) · data centers · alta densidade</td></tr>
-      <tr><td>E2000</td><td>Com tampa automática · proteção alta · SM · telecom</td></tr>
+      <tr><td>MPO/MTP</td><td>Multi-fibra 8/12/24 · data centers · alta densidade</td></tr>
+      <tr><td>E2000</td><td>Tampa automática · proteção alta · SM · telecom</td></tr>
     </table>
-
-    <div style="margin-top:12px;font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Polimento dos Conectores</div>
-    <table class="fiber-table">
-      <tr><td>PC (Physical Contact)</td><td>Superfície esférica · ORL &gt; 40 dB · uso geral</td></tr>
-      <tr><td>UPC (Ultra PC)</td><td>Polimento extra fino · ORL &gt; 55 dB · SM recomendado</td></tr>
-      <tr><td>APC (Angled PC)</td><td>Ângulo 8° · ORL &gt; 65 dB · sistemas sensíveis · cor verde</td></tr>
+    <div style="margin-top:10px;font-size:.7rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Polimento dos Conectores</div>
+    <table class="ft">
+      <tr><td>PC</td><td>Esférico · ORL &gt;40 dB · uso geral</td></tr>
+      <tr><td>UPC</td><td>Ultra fino · ORL &gt;55 dB · SM recomendado</td></tr>
+      <tr><td>APC</td><td>Ângulo 8° · ORL &gt;65 dB · sistemas sensíveis · VERDE</td></tr>
     </table>
-    <div class="warn-box" style="margin-top:10px;">
-      <div class="tip-title">⚠️ NUNCA conecte APC com UPC/PC!</div>
-      A diferença de 8° no ângulo causa alta reflexão e pode danificar transmissores laser. Verifique sempre o tipo antes de conectar. Conectores APC são sempre verdes.
-    </div>
+    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚠️ NUNCA conecte APC com UPC/PC!</div>O ângulo de 8° causa alta reflexão e pode danificar transmissores laser. Conectores APC são sempre <strong style="color:var(--green);">verdes</strong>.</div>
   </div>
 
-  <!-- Janelas ópticas -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
     <div class="sec">Janelas Ópticas e Aplicações</div>
-    <table class="fiber-table">
-      <tr><td>850 nm</td><td>MM · VCSEL · Ethernet 1G/10G local · baixo custo</td></tr>
-      <tr><td>1300 nm</td><td>MM · LED · Ethernet legado · menor atenuação que 850</td></tr>
-      <tr><td>1310 nm</td><td>SM · dispersão zero · links médios · redes metro</td></tr>
-      <tr><td>1550 nm</td><td>SM · mínima atenuação · links longos · EDFA amplif.</td></tr>
-      <tr><td>1625 nm</td><td>SM · monitoramento de rede (OTDR em serviço)</td></tr>
-      <tr><td>CWDM</td><td>1270–1610 nm · 20nm espaçamento · até 18 canais</td></tr>
-      <tr><td>DWDM</td><td>1530–1565 nm · 0,8nm espaçamento · até 80+ canais</td></tr>
+    <table class="ft">
+      <tr><td>850 nm</td><td>MM · VCSEL · Ethernet 1G/10G local</td></tr>
+      <tr><td>1300 nm</td><td>MM · LED · Ethernet legado</td></tr>
+      <tr><td>1310 nm</td><td>SM · dispersão zero · links médios</td></tr>
+      <tr><td>1550 nm</td><td>SM · mínima atenuação · links longos</td></tr>
+      <tr><td>1625 nm</td><td>SM · monitoramento OTDR em serviço</td></tr>
+      <tr><td>CWDM</td><td>1270–1610 nm · 20 nm espaçamento · 18 canais</td></tr>
+      <tr><td>DWDM</td><td>1530–1565 nm · 0,8 nm espaçamento · 80+ canais</td></tr>
     </table>
   </div>
 
-  <!-- Orçamento de potência -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
     <div class="sec">Calculadora de Orçamento Óptico</div>
-    <div style="font-size:.78rem;color:var(--label);margin-bottom:12px;">Calcule se o link tem potência suficiente: Pot. TX − Perdas ≥ Sens. RX + Margem</div>
-
+    <div style="font-size:.75rem;color:var(--label);margin-bottom:10px;">Verifica se o link tem potência suficiente: Budget = TX − RX ≥ Perdas + Margem</div>
     <div class="grid2">
-      <div class="inp-group">
-        <label>Potência TX (dBm)</label>
-        <div class="inp-row"><span class="inp-pfx">TX</span><input type="number" id="fib-tx" value="-3" step="0.1"></div>
-      </div>
-      <div class="inp-group">
-        <label>Sensibilidade RX (dBm)</label>
-        <div class="inp-row"><span class="inp-pfx">RX</span><input type="number" id="fib-rx" value="-20" step="0.1"></div>
-      </div>
-      <div class="inp-group">
-        <label>Comprimento (km)</label>
-        <div class="inp-row"><span class="inp-pfx">km</span><input type="number" id="fib-len" value="2" step="0.1" min="0"></div>
-      </div>
-      <div class="inp-group">
-        <label>Aten. fibra (dB/km)</label>
-        <div class="inp-row"><span class="inp-pfx">α</span><input type="number" id="fib-att" value="0.4" step="0.01" min="0"></div>
-      </div>
-      <div class="inp-group">
-        <label>Nº de conectores</label>
-        <div class="inp-row"><span class="inp-pfx">CON</span><input type="number" id="fib-con" value="4" min="0"></div>
-      </div>
-      <div class="inp-group">
-        <label>Nº de emendas</label>
-        <div class="inp-row"><span class="inp-pfx">EMS</span><input type="number" id="fib-spl" value="0" min="0"></div>
-      </div>
+      <div class="inp-group"><label>Potência TX (dBm)</label><div class="inp-row"><span class="inp-pfx">TX</span><input type="number" id="fib-tx" value="-3" step="0.1"></div></div>
+      <div class="inp-group"><label>Sensibilidade RX (dBm)</label><div class="inp-row"><span class="inp-pfx">RX</span><input type="number" id="fib-rx" value="-20" step="0.1"></div></div>
+      <div class="inp-group"><label>Comprimento (km)</label><div class="inp-row"><span class="inp-pfx">km</span><input type="number" id="fib-len" value="2" step="0.1" min="0"></div></div>
+      <div class="inp-group"><label>Aten. fibra (dB/km)</label><div class="inp-row"><span class="inp-pfx">α</span><input type="number" id="fib-att" value="0.4" step="0.01" min="0"></div></div>
+      <div class="inp-group"><label>Nº conectores</label><div class="inp-row"><span class="inp-pfx">CON</span><input type="number" id="fib-con" value="4" min="0"></div></div>
+      <div class="inp-group"><label>Nº emendas</label><div class="inp-row"><span class="inp-pfx">EMS</span><input type="number" id="fib-spl" value="0" min="0"></div></div>
     </div>
-    <div class="inp-group">
-      <label>Margem de segurança (dB)</label>
-      <div class="inp-row"><span class="inp-pfx">MRG</span><input type="number" id="fib-mrg" value="3" step="0.5" min="0"></div>
-    </div>
-
+    <div class="inp-group"><label>Margem de segurança (dB)</label><div class="inp-row"><span class="inp-pfx">MRG</span><input type="number" id="fib-mrg" value="3" step="0.5" min="0"></div></div>
     <button class="btn-main" onclick="calcFiber()"><span>📡 Calcular Link</span></button>
-
     <div id="fib-result" style="display:none;margin-top:12px;">
       <div class="result-grid">
-        <div class="ri hl" id="fib-status-box">
-          <div class="rl">Status do Link</div>
-          <div class="rv" id="fib-status">—</div>
-        </div>
-        <div class="ri"><div class="rl">Orçamento disponível</div><div class="rv" id="fib-budget">—</div></div>
+        <div class="ri hl" id="fib-status-box"><div class="rl">Status do Link</div><div class="rv" id="fib-status">—</div></div>
+        <div class="ri"><div class="rl">Budget disponível</div><div class="rv" id="fib-budget">—</div></div>
         <div class="ri"><div class="rl">Perda total</div><div class="rv" id="fib-loss">—</div></div>
         <div class="ri"><div class="rl">Margem real</div><div class="rv" id="fib-margin">—</div></div>
-        <div class="ri fw"><div class="rl">Detalhamento das perdas</div><div class="rv" id="fib-detail" style="font-size:.82rem;line-height:1.6;"></div></div>
+        <div class="ri fw"><div class="rl">Detalhamento</div><div class="rv" id="fib-detail" style="font-size:.8rem;line-height:1.7;"></div></div>
       </div>
     </div>
   </div>
 
-  <!-- Dicas de manutenção -->
   <div class="card">
     <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ff8800,transparent)"></div>
     <div class="sec">Dicas de Manutenção em Campo</div>
-    <div class="tip-box">
-      <div class="tip-title">🔧 Procedimento de Inspeção</div>
-      1. NUNCA olhe diretamente para a ponta da fibra — risco de lesão ocular<br>
-      2. Inspecione o conector com microscópio antes de conectar<br>
+    <div class="tip-box"><div class="tip-title">🔧 Procedimento de Inspeção</div>
+      1. NUNCA olhe diretamente para a ponta — risco de lesão ocular<br>
+      2. Inspecione com microscópio antes de conectar<br>
       3. Limpe com caneta de limpeza ou kit IEC 61300-3-35<br>
-      4. Meça a potência no RX antes e depois de qualquer intervenção<br>
-      5. Registre valores em planilha para histórico de manutenção
+      4. Meça potência no RX antes e após qualquer intervenção<br>
+      5. Registre valores para histórico de manutenção
     </div>
-    <div class="tip-box" style="margin-top:8px;">
-      <div class="tip-title">📏 Raio mínimo de curvatura</div>
-      • Fibra SM/MM: mínimo 30 mm estático, 60 mm em movimento<br>
-      • Cabo de distribuição: mínimo 10× o diâmetro do cabo<br>
+    <div class="tip-box" style="margin-top:8px;"><div class="tip-title">📏 Raio mínimo de curvatura</div>
+      • SM/MM: mínimo 30 mm estático · 60 mm em movimento<br>
+      • Cabo de distribuição: mínimo 10× o diâmetro<br>
       • Cabo de acometimento: mínimo 20× o diâmetro<br>
       • Curvas excessivas causam micro-rupturas e aumento de atenuação
     </div>
-    <div class="warn-box" style="margin-top:8px;">
-      <div class="tip-title">⚡ Equipamentos de teste</div>
-      • <strong>OTDR</strong>: localiza falhas, emendas e mede atenuação por trecho<br>
-      • <strong>Power Meter + Light Source</strong>: mede perda total do link (IL)<br>
-      • <strong>VFL (Visual Fault Locator)</strong>: laser vermelho visível, localiza quebras próximas<br>
-      • <strong>Microscópio de fibra</strong>: inspeção da face do conector (obrigatório)
+    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚡ Equipamentos de Teste</div>
+      • <strong>OTDR</strong>: localiza falhas e mede atenuação por trecho<br>
+      • <strong>Power Meter + Light Source</strong>: mede perda total (IL)<br>
+      • <strong>VFL</strong>: laser vermelho visível, localiza quebras próximas<br>
+      • <strong>Microscópio de fibra</strong>: inspeção da face do conector
     </div>
   </div>
 </div>
-
 <script>
-// ═══════════════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════════════
+// ═══════════════ NAVIGATION ═══════════════
 function goPage(p){
-  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   document.getElementById('nav-'+p).classList.add('active');
   window.scrollTo(0,0);
 }
 
-// ═══════════════════════════════════════════════════
-//  LOGIC GATES
-// ═══════════════════════════════════════════════════
-const GATES={
-  AND: { inputs:2, fn:v=>v[0]&v[1], desc:'A saída é 1 somente quando TODAS as entradas são 1. Equivale à multiplicação booleana: S = A · B', sym:'AND' },
-  OR:  { inputs:2, fn:v=>v[0]|v[1], desc:'A saída é 1 quando PELO MENOS UMA entrada é 1. Equivale à soma booleana: S = A + B', sym:'OR' },
-  NOT: { inputs:1, fn:v=>v[0]^1,    desc:'Inverte a entrada. S = Ā. Também chamada de inversor. Entrada 0 → Saída 1, Entrada 1 → Saída 0', sym:'NOT' },
-  NAND:{ inputs:2, fn:v=>(v[0]&v[1])^1, desc:'NOT + AND. A saída é 0 somente quando TODAS as entradas são 1. Porta universal — qualquer circuito pode ser feito com NANDs.', sym:'NAND' },
-  NOR: { inputs:2, fn:v=>(v[0]|v[1])^1, desc:'NOT + OR. A saída é 1 somente quando TODAS as entradas são 0. Também é porta universal.', sym:'NOR' },
-  XOR: { inputs:2, fn:v=>v[0]^v[1], desc:'Ou-exclusivo. A saída é 1 quando as entradas são DIFERENTES. S = A⊕B. Muito usado em paridade e somadores.', sym:'XOR' },
-  XNOR:{ inputs:2, fn:v=>(v[0]^v[1])^1, desc:'NOT + XOR. A saída é 1 quando as entradas são IGUAIS. Detector de igualdade.', sym:'XNOR' },
-  BUF: { inputs:1, fn:v=>v[0], desc:'Buffer. Repete a entrada na saída sem alteração. Usado para amplificação de sinal e isolamento de estágios.', sym:'BUF' }
+// ═══════════════ CLP ═══════════════
+const SIG_COLORS={
+  ED:{color:'#00d4ff',bg:'rgba(0,212,255,.09)'},
+  SD:{color:'#ffd600',bg:'rgba(255,214,0,.08)'},
+  EA:{color:'#00ff88',bg:'rgba(0,255,136,.08)'},
+  SA:{color:'#bf7fff',bg:'rgba(191,127,255,.08)'}
 };
 
-let curGate=null;
-let gateVals=[0,0];
-
-function setGate(g){
-  curGate=g;
-  Object.keys(GATES).forEach(k=>document.getElementById('g-'+k).classList.toggle('active',k===g));
-  const gate=GATES[g];
-  gateVals=Array(gate.inputs).fill(0);
-  document.getElementById('gate-sec-title').textContent=g+' — Simulação';
-  renderGateSVG(g);
-  renderGateInputs(g);
-  updateGateOutput();
-  renderTruthTable(g);
-  document.getElementById('gate-desc').innerHTML='<div class="tip-title">ℹ️ '+g+'</div>'+gate.desc;
-  document.getElementById('gate-panel').style.display='block';
-}
-
-function renderGateInputs(g){
-  const gate=GATES[g];
-  const wrap=document.getElementById('gate-inputs');
-  wrap.innerHTML='';
-  for(let i=0;i<gate.inputs;i++){
-    const btn=document.createElement('button');
-    btn.className='bit-btn'+(gateVals[i]?' on':'');
-    btn.id='gv-'+i;
-    btn.innerHTML='<span>'+(gateVals[i]?'1':'0')+'</span><span class="bit-lbl">'+(gate.inputs>1?String.fromCharCode(65+i):'A')+'</span>';
-    btn.onclick=()=>toggleGateInput(i);
-    wrap.appendChild(btn);
-  }
-}
-
-function toggleGateInput(i){
-  gateVals[i]^=1;
-  const btn=document.getElementById('gv-'+i);
-  btn.className='bit-btn'+(gateVals[i]?' on':'');
-  btn.querySelector('span').textContent=gateVals[i]?'1':'0';
-  updateGateOutput();
-  renderTruthTable(curGate);
-}
-
-function updateGateOutput(){
-  const gate=GATES[curGate];
-  const out=gate.fn(gateVals);
-  const wrap=document.getElementById('gate-output');
-  wrap.innerHTML=`
-    <div class="res-box ${out?'ok':'off'}" style="margin-top:10px;">
-      <div class="res-label">Saída (S / Y)</div>
-      <div class="res-val ${out?'green':'red'}">${out}</div>
-      <div class="res-sub">${out?'NÍVEL ALTO — tensão lógica HIGH':'NÍVEL BAIXO — tensão lógica LOW'}</div>
-    </div>`;
-}
-
-function renderTruthTable(g){
-  const gate=GATES[g];
-  const n=gate.inputs;
-  const rows=Math.pow(2,n);
-  let html='<table class="truth-table"><tr>';
-  for(let i=0;i<n;i++) html+='<th>'+(n>1?String.fromCharCode(65+i):'A')+'</th>';
-  html+='<th>S</th></tr>';
-  for(let r=0;r<rows;r++){
-    const vals=[];
-    for(let i=n-1;i>=0;i--) vals.unshift((r>>i)&1);
-    const out=gate.fn(vals);
-    const isActive=JSON.stringify(vals)===JSON.stringify(gateVals.slice(0,n));
-    html+=`<tr class="${isActive?'highlight-row':''}">`;
-    vals.forEach(v=>html+=`<td class="val${v}">${v}</td>`);
-    html+=`<td class="val${out}">${out}</td></tr>`;
-  }
-  html+='</table>';
-  document.getElementById('gate-truth').innerHTML=html;
-}
-
-function renderGateSVG(g){
-  const wrap=document.getElementById('gate-svg-wrap');
-  const c='#00d4ff'; const lc='#00d4ff44';
-  const svgs={
-    AND:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/>
-      <line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/>
-      <path d="M40,20 L40,60 Q85,60 85,40 Q85,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">&amp;</text>
-      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    OR:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/>
-      <line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/>
-      <path d="M38,20 Q50,40 38,60 Q62,60 80,40 Q62,20 38,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="80" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">≥1</text>
-      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    NOT:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/>
-      <polygon points="35,20 35,60 80,40" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <circle cx="85" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="90" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    NAND:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/>
-      <line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/>
-      <path d="M40,20 L40,60 Q82,60 82,40 Q82,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <circle cx="87" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="92" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="57" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">&amp;</text>
-      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    NOR:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="28" x2="38" y2="28" stroke="${c}" stroke-width="2"/>
-      <line x1="10" y1="52" x2="38" y2="52" stroke="${c}" stroke-width="2"/>
-      <path d="M36,20 Q48,40 36,60 Q58,60 76,40 Q58,20 36,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <circle cx="81" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="86" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="54" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">≥1</text>
-      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    XOR:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/>
-      <line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/>
-      <path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/>
-      <path d="M40,20 Q52,40 40,60 Q64,60 82,40 Q64,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="82" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="59" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">=1</text>
-      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    XNOR:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/>
-      <line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/>
-      <path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/>
-      <path d="M40,20 Q52,40 40,60 Q62,60 78,40 Q62,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <circle cx="83" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="88" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="57" y="44" fill="${c}" font-size="10" font-family="Share Tech Mono" text-anchor="middle">=1</text>
-      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    BUF:`<svg width="140" height="80" viewBox="0 0 140 80">
-      <line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/>
-      <polygon points="35,20 35,60 85,40" fill="${lc}" stroke="${c}" stroke-width="2"/>
-      <line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
-      <text x="53" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono">BUF</text>
-      <text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
-      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`
-  };
-  wrap.innerHTML=svgs[g]||'';
-}
-
-// ═══════════════════════════════════════════════════
-//  CLP CALCULATOR
-// ═══════════════════════════════════════════════════
 const MFR={
   GE:{name:'GE Emerson PACSystems',color:'#00aaff',badge:'GE · PACSystems RX3i',
     signals:{
-      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'%I0001',cardLabel:'Cartão ED',
-        resultFn:(addr,card,ch)=>({address:'%I'+pad(addr,4),location:'Cartão ED'+pad(card,2)+' · BIT '+pad(ch,2),card:'Cartão ED'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null}),
-        inputs:[{id:'inp-card',label:'Cartão ED',prefix:'Cartão ED',ph:'01',min:1,max:9999},{id:'inp-ch',label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
-        slotToAddr:(c,ch)=>(c-1)*16+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/16)+1,ch:((a-1)%16)+1}),range:(c)=>({first:(c-1)*16+1,last:c*16,prefix:'%I'})},
-      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'%Q0001',cardLabel:'Cartão SD',
-        resultFn:(addr,card,ch)=>({address:'%Q'+pad(addr,4),location:'Cartão SD'+pad(card,2)+' · BIT '+pad(ch,2),card:'Cartão SD'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null}),
-        inputs:[{id:'inp-card',label:'Cartão SD',prefix:'Cartão SD',ph:'01',min:1,max:9999},{id:'inp-ch',label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
-        slotToAddr:(c,ch)=>(c-1)*16+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/16)+1,ch:((a-1)%16)+1}),range:(c)=>({first:(c-1)*16+1,last:c*16,prefix:'%Q'})},
-      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'%AI0001',cardLabel:'Cartão EA',
-        resultFn:(addr,card,ch)=>({address:'%AI'+pad(addr,4),location:'Cartão EA'+pad(card,2)+' · CANAL '+pad(ch,2),card:'Cartão EA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null}),
-        inputs:[{id:'inp-card',label:'Cartão EA',prefix:'Cartão EA',ph:'01',min:1,max:9999},{id:'inp-ch',label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
-        slotToAddr:(c,ch)=>(c-1)*8+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/8)+1,ch:((a-1)%8)+1}),range:(c)=>({first:(c-1)*8+1,last:c*8,prefix:'%AI'})},
-      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'%AQ0001',cardLabel:'Cartão SA',
-        resultFn:(addr,card,ch)=>({address:'%AQ'+pad(addr,4),location:'Cartão SA'+pad(card,2)+' · CANAL '+pad(ch,2),card:'Cartão SA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null}),
-        inputs:[{id:'inp-card',label:'Cartão SA',prefix:'Cartão SA',ph:'01',min:1,max:9999},{id:'inp-ch',label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
-        slotToAddr:(c,ch)=>(c-1)*8+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/8)+1,ch:((a-1)%8)+1}),range:(c)=>({first:(c-1)*8+1,last:c*8,prefix:'%AQ'})}
+      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'%I · 16 bits/cartão',cardLabel:'Cartão ED',
+        resultFn:(addr,card,ch,off)=>({
+          address:'%I'+pad(addr+off-1,4),
+          location:'Cartão ED'+pad(card,2)+' · BIT '+pad(ch,2),
+          card:'Cartão ED'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null
+        }),
+        inputs:[{id:'inp-card',label:'Cartão ED',prefix:'Cartão ED',ph:'01',min:1,max:9999},
+                {id:'inp-ch',  label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
+        slotToAddr:(c,ch)=>(c-1)*16+ch,
+        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/16)+1,ch:(idx%16)+1};},
+        range:(c,off)=>({first:(c-1)*16+1+off-1,last:c*16+off-1,prefix:'%I'})},
+      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'%Q · 16 bits/cartão',cardLabel:'Cartão SD',
+        resultFn:(addr,card,ch,off)=>({
+          address:'%Q'+pad(addr+off-1,4),
+          location:'Cartão SD'+pad(card,2)+' · BIT '+pad(ch,2),
+          card:'Cartão SD'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null
+        }),
+        inputs:[{id:'inp-card',label:'Cartão SD',prefix:'Cartão SD',ph:'01',min:1,max:9999},
+                {id:'inp-ch',  label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
+        slotToAddr:(c,ch)=>(c-1)*16+ch,
+        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/16)+1,ch:(idx%16)+1};},
+        range:(c,off)=>({first:(c-1)*16+1+off-1,last:c*16+off-1,prefix:'%Q'})},
+      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'%AI · 8 canais/cartão',cardLabel:'Cartão EA',
+        resultFn:(addr,card,ch,off)=>({
+          address:'%AI'+pad(addr+off-1,4),
+          location:'Cartão EA'+pad(card,2)+' · CANAL '+pad(ch,2),
+          card:'Cartão EA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null
+        }),
+        inputs:[{id:'inp-card',label:'Cartão EA',prefix:'Cartão EA',ph:'01',min:1,max:9999},
+                {id:'inp-ch',  label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
+        slotToAddr:(c,ch)=>(c-1)*8+ch,
+        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/8)+1,ch:(idx%8)+1};},
+        range:(c,off)=>({first:(c-1)*8+1+off-1,last:c*8+off-1,prefix:'%AI'})},
+      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'%AQ · 8 canais/cartão',cardLabel:'Cartão SA',
+        resultFn:(addr,card,ch,off)=>({
+          address:'%AQ'+pad(addr+off-1,4),
+          location:'Cartão SA'+pad(card,2)+' · CANAL '+pad(ch,2),
+          card:'Cartão SA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null
+        }),
+        inputs:[{id:'inp-card',label:'Cartão SA',prefix:'Cartão SA',ph:'01',min:1,max:9999},
+                {id:'inp-ch',  label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
+        slotToAddr:(c,ch)=>(c-1)*8+ch,
+        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/8)+1,ch:(idx%8)+1};},
+        range:(c,off)=>({first:(c-1)*8+1+off-1,last:c*8+off-1,prefix:'%AQ'})}
     }},
   ROCK:{name:'Rockwell ControlLogix 5000',color:'#d4201a',badge:'Rockwell · ControlLogix 5000',
     signals:{
-      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'Local:S:I.Data.B',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
+      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'Local:Slot:I.Data.Bit',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},
+                {id:'inp-bit', label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
         calcFn:(s,ch)=>({address:'Local:'+s+':I.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'Tag: DI_Slot'+s+'_Bit'+ch}),
         range:(s)=>({label:'Slot '+s+': Local:'+s+':I.Data.0 → Local:'+s+':I.Data.15'})},
-      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'Local:S:O.Data.B',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
+      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'Local:Slot:O.Data.Bit',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},
+                {id:'inp-bit', label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
         calcFn:(s,ch)=>({address:'Local:'+s+':O.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'Tag: DO_Slot'+s+'_Bit'+ch}),
         range:(s)=>({label:'Slot '+s+': Local:'+s+':O.Data.0 → Local:'+s+':O.Data.15'})},
-      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'Local:S:I.ChXData',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'1',min:0,max:99},{id:'inp-ch',label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
+      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'Local:Slot:I.ChXData',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'1',min:0,max:99},
+                {id:'inp-ch',  label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
         calcFn:(s,ch)=>({address:'Local:'+s+':I.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'Tag: AI_Slot'+s+'_Ch'+ch}),
         range:(s)=>({label:'Slot '+s+': Local:'+s+':I.Ch0Data → Local:'+s+':I.Ch7Data'})},
-      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'Local:S:O.ChXData',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'2',min:0,max:99},{id:'inp-ch',label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
+      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'Local:Slot:O.ChXData',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'2',min:0,max:99},
+                {id:'inp-ch',  label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
         calcFn:(s,ch)=>({address:'Local:'+s+':O.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'Tag: AO_Slot'+s+'_Ch'+ch}),
         range:(s)=>({label:'Slot '+s+': Local:'+s+':O.Ch0Data → Local:'+s+':O.Ch7Data'})}
     }},
   SIEM:{name:'Siemens S7-400',color:'#009999',badge:'Siemens · S7-400 / Step 7',
     signals:{
-      ED:{label:'Entrada Digital',icon:'📥',size:8,chWord:'BIT',addrSub:'IB.bit',
-        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'I',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
+      ED:{label:'Entrada Digital',icon:'📥',size:8,chWord:'BIT',addrSub:'Ibyte.bit',
+        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'I',ph:'0',min:0,max:65535},
+                {id:'inp-bit', label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
         calcFn:(by,bi)=>({address:'I'+by+'.'+bi,location:'Byte '+by+' · Bit '+bi,card:'Byte de Entrada '+by,channel:'Bit '+bi,extra:'IB'+by+' (byte completo)'}),
         range:(by)=>({label:'Byte '+by+': I'+by+'.0 → I'+by+'.7'})},
-      SD:{label:'Saída Digital',icon:'📤',size:8,chWord:'BIT',addrSub:'QB.bit',
-        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'Q',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
+      SD:{label:'Saída Digital',icon:'📤',size:8,chWord:'BIT',addrSub:'Qbyte.bit',
+        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'Q',ph:'0',min:0,max:65535},
+                {id:'inp-bit', label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
         calcFn:(by,bi)=>({address:'Q'+by+'.'+bi,location:'Byte '+by+' · Bit '+bi,card:'Byte de Saída '+by,channel:'Bit '+bi,extra:'QB'+by+' (byte completo)'}),
         range:(by)=>({label:'Byte '+by+': Q'+by+'.0 → Q'+by+'.7'})},
-      EA:{label:'Entrada Analógica',icon:'📊',size:0,chWord:'CANAL',addrSub:'PIW (par)',
+      EA:{label:'Entrada Analógica',icon:'📊',size:0,chWord:'CANAL',addrSub:'PIW (endereço par)',
         inputs:[{id:'inp-piw',label:'Endereço PIW (par)',prefix:'PIW',ph:'256',min:0,max:65534}],
-        calcFn:(v)=>({address:'PIW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PIW'+v,extra:'Próximo: PIW'+(v+2)}),
+        calcFn:(v)=>({address:'PIW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PIW'+v,extra:'Próximo canal: PIW'+(v+2)}),
         range:()=>null},
-      SA:{label:'Saída Analógica',icon:'🎛️',size:0,chWord:'CANAL',addrSub:'PQW (par)',
+      SA:{label:'Saída Analógica',icon:'🎛️',size:0,chWord:'CANAL',addrSub:'PQW (endereço par)',
         inputs:[{id:'inp-pqw',label:'Endereço PQW (par)',prefix:'PQW',ph:'256',min:0,max:65534}],
-        calcFn:(v)=>({address:'PQW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PQW'+v,extra:'Próximo: PQW'+(v+2)}),
+        calcFn:(v)=>({address:'PQW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PQW'+v,extra:'Próximo canal: PQW'+(v+2)}),
         range:()=>null}
     }}
 };
 
-const SIG_COLORS={ED:{color:'#00d4ff',bg:'rgba(0,212,255,.09)'},SD:{color:'#ffd600',bg:'rgba(255,214,0,.08)'},EA:{color:'#00ff88',bg:'rgba(0,255,136,.08)'},SA:{color:'#bf7fff',bg:'rgba(191,127,255,.08)'}};
-let curMfr=null,curSig=null,curClpDir='addr';
+let curLR=null, curMfr=null, curSig=null, curClpDir='addr', remoteOffset=1;
 
 function pad(n,w){return String(n).padStart(w,'0');}
 function showEl(id){const e=document.getElementById(id);if(e)e.style.display='';}
 function hideEl(id){const e=document.getElementById(id);if(e)e.style.display='none';}
 function showV(id){const e=document.getElementById(id);if(e)e.classList.add('visible');}
 function hideV(id){const e=document.getElementById(id);if(e)e.classList.remove('visible');}
+function getV(id){const e=document.getElementById(id);return e&&e.value.trim()!==''?parseInt(e.value.trim(),10):null;}
 
+// LOCAL / REMOTA
+function setLR(lr){
+  curLR=lr; curMfr=null; curSig=null;
+  document.getElementById('lr-local').className ='lr-btn'+(lr==='local'?' active-local':'');
+  document.getElementById('lr-remote').className='lr-btn'+(lr==='remote'?' active-remote':'');
+  const cfg=document.getElementById('remote-cfg');
+  if(lr==='remote'){cfg.classList.add('show');}
+  else{cfg.classList.remove('show'); remoteOffset=1;}
+  showEl('clp-step2'); showEl('clp-mfr-grid');
+  hideEl('clp-step3'); hideEl('clp-type-grid');
+  hideEl('clp-step4'); hideEl('clp-dir-row');
+  hideEl('clp-calc-btn');
+  document.getElementById('clp-inputs').innerHTML='';
+  hideV('clp-result'); hideV('clp-err');
+  ['GE','ROCK','SIEM'].forEach(k=>document.getElementById('mfr-'+k).className='mfr-btn');
+}
+
+function updateRemotePreview(){
+  const val=parseInt(document.getElementById('remote-start').value)||0;
+  remoteOffset=val>=1?val:1;
+  const prev=document.getElementById('remote-preview');
+  const prevVal=document.getElementById('remote-preview-val');
+  if(val>=1){
+    prev.style.display='flex';
+    prevVal.textContent='%I'+pad(remoteOffset,4)+' → %I'+pad(remoteOffset+15,4)+' (Cartão ED01)';
+  } else {
+    prev.style.display='none';
+  }
+  if(curSig) renderClpInputs();
+}
+
+// MANUFACTURER
 function setMfr(m){
+  if(!curLR) return;
   curMfr=m; curSig=null;
+  if(curLR==='remote'){
+    const rs=parseInt(document.getElementById('remote-start').value)||0;
+    if(rs<1){showClpErr('Informe o endereço inicial da remota antes de continuar.');return;}
+    remoteOffset=rs;
+  }
   const mfr=MFR[m];
   ['GE','ROCK','SIEM'].forEach(k=>{
-    const b=document.getElementById('mfr-'+k);
-    b.className='mfr-btn'+(k===m?' active-'+k:'');
+    document.getElementById('mfr-'+k).className='mfr-btn'+(k===m?' active-'+k:'');
   });
   document.getElementById('clp-bar').style.background='linear-gradient(90deg,transparent,'+mfr.color+',transparent)';
   const grid=document.getElementById('clp-type-grid');
-  grid.innerHTML='';
-  grid.style.gridTemplateColumns='repeat(2,1fr)';
+  grid.innerHTML=''; grid.style.gridTemplateColumns='repeat(2,1fr)';
   Object.entries(mfr.signals).forEach(([key,sig])=>{
     const btn=document.createElement('button');
     btn.className='type-btn'; btn.id='ctb-'+key; btn.onclick=()=>setClpSig(key);
-    btn.innerHTML=`<span class="tb-icon">${sig.icon}</span><span class="tb-info"><span>${sig.label}</span><span class="tb-tag">${sig.addrSub}</span></span>`;
+    btn.innerHTML=`<span class="ti">${sig.icon}</span><span class="tinfo"><span>${sig.label}</span><span class="ttag">${sig.addrSub}</span></span>`;
     grid.appendChild(btn);
   });
-  showEl('clp-sig-wrap'); hideEl('clp-dir-wrap');
-  hideEl('clp-calc-btn'); document.getElementById('clp-inputs').innerHTML='';
+  showEl('clp-step3'); showEl('clp-type-grid');
+  hideEl('clp-step4'); hideEl('clp-dir-row'); hideEl('clp-calc-btn');
+  document.getElementById('clp-inputs').innerHTML='';
   hideV('clp-result'); hideV('clp-err');
 }
 
@@ -992,12 +842,13 @@ function setClpSig(s){
   Object.keys(mfr.signals).forEach(k=>{
     const b=document.getElementById('ctb-'+k); if(!b)return;
     const sc=SIG_COLORS[k];
-    if(k===s){b.style.borderColor=sc.color;b.style.background=sc.bg;b.style.color=sc.color;}
-    else{b.style.borderColor='';b.style.background='';b.style.color='';}
+    b.style.cssText=k===s?`border-color:${sc.color};background:${sc.bg};color:${sc.color};`:'';
   });
-  document.getElementById('clp-btn-addr').textContent=curMfr==='GE'?'Endereço → Cartão':'Local → Detalhes';
-  document.getElementById('clp-btn-slot').textContent=curMfr==='GE'?'Cartão → Endereço':'Slot/Canal → Tag';
-  showEl('clp-dir-wrap'); showEl('clp-calc-btn');
+  // Direction labels
+  const isGE=curMfr==='GE';
+  document.getElementById('clp-btn-addr').textContent=isGE?'Endereço → Cartão':'Local → Detalhes';
+  document.getElementById('clp-btn-slot').textContent=isGE?'Cartão → Endereço':'Slot/Canal → Tag';
+  showEl('clp-step4'); showEl('clp-dir-row'); showEl('clp-calc-btn');
   setClpDir(curClpDir);
   hideV('clp-result'); hideV('clp-err');
 }
@@ -1012,77 +863,92 @@ function setClpDir(d){
 
 function renderClpInputs(){
   const sig=MFR[curMfr].signals[curSig];
-  const area=document.getElementById('clp-inputs');
-  area.innerHTML='';
+  const area=document.getElementById('clp-inputs'); area.innerHTML='';
   const sc=SIG_COLORS[curSig];
-  let inputDefs;
+  const isRemote=curLR==='remote';
+  let defs;
   if(curMfr==='GE'&&curClpDir==='addr'){
-    inputDefs=[{id:'inp-addr',label:'Endereço '+sig.resultFn(1,1,1).address.replace(/\d+/,''),prefix:sig.resultFn(1,1,1).address.replace(/\d.*/,''),ph:'0001',min:1,max:99999}];
+    const pfxMap={ED:'%I',SD:'%Q',EA:'%AI',SA:'%AQ'};
+    const pfx=pfxMap[curSig];
+    const ph=isRemote?pad(remoteOffset,4):'0001';
+    defs=[{id:'inp-addr',label:'Endereço '+pfx+(isRemote?' (inicia em '+pad(remoteOffset,4)+')':''),prefix:pfx,ph:ph,min:isRemote?remoteOffset:1,max:99999}];
   } else {
-    inputDefs=sig.inputs;
+    defs=sig.inputs;
   }
-  inputDefs.forEach(inp=>{
+  defs.forEach(inp=>{
     const d=document.createElement('div'); d.className='inp-group';
-    d.innerHTML=`<label>${inp.label}</label><div class="inp-row"><span class="clp-prefix">${inp.prefix}</span><input type="number" id="${inp.id}" placeholder="${inp.ph}" min="${inp.min}" max="${inp.max}" style="color:${sc.color}" onkeydown="if(event.key==='Enter')calcClp()"></div>`;
+    d.innerHTML=`<label>${inp.label}</label><div class="inp-row"><span class="inp-pfx">${inp.prefix}</span><input type="number" id="${inp.id}" placeholder="${inp.ph}" min="${inp.min}" max="${inp.max}" style="color:${sc.color}" onkeydown="if(event.key==='Enter')calcClp()"></div>`;
     area.appendChild(d);
   });
+  // Remote hint
+  if(isRemote&&curMfr==='GE'){
+    const hint=document.createElement('div');
+    hint.style.cssText='font-size:.7rem;color:var(--orange);font-family:"Share Tech Mono",monospace;margin-bottom:8px;padding:6px 10px;background:rgba(255,136,0,.06);border:1px solid rgba(255,136,0,.2);border-radius:3px;';
+    hint.textContent='📡 Remota: offset base = '+pad(remoteOffset,4);
+    area.insertBefore(hint,area.firstChild);
+  }
 }
-
-function getV(id){const e=document.getElementById(id);return e&&e.value.trim()!==''?parseInt(e.value.trim(),10):null;}
 
 function calcClp(){
   hideV('clp-err'); hideV('clp-result');
-  if(!curMfr||!curSig)return clpErr('Selecione o fabricante e tipo de sinal.');
+  if(!curLR) return showClpErr('Selecione Local ou Remota.');
+  if(!curMfr) return showClpErr('Selecione o fabricante.');
+  if(!curSig) return showClpErr('Selecione o tipo de sinal.');
+  const off=curLR==='remote'?remoteOffset:1;
   const mfr=MFR[curMfr]; const sig=mfr.signals[curSig]; let res;
   try{
     if(curMfr==='GE'){
       let card,ch,addr;
       if(curClpDir==='addr'){
         addr=getV('inp-addr');
-        if(!addr||addr<1)throw new Error('Informe um endereço ≥ 1.');
-        const r=sig.addrToSlot(addr); card=r.card; ch=r.ch;
+        if(addr===null||addr<off)throw new Error('Endereço deve ser ≥ '+pad(off,4)+'.');
+        const idx=addr-off;
+        card=Math.floor(idx/sig.size)+1; ch=(idx%sig.size)+1;
       } else {
         card=getV('inp-card'); ch=getV('inp-ch');
         if(!card||card<1)throw new Error('Informe o número do cartão.');
         if(!ch||ch<1||ch>sig.size)throw new Error('Canal deve ser entre 1 e '+sig.size+'.');
-        addr=sig.slotToAddr(card,ch);
+        addr=(card-1)*sig.size+ch;
       }
-      const r=sig.resultFn(addr,card,ch);
-      const rng=sig.range(card);
-      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:addr-1,size:sig.size,activeCell:ch,range:'Faixa: '+rng.prefix+pad(rng.first,4)+' → '+rng.prefix+pad(rng.last,4)};
+      const r=sig.resultFn(addr,card,ch,off);
+      const rng=sig.range(card,off);
+      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,
+           index:(addr-1),size:sig.size,activeCell:ch,
+           range:'Faixa: '+rng.prefix+pad(rng.first,4)+' → '+rng.prefix+pad(rng.last,4)};
     } else if(curMfr==='ROCK'){
       const slot=getV('inp-slot');
       const chId=document.getElementById('inp-bit')?'inp-bit':'inp-ch';
       const ch=getV(chId);
       if(slot===null)throw new Error('Informe o slot.');
       if(ch===null)throw new Error('Informe o bit/canal.');
-      const r=sig.calcFn(slot,ch);
-      const rng=sig.range(slot);
-      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:sig.size,activeCell:ch+1,range:rng.label};
+      const r=sig.calcFn(slot,ch); const rng=sig.range(slot);
+      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,
+           index:null,size:sig.size,activeCell:ch+1,range:rng.label};
     } else {
       if(curSig==='EA'||curSig==='SA'){
-        const id=curSig==='EA'?'inp-piw':'inp-pqw';
-        const v=getV(id);
+        const id=curSig==='EA'?'inp-piw':'inp-pqw'; const v=getV(id);
         if(v===null||v<0)throw new Error('Informe o endereço.');
-        if(v%2!==0)throw new Error('Endereço deve ser número par (ex: 256, 258).');
+        if(v%2!==0)throw new Error('Endereço deve ser par (ex: 256, 258).');
         const r=sig.calcFn(v);
         res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:0,activeCell:null,range:null};
       } else {
-        const byteId='inp-byte'; const by=getV(byteId); const bi=getV('inp-bit');
+        const by=getV('inp-byte'); const bi=getV('inp-bit');
         if(by===null||by<0)throw new Error('Informe o byte.');
         if(bi===null||bi<0||bi>7)throw new Error('Bit deve ser 0 a 7.');
-        const r=sig.calcFn(by,bi);
-        const rng=sig.range(by);
+        const r=sig.calcFn(by,bi); const rng=sig.range(by);
         res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:8,activeCell:bi+1,range:rng?rng.label:null};
       }
     }
-  }catch(e){return clpErr(e.message);}
-  renderClpResult(res,MFR[curMfr],MFR[curMfr].signals[curSig]);
+  }catch(e){return showClpErr(e.message);}
+  renderClpResult(res,mfr,sig,off);
 }
 
-function renderClpResult(res,mfr,sig){
-  const sc=SIG_COLORS[curSig];
-  document.getElementById('clp-badge').innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:2px;border:1px solid ${mfr.color};color:${mfr.color};background:${mfr.color}18;font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;">${mfr.badge}</div>`;
+function renderClpResult(res,mfr,sig,off){
+  const sc=SIG_COLORS[curSig]; const isRemote=curLR==='remote';
+  document.getElementById('clp-badge').innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:2px;border:1px solid ${mfr.color};color:${mfr.color};background:${mfr.color}18;font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:2px;">${mfr.badge}</div>`;
+  const rt=document.getElementById('clp-remote-tag');
+  if(isRemote){rt.style.display='block';document.getElementById('clp-offset-display').textContent=pad(off,4);}
+  else{rt.style.display='none';}
   const grid=document.getElementById('clp-res-grid'); grid.innerHTML='';
   const items=[
     {label:'Identificação',value:res.full,cls:'hl',color:sc.color},
@@ -1092,6 +958,7 @@ function renderClpResult(res,mfr,sig){
   ];
   if(res.index!==null)items.push({label:'Índice (0-based)',value:String(res.index),cls:''});
   if(res.extra)items.push({label:'Info Extra',value:res.extra,cls:''});
+  if(isRemote)items.push({label:'Offset Remota',value:'base '+pad(off,4),cls:''});
   items.forEach(it=>{
     const d=document.createElement('div'); d.className='ri'+(it.cls?' '+it.cls:'');
     if(it.cls==='hl'){d.style.borderColor=it.color;d.style.background=it.color+'0a';}
@@ -1105,7 +972,7 @@ function renderClpResult(res,mfr,sig){
     const cw=res.size<=8?38:24;
     for(let b=1;b<=res.size;b++){
       const cell=document.createElement('div'); cell.className='ch-cell';
-      cell.style.cssText=`width:${cw}px;height:${cw}px;font-size:.5rem;`;
+      cell.style.cssText=`width:${cw}px;height:${cw}px;`;
       if(b===res.activeCell){cell.style.borderColor=sc.color;cell.style.background=sc.color+'22';cell.style.color=sc.color;}
       cell.textContent=pad(b-1,2); row.appendChild(cell);
     }
@@ -1114,56 +981,112 @@ function renderClpResult(res,mfr,sig){
   showV('clp-result');
 }
 
-function clpErr(msg){document.getElementById('clp-err').textContent='⚠  '+msg;showV('clp-err');}
+function showClpErr(msg){document.getElementById('clp-err').textContent='⚠  '+msg;showV('clp-err');}
 
-// ═══════════════════════════════════════════════════
-//  FIBER CALCULATOR
-// ═══════════════════════════════════════════════════
+// ═══════════════ LOGIC GATES ═══════════════
+const GATES={
+  AND: {inputs:2,fn:v=>v[0]&v[1],desc:'A saída é 1 somente quando TODAS as entradas são 1. Multiplicação booleana: S = A · B'},
+  OR:  {inputs:2,fn:v=>v[0]|v[1],desc:'A saída é 1 quando PELO MENOS UMA entrada é 1. Soma booleana: S = A + B'},
+  NOT: {inputs:1,fn:v=>v[0]^1,   desc:'Inverte a entrada. S = Ā. Entrada 0 → Saída 1, Entrada 1 → Saída 0'},
+  NAND:{inputs:2,fn:v=>(v[0]&v[1])^1,desc:'NOT + AND. Saída 0 somente quando TODAS entradas são 1. Porta universal.'},
+  NOR: {inputs:2,fn:v=>(v[0]|v[1])^1,desc:'NOT + OR. Saída 1 somente quando TODAS entradas são 0. Porta universal.'},
+  XOR: {inputs:2,fn:v=>v[0]^v[1],desc:'Ou-exclusivo. Saída 1 quando entradas são DIFERENTES. S = A⊕B'},
+  XNOR:{inputs:2,fn:v=>(v[0]^v[1])^1,desc:'NOT + XOR. Saída 1 quando entradas são IGUAIS. Detector de igualdade.'},
+  BUF: {inputs:1,fn:v=>v[0],     desc:'Buffer. Repete a entrada na saída. Usado para amplificação e isolamento de estágios.'}
+};
+
+let curGate=null, gateVals=[0,0];
+
+function setGate(g){
+  curGate=g;
+  Object.keys(GATES).forEach(k=>document.getElementById('g-'+k).classList.toggle('active',k===g));
+  gateVals=Array(GATES[g].inputs).fill(0);
+  document.getElementById('gate-sec-title').textContent=g+' — Simulação Interativa';
+  renderGateSVG(g); renderGateInputs(g); updateGateOutput(); renderTruthTable(g);
+  document.getElementById('gate-desc').innerHTML='<div class="tip-title">ℹ️ '+g+'</div>'+GATES[g].desc;
+  document.getElementById('gate-panel').style.display='block';
+}
+function renderGateInputs(g){
+  const wrap=document.getElementById('gate-inputs'); wrap.innerHTML='';
+  const n=GATES[g].inputs;
+  for(let i=0;i<n;i++){
+    const btn=document.createElement('button'); btn.className='bit-btn'+(gateVals[i]?' on':'');
+    btn.id='gv-'+i;
+    btn.innerHTML=`<span>${gateVals[i]?'1':'0'}</span><span class="bl">${n>1?String.fromCharCode(65+i):'A'}</span>`;
+    btn.onclick=()=>{gateVals[i]^=1;btn.className='bit-btn'+(gateVals[i]?' on':'');btn.querySelector('span').textContent=gateVals[i]?'1':'0';updateGateOutput();renderTruthTable(curGate);};
+    wrap.appendChild(btn);
+  }
+}
+function updateGateOutput(){
+  const out=GATES[curGate].fn(gateVals);
+  document.getElementById('gate-output').innerHTML=`<div class="res-box ${out?'ok':'off'}"><div class="res-label">Saída (S)</div><div class="res-val ${out?'green':'red'}">${out}</div><div class="res-sub">${out?'NÍVEL ALTO — HIGH':'NÍVEL BAIXO — LOW'}</div></div>`;
+}
+function renderTruthTable(g){
+  const gate=GATES[g]; const n=gate.inputs; const rows=Math.pow(2,n);
+  let html='<table class="tt"><tr>';
+  for(let i=0;i<n;i++)html+=`<th>${n>1?String.fromCharCode(65+i):'A'}</th>`;
+  html+='<th>S</th></tr>';
+  for(let r=0;r<rows;r++){
+    const vals=[]; for(let i=n-1;i>=0;i--)vals.unshift((r>>i)&1);
+    const out=gate.fn(vals); const isActive=JSON.stringify(vals)===JSON.stringify(gateVals.slice(0,n));
+    html+=`<tr class="${isActive?'hrow':''}">`;
+    vals.forEach(v=>html+=`<td class="v${v}">${v}</td>`);
+    html+=`<td class="v${out}">${out}</td></tr>`;
+  }
+  html+='</table>'; document.getElementById('gate-truth').innerHTML=html;
+}
+function renderGateSVG(g){
+  const c='#00d4ff',lc='#00d4ff33';
+  const svgs={
+    AND:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/><path d="M40,20 L40,60 Q85,60 85,40 Q85,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">&amp;</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    OR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/><path d="M38,20 Q50,40 38,60 Q62,60 80,40 Q62,20 38,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="80" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">≥1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    NOT:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/><polygon points="35,20 35,60 80,40" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="85" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="90" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    NAND:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/><path d="M40,20 L40,60 Q82,60 82,40 Q82,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="87" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="92" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="57" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">&amp;</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    NOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="38" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="38" y2="52" stroke="${c}" stroke-width="2"/><path d="M36,20 Q48,40 36,60 Q58,60 76,40 Q58,20 36,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="81" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="86" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="54" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">≥1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    XOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/><path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/><path d="M40,20 Q52,40 40,60 Q64,60 82,40 Q64,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="82" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="59" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">=1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    XNOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/><path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/><path d="M40,20 Q52,40 40,60 Q62,60 78,40 Q62,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="83" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="88" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="57" y="44" fill="${c}" font-size="10" font-family="Share Tech Mono" text-anchor="middle">=1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    BUF:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/><polygon points="35,20 35,60 85,40" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="52" y="44" fill="${c}" font-size="10" font-family="Share Tech Mono">BUF</text><text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`
+  };
+  document.getElementById('gate-svg-wrap').innerHTML=svgs[g]||'';
+}
+
+// ═══════════════ FIBER CALC ═══════════════
 function calcFiber(){
   const tx=parseFloat(document.getElementById('fib-tx').value);
   const rx=parseFloat(document.getElementById('fib-rx').value);
-  const len=parseFloat(document.getElementById('fib-len').value);
-  const att=parseFloat(document.getElementById('fib-att').value);
+  const len=parseFloat(document.getElementById('fib-len').value)||0;
+  const att=parseFloat(document.getElementById('fib-att').value)||0;
   const con=parseInt(document.getElementById('fib-con').value)||0;
   const spl=parseInt(document.getElementById('fib-spl').value)||0;
   const mrg=parseFloat(document.getElementById('fib-mrg').value)||0;
-
   const budget=tx-rx;
-  const lossFiber=len*att;
-  const lossCon=con*0.5;
-  const lossSpl=spl*0.1;
+  const lossFiber=len*att; const lossCon=con*0.5; const lossSpl=spl*0.1;
   const totalLoss=lossFiber+lossCon+lossSpl;
   const margin=budget-totalLoss-mrg;
-
   const ok=margin>=0;
-  const statusEl=document.getElementById('fib-status');
-  const statusBox=document.getElementById('fib-status-box');
-  statusEl.textContent=ok?'✅ LINK OK':'❌ LINK INVIÁVEL';
-  statusEl.style.color=ok?'#00ff88':'#ff4466';
-  statusBox.style.borderColor=ok?'#00ff88':'#ff4466';
-  statusBox.style.background=ok?'rgba(0,255,136,.05)':'rgba(255,68,102,.05)';
-
+  const sb=document.getElementById('fib-status-box');
+  document.getElementById('fib-status').innerHTML=`<span style="color:${ok?'#00ff88':'#ff4466'}">${ok?'✅ LINK OK':'❌ LINK INVIÁVEL'}</span>`;
+  sb.style.borderColor=ok?'#00ff88':'#ff4466';
+  sb.style.background=ok?'rgba(0,255,136,.05)':'rgba(255,68,102,.05)';
   document.getElementById('fib-budget').textContent=budget.toFixed(2)+' dB';
   document.getElementById('fib-loss').textContent=totalLoss.toFixed(2)+' dB';
   document.getElementById('fib-margin').innerHTML=`<span style="color:${margin>=0?'#00ff88':'#ff4466'}">${margin.toFixed(2)} dB</span>`;
   document.getElementById('fib-detail').innerHTML=
-    `Fibra: ${len} km × ${att} dB/km = ${lossFiber.toFixed(2)} dB<br>`+
-    `Conectores: ${con} × 0,50 dB = ${lossCon.toFixed(2)} dB<br>`+
-    `Emendas: ${spl} × 0,10 dB = ${lossSpl.toFixed(2)} dB<br>`+
-    `Margem requerida: ${mrg.toFixed(1)} dB<br>`+
-    `<strong>Total + margem: ${(totalLoss+mrg).toFixed(2)} dB / Budget: ${budget.toFixed(2)} dB</strong>`;
+    `Fibra: ${len}km × ${att}dB/km = ${lossFiber.toFixed(2)}dB<br>`+
+    `Conectores: ${con} × 0,50dB = ${lossCon.toFixed(2)}dB<br>`+
+    `Emendas: ${spl} × 0,10dB = ${lossSpl.toFixed(2)}dB<br>`+
+    `Margem requerida: ${mrg.toFixed(1)}dB<br>`+
+    `<strong>Total+Margem: ${(totalLoss+mrg).toFixed(2)}dB / Budget: ${budget.toFixed(2)}dB</strong>`;
   document.getElementById('fib-result').style.display='block';
 }
 
-// ═══════════════════════════════════════════════════
-//  PWA
-// ═══════════════════════════════════════════════════
+// ═══════════════ PWA ═══════════════
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();deferredPrompt=e;
+  e.preventDefault(); deferredPrompt=e;
   setTimeout(()=>document.getElementById('install-banner').classList.add('show'),1500);
 });
 document.getElementById('install-btn').addEventListener('click',()=>{
