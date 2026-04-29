@@ -595,7 +595,7 @@ select:focus{border-color:var(--accent);}
     <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div class="sec" style="margin-bottom:0;flex:1;">Histórico de Registros</div>
-        <button onclick="clearHistory()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:3px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;margin-left:8px;">LIMPAR</button>
+        <button onclick="exportPDF()" style="background:transparent;border:1px solid var(--green);color:var(--green);font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:3px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;margin-left:8px;">📄 PDF</button><button onclick="clearHistory()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:3px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;margin-left:4px;">LIMPAR</button>
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="fg" style="margin-bottom:0;"><label>Filtrar TAG</label>
@@ -1058,6 +1058,128 @@ function delRec(id){
   if(!confirm('Excluir este registro?'))return;
   saveHist(getHist().filter(r=>r.id!==id));
   renderHistory();
+}
+
+// ══ PDF EXPORT ══
+function exportPDF(){
+  const h = getHist();
+  const ft = document.getElementById('hf-tag').value;
+  const fT = document.getElementById('hf-type').value;
+  const filtered = h.filter(r=>(!ft||r.tag===ft)&&(!fT||r.tipo===fT));
+
+  if(!filtered.length){
+    alert('Nenhum registro para exportar.');
+    return;
+  }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('pt-BR');
+  const timeStr = now.toTimeString().slice(0,5);
+  const filterDesc = (ft||'Todas as balanças') + ' · ' + (fT ? fT.toUpperCase() : 'Todos os tipos');
+
+  // Build HTML for print window
+  let rows = filtered.map((r,i) => {
+    const tl = r.tipo==='zero'?'CALIBRAÇÃO ZERO': r.tipo==='span'?'CALIBRAÇÃO SPAN':'CORREÇÃO CF';
+    const color = r.tipo==='zero'?'#0055aa': r.tipo==='span'?'#886600':'#006633';
+    const alert = r.alerta ? '<tr><td colspan="2" style="background:#fff0f0;color:#cc0000;font-weight:bold;padding:6px 10px;border:1px solid #ffcccc;">⚠ ERRO ACIMA DE 1% — Correção recomendada</td></tr>' : '';
+
+    let body = '';
+    if(r.tipo==='zero'||r.tipo==='span'){
+      const erros = (r.erros||[]);
+      const eRows = erros.map((v,idx)=>{
+        const color = Math.abs(v)<=0.5?'#006600':Math.abs(v)<=1?'#886600':'#cc0000';
+        return `<tr><td>Leitura ${idx+1}</td><td style="color:${color};font-weight:bold;">${v>=0?'+':''}${Number(v).toFixed(3)} %</td></tr>`;
+      }).join('');
+      const mColor = Math.abs(Number(r.media))<=0.5?'#006600':Math.abs(Number(r.media))<=1?'#886600':'#cc0000';
+      body = `
+        <tr><td>Técnico</td><td>${r.tec}</td></tr>
+        <tr><td>Navio</td><td>${r.navio}</td></tr>
+        ${eRows}
+        <tr><td>Média dos erros</td><td style="color:${mColor};font-weight:bold;">${Number(r.media)>=0?'+':''}${r.media} %</td></tr>
+        <tr><td>Balança limpa</td><td>${r.limpa?'✅ Sim':'❌ Não'}</td></tr>
+        <tr><td>Houve correção</td><td>${r.corr?'✅ Sim':'❌ Não'}</td></tr>
+        ${alert}`;
+    } else {
+      const eColor = Math.abs(Number(r.erroPct))<=0.5?'#006600':Math.abs(Number(r.erroPct))<=1?'#886600':'#cc0000';
+      body = `
+        <tr><td>Navio</td><td>${r.navio}</td></tr>
+        <tr><td>ACT — Total do Navio</td><td>${Number(r.act).toLocaleString('pt-BR',{minimumFractionDigits:3})} T</td></tr>
+        <tr><td>IND — Total da Balança</td><td>${Number(r.ind).toLocaleString('pt-BR',{minimumFractionDigits:3})} T</td></tr>
+        <tr><td>Coeficiente CF</td><td>${r.cf}</td></tr>
+        <tr><td>ACT%</td><td>${r.actPct} %</td></tr>
+        <tr><td>Erro em relação ao navio</td><td style="color:${eColor};font-weight:bold;">${Number(r.erroPct)>=0?'+':''}${r.erroPct} %</td></tr>
+        ${alert}`;
+    }
+
+    return `
+      <div class="rec">
+        <div class="rec-header" style="background:${color};">
+          <span class="rec-num">#${String(i+1).padStart(2,'0')}</span>
+          <span>${r.tag} — ${tl}</span>
+          <span class="rec-date">${r.date} ${r.time}</span>
+        </div>
+        <table>${body}</table>
+      </div>`;
+  }).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Relatório Balanças — CSN Automação</title>
+<style>
+  @page { margin: 18mm 15mm; }
+  body { font-family: Arial, sans-serif; font-size: 11px; color: #111; }
+  .header { display:flex; align-items:center; justify-content:space-between; border-bottom: 3px solid #003366; padding-bottom: 10px; margin-bottom: 14px; }
+  .logo-block { display:flex; flex-direction:column; }
+  .logo-title { font-size: 20px; font-weight: 900; color: #003366; letter-spacing: 2px; }
+  .logo-sub { font-size: 10px; color: #666; letter-spacing: 1px; margin-top: 2px; }
+  .report-info { text-align: right; font-size: 10px; color: #555; line-height: 1.6; }
+  .filter-bar { background: #f0f4f8; border: 1px solid #ccd; border-radius: 4px; padding: 6px 10px; margin-bottom: 14px; font-size: 10px; color: #444; }
+  .filter-bar strong { color: #003366; }
+  .rec { margin-bottom: 14px; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; page-break-inside: avoid; }
+  .rec-header { display:flex; align-items:center; justify-content:space-between; padding: 7px 10px; color: white; font-weight: bold; font-size: 11px; gap: 8px; }
+  .rec-num { background: rgba(255,255,255,.25); padding: 2px 7px; border-radius: 10px; font-size: 10px; flex-shrink:0; }
+  .rec-date { font-size: 9.5px; opacity: .9; flex-shrink:0; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 5px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+  td:first-child { width: 45%; color: #555; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; background: #fafafa; }
+  td:last-child { font-weight: 500; font-size: 11px; }
+  .total { margin-top: 14px; padding: 8px 12px; background: #f0f4f8; border: 1px solid #ccd; border-radius: 4px; font-size: 10px; color: #444; display:flex; justify-content:space-between; }
+  .footer { margin-top: 18px; padding-top: 8px; border-top: 1px solid #ccc; font-size: 9px; color: #888; text-align:center; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo-block">
+    <div class="logo-title">⚖ CSN AUTOMAÇÃO</div>
+    <div class="logo-sub">RELATÓRIO DE CALIBRAÇÃO — BALANÇAS INTEGRADORAS PABR</div>
+  </div>
+  <div class="report-info">
+    Emitido em: ${dateStr} às ${timeStr}<br>
+    BAL-05 TM111 · BAL-06 TM111<br>
+    Total de registros: ${filtered.length}
+  </div>
+</div>
+<div class="filter-bar">
+  <strong>Filtros aplicados:</strong> ${filterDesc}
+</div>
+${rows}
+<div class="total">
+  <span>Total exportado: <strong>${filtered.length} registros</strong></span>
+  <span>Gerado por: CSN Automação · ${dateStr}</span>
+</div>
+<div class="footer">Documento gerado automaticamente pelo app CSN Automação · Automação CSN · PABR</div>
+</body>
+</html>`;
+
+  // Open in print window
+  const win = window.open('','_blank','width=800,height=900');
+  if(!win){ alert('Permita pop-ups para gerar o PDF.'); return; }
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>{ win.print(); }, 500);
 }
 
 // ══ INIT ══
