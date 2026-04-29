@@ -2,50 +2,21 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="CSN Automação">
 <meta name="theme-color" content="#1a6fd4">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<link rel="manifest" href="manifest.json?v=5">
+<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" type="image/png" href="icon-192.png">
-<title>CSN Automação v5</title>
-<script>
-// EXECUTADO ANTES DE QUALQUER COISA - Mata todos os Service Workers antigos
-(async function nukeSW() {
-  if (!('serviceWorker' in navigator)) return;
-  try {
-    // Desregistra TODOS os SWs registrados
-    const regs = await navigator.serviceWorker.getRegistrations();
-    for (const reg of regs) {
-      await reg.unregister();
-      console.log('[CSN] SW desregistrado:', reg.scope);
-    }
-    // Limpa TODOS os caches
-    const keys = await caches.keys();
-    for (const key of keys) {
-      await caches.delete(key);
-      console.log('[CSN] Cache apagado:', key);
-    }
-  } catch(e) { console.warn('[CSN] Erro ao limpar:', e); }
-})();
-</script>
+<link rel="icon" href="icon-192.png">
+<title>CSN Automação</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0a0e14;--panel:#111820;--border:#1e3a4a;
-  --accent:#00d4ff;--accent2:#ff6b00;
-  --green:#00ff88;--yellow:#ffd600;--purple:#bf7fff;
-  --red:#ff4466;--orange:#ff8800;
-  --dim:#3a5a6a;--text:#c8dce8;--label:#6a9ab0;
-  --csn:#1a6fd4;
-  --ge:#00aaff;--rock:#d4201a;--siem:#009999;
-}
+:root{--bg:#0a0e14;--panel:#111820;--border:#1e3a4a;--accent:#00d4ff;--a2:#ff6b00;--green:#00ff88;--yellow:#ffd600;--purple:#bf7fff;--red:#ff4466;--orange:#ff8800;--dim:#3a5a6a;--text:#c8dce8;--label:#6a9ab0;--csn:#1a6fd4;--ge:#00aaff;--rock:#d4201a;--siem:#009999;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:999;}
@@ -53,227 +24,194 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 /* NAV */
 .navbar{position:sticky;top:0;z-index:100;background:#0d1620;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
 .navbar::-webkit-scrollbar{display:none;}
-.nav-btn{flex:0 0 auto;padding:10px 13px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;}
-.nav-btn .ni{font-size:1rem;}
-.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.nb{flex:0 0 auto;padding:10px 12px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.nb .ni{font-size:.95rem;}
+.nb.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 /* PAGES */
-.page{display:none;padding:18px 14px 70px;max-width:660px;margin:0 auto;}
+.page{display:none;padding:16px 14px 70px;max-width:660px;margin:0 auto;}
 .page.active{display:block;}
 
-/* HEADER */
-.csn-svg{width:80px;height:80px;filter:drop-shadow(0 0 12px rgba(26,111,212,.7));}
-@keyframes gearSpin{to{transform:rotate(360deg);}}
-.gear-spin{transform-box:fill-box;transform-origin:center;animation:gearSpin 12s linear infinite;}
-.page-title{font-size:1.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:4px;}
-.page-title span{color:var(--accent);}
-.page-sub{font-size:.8rem;color:var(--label);letter-spacing:1px;}
-
-/* CARD */
-.card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
-.card-bar{position:absolute;top:0;left:0;right:0;height:2px;}
-
-/* SECTION */
-.sec{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+/* COMMON */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;}
+.cbar{position:absolute;top:0;left:0;right:0;height:2px;}
+.sec{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
 .sec::after{content:'';flex:1;height:1px;background:var(--border);}
+.ptitle{font-size:1.4rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:12px;}
+.ptitle span{color:var(--accent);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
 
-/* GRIDS */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-
-/* BUTTONS */
-.btn-sel{padding:9px 6px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;}
-.btn-sel .bs-icon{font-size:1.2rem;}
-.btn-sel:hover{border-color:var(--dim);color:var(--text);}
-.btn-sel.active{border-color:var(--accent);background:rgba(0,212,255,.09);color:var(--accent);}
-
-.btn-main{width:100%;padding:12px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .22s;position:relative;overflow:hidden;margin-top:4px;}
-.btn-main::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .22s;z-index:0;}
-.btn-main:hover::before{transform:translateX(0);}
-.btn-main:hover{color:#000;}
-.btn-main span{position:relative;z-index:1;}
-
-/* INPUTS */
-.inp-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
-.inp-group label{font-size:.73rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
-.inp-row{display:flex;}
-.inp-pfx{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--dim);padding:8px 10px;background:#0d1620;border:1px solid var(--border);border-right:none;border-radius:3px 0 0 3px;white-space:nowrap;display:flex;align-items:center;}
-input[type=number],input[type=text]{flex:1;min-width:0;background:#0d1620;border:1px solid var(--border);border-radius:0 3px 3px 0;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:1rem;padding:8px 10px;outline:none;-moz-appearance:textfield;width:100%;}
-input[type=text]{color:var(--text);}
+/* FORM */
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.fg label{font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
+.fr{display:flex;align-items:stretch;}
+.fp{font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--dim);padding:8px 9px;background:#0d1620;border:1px solid var(--border);border-right:none;border-radius:3px 0 0 3px;white-space:nowrap;display:flex;align-items:center;}
+input[type=number],input[type=text],input[type=date],input[type=time]{flex:1;min-width:0;background:#0d1620;border:1px solid var(--border);border-radius:0 3px 3px 0;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.95rem;padding:8px 10px;outline:none;-moz-appearance:textfield;width:100%;}
+input[type=text],input[type=date],input[type=time]{color:var(--text);}
 input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;}
 input:focus{border-color:var(--accent);}
+select{width:100%;background:#0d1620;border:1px solid var(--border);border-radius:3px;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.9rem;padding:8px 10px;outline:none;cursor:pointer;-webkit-appearance:none;}
+select:focus{border-color:var(--accent);}
 
-/* TOGGLE ROW */
-.toggle-row{display:flex;margin-bottom:14px;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
-.toggle-btn{flex:1;padding:8px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;}
-.toggle-btn.active{background:var(--accent);color:#000;}
+/* BUTTONS */
+.bmain{width:100%;padding:11px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .2s;position:relative;overflow:hidden;margin-top:4px;}
+.bmain::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .2s;z-index:0;}
+.bmain:hover::before{transform:translateX(0);}
+.bmain:hover{color:#000;}
+.bmain span{position:relative;z-index:1;}
+.bsel{padding:8px 5px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;}
+.bsel .bsi{font-size:1.1rem;}
+.bsel.active{border-color:var(--accent);background:rgba(0,212,255,.09);color:var(--accent);}
+.tog-row{display:flex;margin-bottom:12px;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.tog-btn{flex:1;padding:8px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;}
+.tog-btn.active{background:var(--accent);color:#000;}
 
-/* LOCAL/REMOTA TOGGLE */
-.lr-row{display:flex;gap:8px;margin-bottom:16px;}
-.lr-btn{flex:1;padding:12px 8px;background:#0d1620;border:2px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.lr-btn .lr-icon{font-size:1.4rem;}
-.lr-btn .lr-sub{font-family:'Share Tech Mono',monospace;font-size:.6rem;opacity:.5;}
+/* RESULTS */
+.rp{margin-top:12px;display:none;}
+.rp.visible{display:block;}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ri{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;transition:border-color .3s,background .3s;}
+.ri.hl,.ri.fw{grid-column:1/-1;}
+.rl{font-size:.65rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.rv{font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--text);word-break:break-all;}
+.ri.hl .rv{font-size:1.15rem;}
+.ch-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:8px;}
+.ch-cell{border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:.5rem;color:var(--dim);transition:all .2s;}
+.irow{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:.68rem;color:var(--dim);font-family:'Share Tech Mono',monospace;text-align:center;letter-spacing:1px;}
+.errmsg{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--a2);padding:7px 10px;border:1px solid rgba(255,107,0,.3);border-radius:3px;margin-top:8px;display:none;}
+.errmsg.visible{display:block;}
+
+/* CLP */
+.lr-row{display:flex;gap:8px;margin-bottom:14px;}
+.lr-btn{flex:1;padding:11px 6px;background:#0d1620;border:2px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.lr-btn .lr-icon{font-size:1.3rem;}
+.lr-btn .lr-sub{font-family:'Share Tech Mono',monospace;font-size:.58rem;opacity:.5;}
 .lr-btn.active-local{border-color:var(--accent);background:rgba(0,212,255,.08);color:var(--accent);}
 .lr-btn.active-remote{border-color:var(--orange);background:rgba(255,136,0,.08);color:var(--orange);}
-
-/* REMOTE CONFIG BOX */
-.remote-cfg{background:#0d1620;border:1px solid var(--orange);border-radius:4px;padding:14px;margin-bottom:14px;display:none;}
+.remote-cfg{background:#0d1620;border:1px solid var(--orange);border-radius:4px;padding:12px;margin-bottom:12px;display:none;}
 .remote-cfg.show{display:block;}
-.remote-cfg-title{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.remote-cfg-title::after{content:'';flex:1;height:1px;background:rgba(255,136,0,.3);}
-.addr-preview{background:#060a0f;border:1px solid var(--border);border-radius:3px;padding:10px 14px;margin-top:10px;display:flex;align-items:center;gap:10px;}
-.addr-preview .ap-label{font-size:.68rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;flex-shrink:0;}
-.addr-preview .ap-val{font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--orange);}
-
-/* MFR GRID */
-.mfr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
-.mfr-btn{padding:10px 5px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .18s;}
-.mfr-btn .ml{font-size:1.3rem;}
-.mfr-btn .mn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.5px;text-transform:uppercase;text-align:center;line-height:1.2;}
-.mfr-btn .mm{font-family:'Share Tech Mono',monospace;font-size:.58rem;opacity:.5;text-align:center;}
-.mfr-btn:hover{border-color:var(--dim);color:var(--text);}
+.mfr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.mfr-btn{padding:9px 4px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .18s;}
+.mfr-btn .ml{font-size:1.2rem;}
+.mfr-btn .mn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;text-align:center;text-transform:uppercase;}
+.mfr-btn .mm{font-family:'Share Tech Mono',monospace;font-size:.56rem;opacity:.5;text-align:center;}
 .mfr-btn.active-GE{border-color:var(--ge);background:rgba(0,170,255,.09);color:var(--ge);}
 .mfr-btn.active-ROCK{border-color:var(--rock);background:rgba(212,32,26,.09);color:var(--rock);}
 .mfr-btn.active-SIEM{border-color:var(--siem);background:rgba(0,153,153,.09);color:var(--siem);}
-
-/* TYPE GRID */
-.type-grid{display:grid;gap:6px;margin-bottom:14px;}
-.type-btn{padding:9px 10px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;gap:8px;}
-.type-btn .ti{font-size:1rem;flex-shrink:0;}
+.type-grid{display:grid;gap:6px;margin-bottom:12px;}
+.type-btn{padding:8px 10px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;gap:8px;}
+.type-btn .ti{font-size:.95rem;flex-shrink:0;}
 .type-btn .tinfo{display:flex;flex-direction:column;gap:1px;}
-.type-btn .ttag{font-family:'Share Tech Mono',monospace;font-size:.6rem;opacity:.5;font-weight:400;}
+.type-btn .ttag{font-family:'Share Tech Mono',monospace;font-size:.58rem;opacity:.5;font-weight:400;}
+.clp-pfx{font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--dim);padding:8px 8px;background:#0d1620;border:1px solid var(--border);border-right:none;border-radius:3px 0 0 3px;white-space:nowrap;display:flex;align-items:center;}
 
-/* RESULT */
-.result-panel{margin-top:14px;display:none;}
-.result-panel.visible{display:block;}
-.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.ri{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;transition:border-color .3s,background .3s;}
-.ri.hl{grid-column:1/-1;}
-.ri.fw{grid-column:1/-1;}
-.rl{font-size:.67rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
-.rv{font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:var(--text);word-break:break-all;}
-.ri.hl .rv{font-size:1.2rem;}
-.rsub{font-size:.68rem;color:var(--dim);margin-top:2px;}
-
-/* CHANNEL DIAGRAM */
-.ch-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:10px;}
-.ch-cell{border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:.52rem;color:var(--dim);transition:all .2s;}
-.info-row{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:.7rem;color:var(--dim);font-family:'Share Tech Mono',monospace;text-align:center;letter-spacing:1px;}
-
-/* ERR */
-.err{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--accent2);padding:8px 12px;border:1px solid rgba(255,107,0,.3);border-radius:3px;margin-top:10px;display:none;}
-.err.visible{display:block;}
-
-/* GATE */
+/* GATES */
+.gate-svg{display:flex;justify-content:center;margin:8px 0;}
 .bit-toggle{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;}
-.bit-btn{width:48px;height:48px;border-radius:4px;border:2px solid var(--border);background:#0d1620;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.8rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all .18s;flex-shrink:0;}
-.bit-btn .bl{font-size:.55rem;opacity:.7;}
+.bit-btn{width:46px;height:46px;border-radius:4px;border:2px solid var(--border);background:#0d1620;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.78rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:all .18s;flex-shrink:0;}
+.bit-btn .bl{font-size:.52rem;opacity:.7;}
 .bit-btn.on{border-color:var(--green);background:rgba(0,255,136,.12);color:var(--green);}
-.res-box{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-top:10px;}
+.res-box{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-top:8px;}
 .res-box.ok{border-color:var(--green);}
 .res-box.off{border-color:var(--red);}
-.res-label{font-size:.68rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
-.res-val{font-family:'Share Tech Mono',monospace;font-size:1.6rem;font-weight:700;}
-.res-val.green{color:var(--green);}
-.res-val.red{color:var(--red);}
-.res-sub{font-size:.7rem;color:var(--dim);margin-top:3px;}
-.gate-svg-wrap{display:flex;justify-content:center;margin:10px 0;}
-
-/* TRUTH TABLE */
-.tt{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:.78rem;margin-top:8px;}
-.tt th{background:#0d1620;color:var(--accent);padding:6px 8px;text-align:center;border:1px solid var(--border);font-size:.68rem;letter-spacing:1px;}
-.tt td{padding:5px 8px;text-align:center;border:1px solid var(--border);color:var(--text);}
+.rlbl{font-size:.65rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.rval{font-family:'Share Tech Mono',monospace;font-size:1.5rem;font-weight:700;}
+.rval.grn{color:var(--green);}
+.rval.red{color:var(--red);}
+.rsub{font-size:.68rem;color:var(--dim);margin-top:2px;}
+.tt{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:.75rem;margin-top:6px;}
+.tt th{background:#0d1620;color:var(--accent);padding:5px 7px;text-align:center;border:1px solid var(--border);font-size:.66rem;letter-spacing:1px;}
+.tt td{padding:4px 7px;text-align:center;border:1px solid var(--border);color:var(--text);}
 .tt tr.hrow td{background:rgba(0,212,255,.07);color:var(--accent);}
 .tt .v1{color:var(--green);}
 .tt .v0{color:var(--red);}
+.tip-box{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.18);border-radius:3px;padding:9px 11px;margin-top:7px;font-size:.75rem;color:var(--text);line-height:1.6;}
+.tip-ttl{color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.warn-box{background:rgba(255,136,0,.04);border:1px solid rgba(255,136,0,.22);border-radius:3px;padding:9px 11px;margin-top:7px;font-size:.75rem;color:var(--text);line-height:1.6;}
+.warn-ttl{color:var(--orange);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
 
 /* RJ45 */
 .pin-row{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
-.pin{width:36px;padding:6px 2px;border-radius:3px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Share Tech Mono',monospace;font-size:.6rem;text-align:center;}
-.pin .pn{font-size:.7rem;font-weight:700;color:#fff;}
-.pin .pname{font-size:.5rem;color:rgba(255,255,255,.65);line-height:1.1;}
+.pin{width:34px;padding:5px 2px;border-radius:3px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Share Tech Mono',monospace;font-size:.58rem;text-align:center;}
+.pin .pn{font-size:.68rem;font-weight:700;color:#fff;}
+.pin .pname{font-size:.48rem;color:rgba(255,255,255,.65);line-height:1.1;}
 .wOW{background:#8b5500;border-color:#cc7700;}.wO{background:#7a4000;border-color:#ff8800;}
 .wGW{background:#1a5c1a;border-color:#22aa22;}.wG{background:#155015;border-color:#22cc22;}
 .wBL{background:#003380;border-color:#0055cc;}.wBLW{background:#1a4d99;border-color:#3388ff;}
 .wBR{background:#5c2e00;border-color:#8b4513;}.wBRW{background:#7a3d00;border-color:#cd853f;}
+.pt{width:100%;border-collapse:collapse;font-size:.73rem;margin-top:5px;}
+.pt th{background:#0d1620;color:var(--yellow);padding:5px 6px;text-align:left;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:1px;}
+.pt td{padding:4px 7px;border:1px solid var(--border);color:var(--text);font-size:.72rem;}
+.pt tr:nth-child(even) td{background:rgba(255,255,255,.02);}
 
 /* FIBER */
-.fiber-card{background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px;}
-.fiber-card.sm{border-left-color:var(--yellow);}
-.fiber-card.mm{border-left-color:var(--orange);}
-.ft{width:100%;border-collapse:collapse;font-size:.75rem;}
-.ft td{padding:5px 8px;border:1px solid var(--border);vertical-align:top;}
-.ft td:first-child{color:var(--label);font-size:.68rem;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;width:38%;}
+.fcard{background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--border);border-radius:4px;padding:12px;margin-bottom:10px;}
+.fcard.sm{border-left-color:var(--yellow);}
+.fcard.mm{border-left-color:var(--orange);}
+.ft{width:100%;border-collapse:collapse;font-size:.72rem;}
+.ft td{padding:4px 7px;border:1px solid var(--border);vertical-align:top;}
+.ft td:first-child{color:var(--label);font-size:.66rem;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;width:38%;}
 .ft td:last-child{color:var(--text);font-family:'Share Tech Mono',monospace;}
 .ft tr:nth-child(even) td{background:rgba(255,255,255,.02);}
-.tip-box{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.18);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.77rem;color:var(--text);line-height:1.6;}
-.tip-title{color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.67rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
-.warn-box{background:rgba(255,136,0,.04);border:1px solid rgba(255,136,0,.22);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.77rem;color:var(--text);line-height:1.6;}
-.warn-title{color:var(--orange);font-family:'Share Tech Mono',monospace;font-size:.67rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
-.pt{width:100%;border-collapse:collapse;font-size:.75rem;margin-top:6px;}
-.pt th{background:#0d1620;color:var(--yellow);padding:5px 7px;text-align:left;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:1px;}
-.pt td{padding:5px 8px;border:1px solid var(--border);color:var(--text);font-size:.75rem;}
-.pt tr:nth-child(even) td{background:rgba(255,255,255,.02);}
-.chip-row{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0;}
-.chip{padding:3px 9px;border-radius:2px;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.65rem;background:#0d1620;}
+.chip-row{display:flex;gap:5px;flex-wrap:wrap;margin:5px 0;}
+.chip{padding:2px 8px;border-radius:2px;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.62rem;background:#0d1620;}
 .chip.y{border-color:var(--yellow);color:var(--yellow);}
 .chip.o{border-color:var(--orange);color:var(--orange);}
 .chip.b{border-color:var(--accent);color:var(--accent);}
 
-/* INSTALL BANNER */
-.install-banner{position:fixed;bottom:0;left:0;right:0;background:#111820;border-top:2px solid var(--csn);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:1000;transform:translateY(100%);transition:transform .35s;box-shadow:0 -4px 20px rgba(26,111,212,.3);}
+/* ══ BALANÇAS ══ */
+.btabs{display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:14px;}
+.btab{flex:1;padding:10px 3px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;transition:all .2s;text-align:center;border-right:1px solid var(--border);}
+.btab:last-child{border-right:none;}
+.btab.active{background:var(--green);color:#000;}
+.bsub{display:none;}
+.bsub.active{display:block;}
+.chk-row{display:flex;align-items:center;gap:10px;padding:10px 13px;background:#0d1620;border:1px solid var(--border);border-radius:3px;cursor:pointer;margin-bottom:8px;user-select:none;}
+.chk-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
+.chk-row span{font-size:.82rem;color:var(--text);}
+.ecok{color:var(--green);font-weight:700;}
+.ecwarn{color:var(--yellow);font-weight:700;}
+.ecerr{color:var(--red);font-weight:700;}
+.bc{margin-top:10px;}
+.bwrap{margin-bottom:8px;}
+.blbl{font-size:.68rem;color:var(--label);font-family:'Share Tech Mono',monospace;margin-bottom:3px;display:flex;justify-content:space-between;}
+.btrack{background:#0d1620;border-radius:3px;height:26px;position:relative;border:1px solid var(--border);overflow:hidden;}
+.bfill{height:100%;border-radius:2px;transition:width .5s ease;display:flex;align-items:center;padding-left:7px;}
+.bfill span{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:#000;font-weight:700;white-space:nowrap;}
+.cf-res{background:#060a0f;border:1px solid var(--green);border-radius:4px;padding:12px;margin-top:10px;}
+.cf-row2{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.cf-lbl{font-size:.68rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
+.cf-val{font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--green);}
+.cf-formula{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--dim);margin:8px 0;padding:8px;background:#0d1620;border-radius:3px;line-height:1.7;white-space:pre-line;}
+.cf-alrt{padding:7px 10px;border-radius:3px;margin-top:8px;font-size:.78rem;font-weight:700;}
+.cf-alrt.ok{background:rgba(0,255,136,.08);border:1px solid var(--green);color:var(--green);}
+.cf-alrt.bad{background:rgba(255,68,102,.1);border:1px solid var(--red);color:var(--red);}
+.hi{background:#0d1620;border:1px solid var(--border);border-radius:4px;padding:11px;margin-bottom:8px;position:relative;}
+.hi-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap;gap:4px;}
+.hi-tag{font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--accent);font-weight:700;}
+.hi-date{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--dim);}
+.hi-type{font-size:.62rem;padding:2px 6px;border-radius:2px;border:1px solid;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.hi-type.zero{border-color:#00d4ff;color:#00d4ff;}
+.hi-type.span{border-color:#ffd600;color:#ffd600;}
+.hi-type.cf{border-color:#00ff88;color:#00ff88;}
+.hi-body{font-size:.73rem;color:var(--text);line-height:1.7;}
+.hi-alrt{margin-top:5px;padding:4px 8px;background:rgba(255,68,102,.1);border:1px solid rgba(255,68,102,.3);border-radius:3px;font-size:.7rem;color:var(--red);}
+.hdel{position:absolute;top:9px;right:9px;background:transparent;border:none;color:var(--dim);cursor:pointer;font-size:.95rem;padding:2px 5px;}
+.hdel:hover{color:var(--red);}
+.no-hist{text-align:center;padding:28px;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.78rem;}
+.success-msg{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--green);padding:7px 10px;border:1px solid rgba(0,255,136,.3);border-radius:3px;margin-top:8px;display:none;}
+.success-msg.visible{display:block;}
+
+/* INSTALL */
+.install-banner{position:fixed;bottom:0;left:0;right:0;background:#111820;border-top:2px solid var(--csn);padding:11px 15px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:1000;transform:translateY(100%);transition:transform .35s;}
 .install-banner.show{transform:translateY(0);}
-.install-banner p{font-size:.8rem;color:var(--text);flex:1;}
+.install-banner p{font-size:.78rem;color:var(--text);flex:1;}
 .install-banner p strong{color:#5aaaff;}
-.ibtn{padding:7px 14px;background:var(--csn);color:#fff;border:none;border-radius:3px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;}
-.dbtn{background:transparent;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:4px 8px;}
-
-@media(max-width:400px){
-  .result-grid{grid-template-columns:1fr;}
-  .ri.hl,.ri.fw{grid-column:1;}
-}
-
-/* ══ BALANÇA ══ */
-.bal-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:4px;overflow:hidden;}
-.bal-tab{flex:1;padding:9px 4px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;transition:all .2s;text-align:center;}
-.bal-tab.active{background:var(--green);color:#000;}
-.bal-sub{display:none;}.bal-sub.active{display:block;}
-select{width:100%;background:#0d1620;border:1px solid var(--border);border-radius:3px;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.95rem;padding:9px 10px;outline:none;cursor:pointer;-webkit-appearance:none;}
-select:focus{border-color:var(--accent);}
-.toggle-check{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0d1620;border:1px solid var(--border);border-radius:3px;cursor:pointer;margin-bottom:8px;}
-.toggle-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
-.toggle-check span{font-size:.82rem;color:var(--text);}
-.err-pct{color:var(--red);font-weight:700;}
-.ok-pct{color:var(--green);font-weight:700;}
-.warn-pct{color:var(--yellow);font-weight:700;}
-.hist-item{background:#0d1620;border:1px solid var(--border);border-radius:4px;padding:12px;margin-bottom:8px;position:relative;}
-.hist-item .hi-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
-.hist-item .hi-tag{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--accent);font-weight:700;}
-.hist-item .hi-date{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--dim);}
-.hist-item .hi-type{font-size:.65rem;padding:2px 7px;border-radius:2px;border:1px solid;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
-.hist-item .hi-type.zero{border-color:#00d4ff;color:#00d4ff;}
-.hist-item .hi-type.span{border-color:#ffd600;color:#ffd600;}
-.hist-item .hi-body{font-size:.75rem;color:var(--text);line-height:1.6;}
-.hist-item .hi-alert{margin-top:6px;padding:5px 8px;background:rgba(255,68,102,.1);border:1px solid rgba(255,68,102,.3);border-radius:3px;font-size:.72rem;color:var(--red);}
-.hist-del{position:absolute;top:10px;right:10px;background:transparent;border:none;color:var(--dim);cursor:pointer;font-size:1rem;padding:2px 6px;}
-.hist-del:hover{color:var(--red);}
-.cf-result{background:#060a0f;border:1px solid var(--green);border-radius:4px;padding:14px;margin-top:12px;}
-.cf-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.cf-label{font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
-.cf-val{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--green);}
-.cf-formula{font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--dim);margin:8px 0;padding:8px;background:#0d1620;border-radius:3px;line-height:1.6;}
-.cf-alert{padding:8px 12px;border-radius:3px;margin-top:8px;font-size:.8rem;font-weight:700;}
-.cf-alert.ok{background:rgba(0,255,136,.08);border:1px solid var(--green);color:var(--green);}
-.cf-alert.warn{background:rgba(255,68,102,.1);border:1px solid var(--red);color:var(--red);}
-.bar-chart{margin-top:12px;}
-.bar-wrap{margin-bottom:10px;}
-.bar-label{font-size:.72rem;color:var(--label);font-family:'Share Tech Mono',monospace;margin-bottom:3px;display:flex;justify-content:space-between;}
-.bar-track{background:#0d1620;border-radius:3px;height:28px;position:relative;border:1px solid var(--border);overflow:hidden;}
-.bar-fill{height:100%;border-radius:2px;transition:width .6s ease;display:flex;align-items:center;padding-left:8px;}
-.bar-fill span{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#000;font-weight:700;white-space:nowrap;}
-.bar-ref{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,214,0,.7);}
-.no-hist{text-align:center;padding:30px;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.8rem;}
+.ibtn{padding:7px 13px;background:var(--csn);color:#fff;border:none;border-radius:3px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;}
+.dbtn{background:transparent;border:none;color:var(--dim);font-size:1.1rem;cursor:pointer;padding:4px 7px;}
+@media(max-width:400px){.rg{grid-template-columns:1fr;}.ri.hl,.ri.fw{grid-column:1;}}
 </style>
 </head>
 <body>
@@ -285,839 +223,676 @@ select:focus{border-color:var(--accent);}
 </div>
 
 <nav class="navbar">
-  <button class="nav-btn active" onclick="goPage('home')" id="nav-home"><span class="ni">🏠</span>Home</button>
-  <button class="nav-btn" onclick="goPage('clp')"   id="nav-clp"  ><span class="ni">⚙️</span>CLP I/O</button>
-  <button class="nav-btn" onclick="goPage('gates')" id="nav-gates"><span class="ni">🔲</span>Portas</button>
-  <button class="nav-btn" onclick="goPage('rj45')"  id="nav-rj45" ><span class="ni">🔌</span>RJ45</button>
-  <button class="nav-btn" onclick="goPage('fiber')"   id="nav-fiber"  ><span class="ni">💡</span>Fibra</button>
-  <button class="nav-btn" onclick="goPage('balanca')" id="nav-balanca"><span class="ni">⚖️</span>Balanças</button>
+  <button class="nb active" onclick="goPage('home')"   id="nav-home"   ><span class="ni">🏠</span>Home</button>
+  <button class="nb"        onclick="goPage('clp')"    id="nav-clp"    ><span class="ni">⚙️</span>CLP</button>
+  <button class="nb"        onclick="goPage('gates')"  id="nav-gates"  ><span class="ni">🔲</span>Portas</button>
+  <button class="nb"        onclick="goPage('rj45')"   id="nav-rj45"   ><span class="ni">🔌</span>RJ45</button>
+  <button class="nb"        onclick="goPage('fiber')"  id="nav-fiber"  ><span class="ni">💡</span>Fibra</button>
+  <button class="nb"        onclick="goPage('balanca')" id="nav-balanca"><span class="ni">⚖️</span>Balanças</button>
 </nav>
 
-<!-- ══════ HOME ══════ -->
+<!-- HOME -->
 <div class="page active" id="page-home">
-  <div style="text-align:center;margin-bottom:20px;">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:12px;">
-      <svg class="csn-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#c8dfff"/><stop offset="100%" stop-color="#1a6fd4"/></linearGradient>
-          <linearGradient id="aG" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0a3a8a"/><stop offset="100%" stop-color="#3a8fff"/></linearGradient>
-          <linearGradient id="arG" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1a6fd4"/><stop offset="100%" stop-color="#0a2860"/></linearGradient>
-          <filter id="gl"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <g class="gear-spin">
-          <path fill="url(#gG)" d="M50,14 L53,10 L56,15 L62,13 L63,19 L69,19 L68,25 L74,27 L72,33 L77,37 L73,42 L77,47 L72,50 L74,56 L68,57 L68,63 L62,63 L61,69 L55,67 L52,73 L47,70 L43,75 L39,71 L33,73 L32,67 L26,66 L26,60 L20,58 L22,52 L17,48 L21,43 L17,38 L22,35 L20,29 L26,28 L26,22 L32,22 L33,16 L39,17 L42,11 L47,14 Z"/>
-          <circle cx="50" cy="48" r="17" fill="#090f1a"/>
-          <circle cx="50" cy="48" r="15" fill="none" stroke="url(#gG)" stroke-width="1.5"/>
-          <path fill="url(#arG)" d="M33,73 Q30,88 50,93 Q70,88 67,73 L61,69 Q60,80 50,83 Q40,80 39,69 Z"/>
-          <circle cx="50" cy="48" r="6" fill="url(#gG)"/><circle cx="50" cy="48" r="3" fill="#090f1a"/>
-        </g>
-        <g filter="url(#gl)">
-          <circle cx="50" cy="60" r="5.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
-          <rect x="48" y="42" width="5" height="20" rx="2.5" fill="url(#aG)" transform="rotate(-20 50 60)"/>
-          <circle cx="43" cy="50" r="4.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
-          <rect x="41" y="30" width="5" height="22" rx="2.5" fill="url(#aG)" transform="rotate(15 43 50)"/>
-          <circle cx="49" cy="32" r="4" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
-          <line x1="47" y1="28" x2="42" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
-          <line x1="52" y1="28" x2="58" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="41" cy="21" r="2.8" fill="#5aaaff"/><circle cx="59" cy="21" r="2.8" fill="#5aaaff"/>
-        </g>
-      </svg>
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:5px;text-transform:uppercase;color:#e0eeff;">Automação</div>
-      <div style="width:44px;height:2px;background:linear-gradient(90deg,transparent,#1a6fd4,transparent);"></div>
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:8px;text-transform:uppercase;color:#1a6fd4;text-shadow:0 0 16px rgba(26,111,212,.5);">CSN</div>
-    </div>
-    <div class="page-title">Ferramentas de <span>Automação</span></div>
-    <p class="page-sub">CLP · Portas Lógicas · Redes · Fibra Óptica</p>
+  <div style="text-align:center;margin-bottom:18px;">
+    <svg style="width:80px;height:80px;filter:drop-shadow(0 0 12px rgba(26,111,212,.7));" viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#c8dfff"/><stop offset="100%" stop-color="#1a6fd4"/></linearGradient>
+        <linearGradient id="aG" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0a3a8a"/><stop offset="100%" stop-color="#3a8fff"/></linearGradient>
+        <linearGradient id="arG" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1a6fd4"/><stop offset="100%" stop-color="#0a2860"/></linearGradient>
+        <filter id="gl"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g style="transform-box:fill-box;transform-origin:center;animation:gearSpin 12s linear infinite;">
+        <path fill="url(#gG)" d="M50,14 L53,10 L56,15 L62,13 L63,19 L69,19 L68,25 L74,27 L72,33 L77,37 L73,42 L77,47 L72,50 L74,56 L68,57 L68,63 L62,63 L61,69 L55,67 L52,73 L47,70 L43,75 L39,71 L33,73 L32,67 L26,66 L26,60 L20,58 L22,52 L17,48 L21,43 L17,38 L22,35 L20,29 L26,28 L26,22 L32,22 L33,16 L39,17 L42,11 L47,14 Z"/>
+        <circle cx="50" cy="48" r="17" fill="#090f1a"/>
+        <circle cx="50" cy="48" r="15" fill="none" stroke="url(#gG)" stroke-width="1.5"/>
+        <path fill="url(#arG)" d="M33,73 Q30,88 50,93 Q70,88 67,73 L61,69 Q60,80 50,83 Q40,80 39,69 Z"/>
+        <circle cx="50" cy="48" r="6" fill="url(#gG)"/><circle cx="50" cy="48" r="3" fill="#090f1a"/>
+      </g>
+      <g filter="url(#gl)">
+        <circle cx="50" cy="60" r="5.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
+        <rect x="48" y="42" width="5" height="20" rx="2.5" fill="url(#aG)" transform="rotate(-20 50 60)"/>
+        <circle cx="43" cy="50" r="4.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
+        <rect x="41" y="30" width="5" height="22" rx="2.5" fill="url(#aG)" transform="rotate(15 43 50)"/>
+        <circle cx="49" cy="32" r="4" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
+        <line x1="47" y1="28" x2="42" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
+        <line x1="52" y1="28" x2="58" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="41" cy="21" r="2.8" fill="#5aaaff"/><circle cx="59" cy="21" r="2.8" fill="#5aaaff"/>
+      </g>
+    </svg>
+    <style>@keyframes gearSpin{to{transform:rotate(360deg);}}</style>
+    <div style="font-weight:700;font-size:.85rem;letter-spacing:5px;text-transform:uppercase;color:#e0eeff;margin-top:6px;">Automação</div>
+    <div style="width:40px;height:2px;background:linear-gradient(90deg,transparent,#1a6fd4,transparent);margin:3px auto;"></div>
+    <div style="font-weight:700;font-size:1.4rem;letter-spacing:8px;text-transform:uppercase;color:#1a6fd4;text-shadow:0 0 16px rgba(26,111,212,.5);">CSN</div>
   </div>
-  <div class="grid2">
-    <div class="card" style="cursor:pointer" onclick="goPage('clp')">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00aaff,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:6px;">⚙️</div>
-      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">CLP I/O</div>
-      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">GE · Rockwell · Siemens<br>Local · Remota</div>
-    </div>
-    <div class="card" style="cursor:pointer" onclick="goPage('gates')">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:6px;">🔲</div>
-      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Portas</div>
-      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">AND OR NOT XOR<br>NAND NOR XNOR BUF</div>
-    </div>
-    <div class="card" style="cursor:pointer" onclick="goPage('rj45')">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:6px;">🔌</div>
-      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">RJ45</div>
-      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">T568A · T568B<br>Crossover · PoE</div>
-    </div>
-    <div class="card" style="cursor:pointer" onclick="goPage('fiber')">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:6px;">💡</div>
-      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Fibra Óptica</div>
-      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">SM · MM · Conectores<br>Cálculo de link</div>
-    </div>
-    <div class="card" style="cursor:pointer;grid-column:1/-1;" onclick="goPage('balanca')">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
-      <div style="font-size:2rem;margin-bottom:6px;">⚖️</div>
-      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Balanças Integradoras</div>
-      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">PABR · BAL-05 · BAL-06 · Calibração Zero/Span · Correção de Massa · Histórico</div>
-    </div>
+  <div class="ptitle" style="text-align:center;">Ferramentas de <span>Automação</span></div>
+  <div style="text-align:center;font-size:.78rem;color:var(--label);margin-bottom:16px;">CLP · Portas Lógicas · Redes · Fibra · Balanças</div>
+  <div class="g2">
+    <div class="card" style="cursor:pointer" onclick="goPage('clp')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00aaff,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">⚙️</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">CLP I/O</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">GE · Rockwell · Siemens<br>Local · Remota</div></div>
+    <div class="card" style="cursor:pointer" onclick="goPage('gates')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">🔲</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Portas</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">AND OR NOT XOR<br>NAND NOR XNOR BUF</div></div>
+    <div class="card" style="cursor:pointer" onclick="goPage('rj45')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">🔌</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">RJ45</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">T568A · T568B<br>Crossover · PoE</div></div>
+    <div class="card" style="cursor:pointer" onclick="goPage('fiber')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">💡</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Fibra</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">SM · MM · Conectores<br>Cálculo de link</div></div>
+    <div class="card" style="cursor:pointer;grid-column:1/-1;" onclick="goPage('balanca')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">⚖️</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Balanças Integradoras</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">PABR · BAL-05 TM111 · BAL-06 TM111 · Calibração Zero/Span · Correção de Massa · Histórico</div></div>
   </div>
 </div>
 
-<!-- ══════ CLP I/O ══════ -->
+<!-- CLP -->
 <div class="page" id="page-clp">
-  <div class="page-title" style="margin-bottom:14px;">⚙️ Calculadora <span>CLP I/O</span></div>
-
+  <div class="ptitle">⚙️ Calculadora <span>CLP I/O</span></div>
   <div class="card" id="clp-card">
-    <div class="card-bar" id="clp-bar"></div>
-
-    <!-- STEP 1: Local ou Remota -->
-    <div class="sec">1 · Tipo de Instalação</div>
+    <div class="cbar" id="clp-bar"></div>
+    <div class="sec">1 · Instalação</div>
     <div class="lr-row">
-      <button class="lr-btn" id="lr-local" onclick="setLR('local')">
-        <span class="lr-icon">🏭</span>
-        <span>CLP Local</span>
-        <span class="lr-sub">Endereço inicia em 1</span>
-      </button>
-      <button class="lr-btn" id="lr-remote" onclick="setLR('remote')">
-        <span class="lr-icon">📡</span>
-        <span>Remota de Campo</span>
-        <span class="lr-sub">Endereço inicial variável</span>
-      </button>
+      <button class="lr-btn" id="lr-local"  onclick="setLR('local')" ><span class="lr-icon">🏭</span><span>CLP Local</span><span class="lr-sub">Início em %X0001</span></button>
+      <button class="lr-btn" id="lr-remote" onclick="setLR('remote')"><span class="lr-icon">📡</span><span>Remota de Campo</span><span class="lr-sub">Endereço variável</span></button>
     </div>
-
-    <!-- Remote config box -->
     <div class="remote-cfg" id="remote-cfg">
-      <div class="remote-cfg-title">⚠ Configuração da Remota</div>
-      <div class="inp-group" style="margin-bottom:8px;">
-        <label>Endereço inicial da remota</label>
-        <div class="inp-row">
-          <span class="inp-pfx">%I / %Q / %AI</span>
-          <input type="number" id="remote-start" placeholder="2313" min="1" max="99999"
-                 oninput="updateRemotePreview()">
-        </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">⚠ Endereço Inicial da Remota</div>
+      <div class="fg"><label>Endereço inicial (ex: 2313)</label>
+        <div class="fr"><span class="fp">%I/%Q/%AI</span><input type="number" id="remote-start" placeholder="2313" min="1" max="99999" oninput="updateRemotePreview()"></div>
       </div>
-      <div class="addr-preview" id="remote-preview" style="display:none;">
-        <span class="ap-label">Faixa ED:</span>
-        <span class="ap-val" id="remote-preview-val">—</span>
-      </div>
-      <div class="tip-box" style="margin-top:8px;font-size:.73rem;">
-        <div class="tip-title">ℹ️ Como funciona</div>
-        O endereço que você digitar será o <strong>offset base</strong> para todos os sinais da remota.
-        Ex: início em <strong>2313</strong> → Cartão ED01 BIT 01 = <strong>%I2313</strong>
+      <div id="remote-preview" style="display:none;background:#060a0f;border:1px solid var(--border);border-radius:3px;padding:8px 12px;margin-top:6px;">
+        <span style="font-size:.65rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;">Faixa ED01: </span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:.88rem;color:var(--orange);" id="remote-preview-val">—</span>
       </div>
     </div>
-
-    <!-- STEP 2: Fabricante -->
-    <div class="sec" id="clp-step2" style="display:none;">2 · Fabricante</div>
-    <div class="mfr-grid" id="clp-mfr-grid" style="display:none;">
+    <div class="sec" id="clp-s2" style="display:none;">2 · Fabricante</div>
+    <div class="mfr-grid" id="clp-mfr" style="display:none;">
       <button class="mfr-btn" id="mfr-GE"   onclick="setMfr('GE')"  ><span class="ml">⚡</span><span class="mn">GE Emerson</span><span class="mm">PACSystems</span></button>
       <button class="mfr-btn" id="mfr-ROCK" onclick="setMfr('ROCK')" ><span class="ml">🔴</span><span class="mn">Rockwell</span><span class="mm">ControlLogix</span></button>
       <button class="mfr-btn" id="mfr-SIEM" onclick="setMfr('SIEM')" ><span class="ml">🟦</span><span class="mn">Siemens</span><span class="mm">S7-400</span></button>
     </div>
-
-    <!-- STEP 3: Tipo de Sinal -->
-    <div class="sec" id="clp-step3" style="display:none;">3 · Tipo de Sinal</div>
-    <div class="type-grid" id="clp-type-grid" style="display:none;"></div>
-
-    <!-- STEP 4: Direção -->
-    <div class="sec" id="clp-step4" style="display:none;">4 · Direção do Cálculo</div>
-    <div class="toggle-row" id="clp-dir-row" style="display:none;">
-      <button class="toggle-btn active" id="clp-btn-addr" onclick="setClpDir('addr')">Endereço → Local</button>
-      <button class="toggle-btn"        id="clp-btn-slot" onclick="setClpDir('slot')">Local → Endereço</button>
+    <div class="sec" id="clp-s3" style="display:none;">3 · Tipo de Sinal</div>
+    <div class="type-grid" id="clp-type" style="display:none;"></div>
+    <div class="sec" id="clp-s4" style="display:none;">4 · Direção</div>
+    <div class="tog-row" id="clp-dir" style="display:none;">
+      <button class="tog-btn active" id="clp-ba" onclick="setClpDir('addr')">Endereço → Local</button>
+      <button class="tog-btn"        id="clp-bs" onclick="setClpDir('slot')">Local → Endereço</button>
     </div>
-
-    <!-- Inputs -->
     <div id="clp-inputs"></div>
-
-    <button class="btn-main" id="clp-calc-btn" style="display:none;" onclick="calcClp()">
-      <span>⚡ Calcular</span>
-    </button>
-    <div class="err" id="clp-err"></div>
-
-    <!-- Result -->
-    <div class="result-panel" id="clp-result">
+    <button class="bmain" id="clp-calc" style="display:none;" onclick="calcClp()"><span>⚡ Calcular</span></button>
+    <div class="errmsg" id="clp-err"></div>
+    <div class="rp" id="clp-result">
       <div class="sec" style="margin-top:8px;">Resultado</div>
       <div id="clp-badge" style="margin-bottom:8px;"></div>
-      <div id="clp-remote-tag" style="display:none;margin-bottom:8px;">
-        <div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:2px;border:1px solid var(--orange);color:var(--orange);background:rgba(255,136,0,.08);font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:2px;">
-          📡 REMOTA · OFFSET: <span id="clp-offset-display">0</span>
-        </div>
-      </div>
-      <div class="result-grid" id="clp-res-grid"></div>
-      <div class="sec" style="margin-top:14px;" id="clp-diag-title"></div>
-      <div class="ch-row" id="clp-ch-row"></div>
-      <div class="info-row" id="clp-range"></div>
+      <div id="clp-rtag" style="display:none;margin-bottom:8px;"><div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:2px;border:1px solid var(--orange);color:var(--orange);background:rgba(255,136,0,.08);font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:2px;">📡 REMOTA · OFFSET: <span id="clp-off">0</span></div></div>
+      <div class="rg" id="clp-rg"></div>
+      <div class="sec" style="margin-top:12px;" id="clp-dtitle"></div>
+      <div class="ch-row" id="clp-ch"></div>
+      <div class="irow" id="clp-range"></div>
     </div>
   </div>
 </div>
 
-<!-- ══════ LOGIC GATES ══════ -->
+<!-- GATES -->
 <div class="page" id="page-gates">
-  <div class="page-title" style="margin-bottom:14px;">🔲 Portas <span>Lógicas</span></div>
+  <div class="ptitle">🔲 Portas <span>Lógicas</span></div>
   <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+    <div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
     <div class="sec">Selecione a Porta</div>
-    <div class="grid4" style="margin-bottom:14px;">
-      <button class="btn-sel" id="g-AND"  onclick="setGate('AND')" ><span class="bs-icon">🔷</span>AND</button>
-      <button class="btn-sel" id="g-OR"   onclick="setGate('OR')"  ><span class="bs-icon">🔶</span>OR</button>
-      <button class="btn-sel" id="g-NOT"  onclick="setGate('NOT')" ><span class="bs-icon">🔸</span>NOT</button>
-      <button class="btn-sel" id="g-NAND" onclick="setGate('NAND')"><span class="bs-icon">🔹</span>NAND</button>
-      <button class="btn-sel" id="g-NOR"  onclick="setGate('NOR')" ><span class="bs-icon">🔺</span>NOR</button>
-      <button class="btn-sel" id="g-XOR"  onclick="setGate('XOR')" ><span class="bs-icon">🔻</span>XOR</button>
-      <button class="btn-sel" id="g-XNOR" onclick="setGate('XNOR')"><span class="bs-icon">⬛</span>XNOR</button>
-      <button class="btn-sel" id="g-BUF"  onclick="setGate('BUF')" ><span class="bs-icon">⬜</span>BUF</button>
+    <div class="g4" style="margin-bottom:12px;">
+      <button class="bsel" id="g-AND"  onclick="setGate('AND')" ><span class="bsi">🔷</span>AND</button>
+      <button class="bsel" id="g-OR"   onclick="setGate('OR')"  ><span class="bsi">🔶</span>OR</button>
+      <button class="bsel" id="g-NOT"  onclick="setGate('NOT')" ><span class="bsi">🔸</span>NOT</button>
+      <button class="bsel" id="g-NAND" onclick="setGate('NAND')"><span class="bsi">🔹</span>NAND</button>
+      <button class="bsel" id="g-NOR"  onclick="setGate('NOR')" ><span class="bsi">🔺</span>NOR</button>
+      <button class="bsel" id="g-XOR"  onclick="setGate('XOR')" ><span class="bsi">🔻</span>XOR</button>
+      <button class="bsel" id="g-XNOR" onclick="setGate('XNOR')"><span class="bsi">⬛</span>XNOR</button>
+      <button class="bsel" id="g-BUF"  onclick="setGate('BUF')" ><span class="bsi">⬜</span>BUF</button>
     </div>
     <div id="gate-panel" style="display:none;">
-      <div class="sec" id="gate-sec-title">Entradas</div>
-      <div class="gate-svg-wrap" id="gate-svg-wrap"></div>
-      <div style="font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">ENTRADAS — toque para alternar 0/1</div>
+      <div class="sec" id="gate-stitle">Simulação</div>
+      <div class="gate-svg" id="gate-svg"></div>
+      <div style="font-size:.7rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">ENTRADAS — toque para alternar</div>
       <div class="bit-toggle" id="gate-inputs"></div>
-      <div id="gate-output"></div>
-      <div class="sec" style="margin-top:14px;">Tabela Verdade</div>
+      <div id="gate-out"></div>
+      <div class="sec" style="margin-top:12px;">Tabela Verdade</div>
       <div id="gate-truth"></div>
       <div class="tip-box" id="gate-desc" style="margin-top:10px;"></div>
     </div>
   </div>
 </div>
 
-<!-- ══════ RJ45 ══════ -->
+<!-- RJ45 -->
 <div class="page" id="page-rj45">
-  <div class="page-title" style="margin-bottom:14px;">🔌 Crimpagem <span>RJ45</span></div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
-    <div class="sec">Padrão T568A</div>
-    <div style="font-size:.75rem;color:var(--label);margin-bottom:8px;">Usado em redes residenciais. Compatível via cabo cruzado com T568B.</div>
+  <div class="ptitle">🔌 Crimpagem <span>RJ45</span></div>
+  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+    <div class="sec">T568A</div>
+    <div style="font-size:.72rem;color:var(--label);margin-bottom:7px;">Residencial. Compatível via cruzado com T568B.</div>
     <div class="pin-row">
-      <div class="pin wGW"><span class="pn">1</span><span class="pname">Bco Verde TX+</span></div>
-      <div class="pin wG"> <span class="pn">2</span><span class="pname">Verde TX-</span></div>
-      <div class="pin wOW"><span class="pn">3</span><span class="pname">Bco Laran RX+</span></div>
-      <div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
-      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div>
-      <div class="pin wO"> <span class="pn">6</span><span class="pname">Laranja RX-</span></div>
-      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div>
-      <div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
+      <div class="pin wGW"><span class="pn">1</span><span class="pname">Bco Verde TX+</span></div><div class="pin wG"><span class="pn">2</span><span class="pname">Verde TX-</span></div>
+      <div class="pin wOW"><span class="pn">3</span><span class="pname">Bco Lar RX+</span></div><div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
+      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div><div class="pin wO"><span class="pn">6</span><span class="pname">Laranja RX-</span></div>
+      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div><div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
     </div>
     <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
-      <tr><td>1</td><td style="color:#4caf50;">Branco/Verde</td><td>TX+</td><td>Par 3</td></tr>
-      <tr><td>2</td><td style="color:#4caf50;">Verde</td><td>TX−</td><td>Par 3</td></tr>
-      <tr><td>3</td><td style="color:#ff8800;">Branco/Laranja</td><td>RX+</td><td>Par 2</td></tr>
-      <tr><td>4</td><td style="color:#4488ff;">Azul</td><td>—</td><td>Par 1</td></tr>
-      <tr><td>5</td><td style="color:#4488ff;">Branco/Azul</td><td>—</td><td>Par 1</td></tr>
-      <tr><td>6</td><td style="color:#ff8800;">Laranja</td><td>RX−</td><td>Par 2</td></tr>
-      <tr><td>7</td><td style="color:#a0785a;">Branco/Marrom</td><td>—</td><td>Par 4</td></tr>
-      <tr><td>8</td><td style="color:#a0785a;">Marrom</td><td>—</td><td>Par 4</td></tr>
+      <tr><td>1</td><td style="color:#4caf50">Bco/Verde</td><td>TX+</td><td>3</td></tr><tr><td>2</td><td style="color:#4caf50">Verde</td><td>TX−</td><td>3</td></tr>
+      <tr><td>3</td><td style="color:#ff8800">Bco/Laranja</td><td>RX+</td><td>2</td></tr><tr><td>4</td><td style="color:#4488ff">Azul</td><td>—</td><td>1</td></tr>
+      <tr><td>5</td><td style="color:#4488ff">Bco/Azul</td><td>—</td><td>1</td></tr><tr><td>6</td><td style="color:#ff8800">Laranja</td><td>RX−</td><td>2</td></tr>
+      <tr><td>7</td><td style="color:#a0785a">Bco/Marrom</td><td>—</td><td>4</td></tr><tr><td>8</td><td style="color:#a0785a">Marrom</td><td>—</td><td>4</td></tr>
     </table>
   </div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
-    <div class="sec">Padrão T568B</div>
-    <div style="font-size:.75rem;color:var(--label);margin-bottom:8px;">Padrão mais comum em ambientes corporativos e industriais.</div>
+  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
+    <div class="sec">T568B</div>
+    <div style="font-size:.72rem;color:var(--label);margin-bottom:7px;">Padrão corporativo e industrial. Recomendado para novas instalações.</div>
     <div class="pin-row">
-      <div class="pin wOW"><span class="pn">1</span><span class="pname">Bco Laran TX+</span></div>
-      <div class="pin wO"> <span class="pn">2</span><span class="pname">Laranja TX-</span></div>
-      <div class="pin wGW"><span class="pn">3</span><span class="pname">Bco Verde RX+</span></div>
-      <div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
-      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div>
-      <div class="pin wG"> <span class="pn">6</span><span class="pname">Verde RX-</span></div>
-      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div>
-      <div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
+      <div class="pin wOW"><span class="pn">1</span><span class="pname">Bco Lar TX+</span></div><div class="pin wO"><span class="pn">2</span><span class="pname">Laranja TX-</span></div>
+      <div class="pin wGW"><span class="pn">3</span><span class="pname">Bco Verde RX+</span></div><div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
+      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div><div class="pin wG"><span class="pn">6</span><span class="pname">Verde RX-</span></div>
+      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div><div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
     </div>
     <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
-      <tr><td>1</td><td style="color:#ff8800;">Branco/Laranja</td><td>TX+</td><td>Par 2</td></tr>
-      <tr><td>2</td><td style="color:#ff8800;">Laranja</td><td>TX−</td><td>Par 2</td></tr>
-      <tr><td>3</td><td style="color:#4caf50;">Branco/Verde</td><td>RX+</td><td>Par 3</td></tr>
-      <tr><td>4</td><td style="color:#4488ff;">Azul</td><td>—</td><td>Par 1</td></tr>
-      <tr><td>5</td><td style="color:#4488ff;">Branco/Azul</td><td>—</td><td>Par 1</td></tr>
-      <tr><td>6</td><td style="color:#4caf50;">Verde</td><td>RX−</td><td>Par 3</td></tr>
-      <tr><td>7</td><td style="color:#a0785a;">Branco/Marrom</td><td>—</td><td>Par 4</td></tr>
-      <tr><td>8</td><td style="color:#a0785a;">Marrom</td><td>—</td><td>Par 4</td></tr>
+      <tr><td>1</td><td style="color:#ff8800">Bco/Laranja</td><td>TX+</td><td>2</td></tr><tr><td>2</td><td style="color:#ff8800">Laranja</td><td>TX−</td><td>2</td></tr>
+      <tr><td>3</td><td style="color:#4caf50">Bco/Verde</td><td>RX+</td><td>3</td></tr><tr><td>4</td><td style="color:#4488ff">Azul</td><td>—</td><td>1</td></tr>
+      <tr><td>5</td><td style="color:#4488ff">Bco/Azul</td><td>—</td><td>1</td></tr><tr><td>6</td><td style="color:#4caf50">Verde</td><td>RX−</td><td>3</td></tr>
+      <tr><td>7</td><td style="color:#a0785a">Bco/Marrom</td><td>—</td><td>4</td></tr><tr><td>8</td><td style="color:#a0785a">Marrom</td><td>—</td><td>4</td></tr>
     </table>
   </div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ff4466,transparent)"></div>
-    <div class="sec">Cabo Crossover (Cruzado)</div>
-    <div style="font-size:.75rem;color:var(--label);margin-bottom:8px;">Liga dois equipamentos iguais. Ponta A = T568B · Ponta B = T568A.</div>
-    <table class="tt">
-      <tr><th>Pino A (T568B)</th><th>↔</th><th>Pino B (T568A)</th></tr>
-      <tr><td style="color:#ff8800;">1 Bco/Laranja TX+</td><td>↔</td><td style="color:#4caf50;">3 Bco/Verde RX+</td></tr>
-      <tr><td style="color:#ff8800;">2 Laranja TX−</td><td>↔</td><td style="color:#4caf50;">6 Verde RX−</td></tr>
-      <tr><td style="color:#4caf50;">3 Bco/Verde RX+</td><td>↔</td><td style="color:#ff8800;">1 Bco/Laranja TX+</td></tr>
-      <tr><td style="color:#4caf50;">6 Verde RX−</td><td>↔</td><td style="color:#ff8800;">2 Laranja TX−</td></tr>
+  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ff4466,transparent)"></div>
+    <div class="sec">Crossover (Cruzado)</div>
+    <table class="tt"><tr><th>Pino A (T568B)</th><th>↔</th><th>Pino B (T568A)</th></tr>
+      <tr><td style="color:#ff8800">1 Bco/Laranja TX+</td><td>↔</td><td style="color:#4caf50">3 Bco/Verde RX+</td></tr>
+      <tr><td style="color:#ff8800">2 Laranja TX−</td><td>↔</td><td style="color:#4caf50">6 Verde RX−</td></tr>
+      <tr><td style="color:#4caf50">3 Bco/Verde RX+</td><td>↔</td><td style="color:#ff8800">1 Bco/Laranja TX+</td></tr>
+      <tr><td style="color:#4caf50">6 Verde RX−</td><td>↔</td><td style="color:#ff8800">2 Laranja TX−</td></tr>
       <tr><td colspan="3" style="color:var(--dim);font-size:.68rem;">Pinos 4,5,7,8 — diretos nos dois lados</td></tr>
     </table>
-    <div class="tip-box" style="margin-top:8px;"><div class="tip-title">💡 Auto-MDIX</div>Equipamentos modernos detectam e ajustam automaticamente. Crossover necessário apenas em equipamentos legados.</div>
+    <div class="tip-box" style="margin-top:7px;"><div class="tip-ttl">💡 Auto-MDIX</div>Equipamentos modernos detectam e ajustam automaticamente. Crossover necessário apenas em equipamentos legados.</div>
   </div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
-    <div class="sec">Categorias de Cabo (Par Trançado)</div>
-    <table class="pt">
-      <tr><th>Categoria</th><th>Velocidade</th><th>Freq.</th><th>Dist.</th></tr>
+  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+    <div class="sec">Categorias de Cabo</div>
+    <table class="pt"><tr><th>Categoria</th><th>Velocidade</th><th>Freq.</th><th>Dist.</th></tr>
       <tr><td>Cat 5e</td><td>1 Gbps</td><td>100 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 6</td><td>1 Gbps</td><td>250 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 6A</td><td>10 Gbps</td><td>500 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 7</td><td>10 Gbps</td><td>600 MHz</td><td>100 m</td></tr>
       <tr><td>Cat 8</td><td>25/40 Gbps</td><td>2000 MHz</td><td>30 m</td></tr>
     </table>
-    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚠️ Industrial</div>Em ambientes com motores e inversores, use cabos <strong>STP/FTP blindados</strong>. O aterramento da blindagem é obrigatório — sem terra pode piorar a interferência.</div>
   </div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
+  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
     <div class="sec">PoE — Power over Ethernet</div>
-    <table class="pt">
-      <tr><th>Padrão</th><th>IEEE</th><th>Potência</th><th>Pares</th></tr>
+    <table class="pt"><tr><th>Padrão</th><th>IEEE</th><th>Potência</th><th>Pares</th></tr>
       <tr><td>PoE</td><td>802.3af</td><td>15,4 W</td><td>2 pares</td></tr>
       <tr><td>PoE+</td><td>802.3at</td><td>30 W</td><td>2 pares</td></tr>
       <tr><td>PoE++ T3</td><td>802.3bt</td><td>60 W</td><td>4 pares</td></tr>
       <tr><td>PoE++ T4</td><td>802.3bt</td><td>100 W</td><td>4 pares</td></tr>
     </table>
-    <table class="pt" style="margin-top:8px;">
-      <tr><th>Modo</th><th>Pinos +</th><th>Pinos −</th></tr>
-      <tr><td>Modo A</td><td>1, 2</td><td>3, 6</td></tr>
-      <tr><td>Modo B</td><td>4, 5</td><td>7, 8</td></tr>
-      <tr><td>4-par</td><td>1,2,4,5</td><td>3,6,7,8</td></tr>
-    </table>
-    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚠️ Dimensionamento</div>Calcule a potência total do switch PoE. 8 portas PoE+ = mínimo 240 W na fonte. Adicione 25% de margem em ambientes industriais.</div>
   </div>
 </div>
 
-<!-- ══════ FIBER ══════ -->
+<!-- FIBER -->
 <div class="page" id="page-fiber">
-  <div class="page-title" style="margin-bottom:14px;">💡 Fibra <span>Óptica</span></div>
-
-  <div class="fiber-card sm">
-    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--yellow);">
-      Fibra Monomodo (SM) <span style="font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:2px 7px;border-radius:2px;border:1px solid var(--yellow);margin-left:4px;">OS1 / OS2</span>
-    </div>
+  <div class="ptitle">💡 Fibra <span>Óptica</span></div>
+  <div class="fcard sm">
+    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);">Monomodo (SM) <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:2px 6px;border-radius:2px;border:1px solid var(--yellow);margin-left:4px;">OS1/OS2</span></div>
     <table class="ft">
-      <tr><td>Núcleo / Revestimento</td><td>9 µm / 125 µm</td></tr>
-      <tr><td>Janelas Ópticas</td><td>1310 nm · 1550 nm · 1625 nm</td></tr>
-      <tr><td>Distância OS1</td><td>até 10 km</td></tr>
-      <tr><td>Distância OS2</td><td>até 200 km</td></tr>
-      <tr><td>Atenuação OS1</td><td>≤ 1,0 dB/km @ 1310 nm</td></tr>
-      <tr><td>Atenuação OS2</td><td>≤ 0,4 dB/km @ 1550 nm</td></tr>
-      <tr><td>Fonte de luz</td><td>Laser (LD)</td></tr>
+      <tr><td>Núcleo/Revestimento</td><td>9µm / 125µm</td></tr><tr><td>Janelas Ópticas</td><td>1310nm · 1550nm · 1625nm</td></tr>
+      <tr><td>Distância OS1</td><td>até 10 km</td></tr><tr><td>Distância OS2</td><td>até 200 km</td></tr>
+      <tr><td>Atenuação OS2</td><td>≤ 0,4 dB/km @ 1550nm</td></tr><tr><td>Fonte</td><td>Laser (LD)</td></tr>
       <tr><td>Cor do cabo</td><td>Amarelo (padrão)</td></tr>
-      <tr><td>Aplicações</td><td>Backbone, links longos, WDM, telecom</td></tr>
     </table>
-    <div class="chip-row"><span class="chip y">OS1</span><span class="chip y">OS2</span><span class="chip y">DWDM</span><span class="chip y">CWDM</span><span class="chip y">1310nm</span><span class="chip y">1550nm</span></div>
-    <div class="tip-box"><div class="tip-title">💡 Manutenção SM</div>
-      • Limpe conectores com kit IEC 61300-3-35 antes de conectar<br>
-      • ORL deve ser &gt;55 dB (UPC) ou &gt;65 dB (APC)<br>
-      • Conectores APC (8°) para sistemas sensíveis — sempre verdes<br>
-      • Use OTDR nas janelas 1310 nm e 1550 nm para localizar falhas
-    </div>
+    <div class="chip-row"><span class="chip y">OS1</span><span class="chip y">OS2</span><span class="chip y">DWDM</span><span class="chip y">1310nm</span><span class="chip y">1550nm</span></div>
+    <div class="tip-box"><div class="tip-ttl">💡 Manutenção SM</div>• Limpe com kit IEC 61300-3-35 antes de conectar<br>• ORL: &gt;55dB (UPC) · &gt;65dB (APC)<br>• Conectores APC (8°) — sempre verdes<br>• Use OTDR nas janelas 1310nm e 1550nm</div>
   </div>
-
-  <div class="fiber-card mm">
-    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--orange);">
-      Fibra Multimodo (MM) <span style="font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:2px 7px;border-radius:2px;border:1px solid var(--orange);margin-left:4px;">OM1 ~ OM5</span>
-    </div>
-    <table class="ft">
-      <tr><td>Núcleo / Revestimento</td><td>50 µm ou 62,5 µm / 125 µm</td></tr>
-      <tr><td>Janelas Ópticas</td><td>850 nm · 1300 nm</td></tr>
-      <tr><td>Fonte de luz</td><td>LED ou VCSEL</td></tr>
-      <tr><td>Cor do cabo</td><td>Laranja (OM1/OM2) · Aqua (OM3/OM4) · Lilás (OM5)</td></tr>
+  <div class="fcard mm">
+    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:7px;color:var(--orange);">Multimodo (MM) <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:2px 6px;border-radius:2px;border:1px solid var(--orange);margin-left:4px;">OM1~OM5</span></div>
+    <table class="pt"><tr><th>Tipo</th><th>Núcleo</th><th>BW@850nm</th><th>1G</th><th>10G</th></tr>
+      <tr><td>OM1</td><td>62,5µm</td><td>200MHz·km</td><td>275m</td><td>33m</td></tr>
+      <tr><td>OM2</td><td>50µm</td><td>500MHz·km</td><td>550m</td><td>82m</td></tr>
+      <tr><td>OM3</td><td>50µm</td><td>2000MHz·km</td><td>1000m</td><td>300m</td></tr>
+      <tr><td>OM4</td><td>50µm</td><td>4700MHz·km</td><td>1000m</td><td>550m</td></tr>
+      <tr><td>OM5</td><td>50µm</td><td>28000MHz·km</td><td>1000m</td><td>550m</td></tr>
     </table>
-    <table class="pt" style="margin-top:8px;">
-      <tr><th>Tipo</th><th>Núcleo</th><th>BW @850nm</th><th>Dist.1G</th><th>Dist.10G</th></tr>
-      <tr><td>OM1</td><td>62,5µm</td><td>200 MHz·km</td><td>275 m</td><td>33 m</td></tr>
-      <tr><td>OM2</td><td>50µm</td><td>500 MHz·km</td><td>550 m</td><td>82 m</td></tr>
-      <tr><td>OM3</td><td>50µm</td><td>2000 MHz·km</td><td>1000 m</td><td>300 m</td></tr>
-      <tr><td>OM4</td><td>50µm</td><td>4700 MHz·km</td><td>1000 m</td><td>550 m</td></tr>
-      <tr><td>OM5</td><td>50µm</td><td>28000 MHz·km</td><td>1000 m</td><td>550 m</td></tr>
-    </table>
-    <div class="chip-row"><span class="chip o">OM1</span><span class="chip o">OM2</span><span class="chip o">OM3</span><span class="chip o">OM4</span><span class="chip o">OM5</span><span class="chip o">850nm</span></div>
-    <div class="tip-box"><div class="tip-title">💡 Manutenção MM</div>
-      • Atenuação típica: ≤ 3,5 dB/km @ 850 nm (OM3/OM4)<br>
-      • Perda por conector: ≤ 0,75 dB (típico 0,3 dB limpo)<br>
-      • Perda por emenda fusão: ≤ 0,1 dB<br>
-      • Inspeção com microscópio antes de qualquer medição
-    </div>
+    <div class="chip-row"><span class="chip o">OM1</span><span class="chip o">OM2</span><span class="chip o">OM3</span><span class="chip o">OM4</span><span class="chip o">OM5</span></div>
   </div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
-    <div class="sec">Tipos de Conectores</div>
+  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+    <div class="sec">Conectores e Polimento</div>
     <table class="ft">
-      <tr><td>SC</td><td>Push-pull · telecom e industrial · SM e MM</td></tr>
-      <tr><td>LC</td><td>Small form factor · data centers · duplex compacto</td></tr>
-      <tr><td>FC</td><td>Rosca · alta vibração · industrial · SM preferencial</td></tr>
-      <tr><td>ST</td><td>Baioneta · legado · MM predominante</td></tr>
-      <tr><td>MPO/MTP</td><td>Multi-fibra 8/12/24 · data centers · alta densidade</td></tr>
-      <tr><td>E2000</td><td>Tampa automática · proteção alta · SM · telecom</td></tr>
+      <tr><td>SC</td><td>Push-pull · telecom e industrial · SM/MM</td></tr>
+      <tr><td>LC</td><td>Small form · data centers · duplex</td></tr>
+      <tr><td>FC</td><td>Rosca · alta vibração · industrial</td></tr>
+      <tr><td>ST</td><td>Baioneta · legado · MM</td></tr>
+      <tr><td>MPO/MTP</td><td>Multi-fibra 8/12/24 · alta densidade</td></tr>
+      <tr><td>PC</td><td>ORL &gt;40dB · uso geral</td></tr>
+      <tr><td>UPC</td><td>ORL &gt;55dB · SM recomendado</td></tr>
+      <tr><td>APC (VERDE)</td><td>Ângulo 8° · ORL &gt;65dB · sistemas sensíveis</td></tr>
     </table>
-    <div style="margin-top:10px;font-size:.7rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Polimento dos Conectores</div>
-    <table class="ft">
-      <tr><td>PC</td><td>Esférico · ORL &gt;40 dB · uso geral</td></tr>
-      <tr><td>UPC</td><td>Ultra fino · ORL &gt;55 dB · SM recomendado</td></tr>
-      <tr><td>APC</td><td>Ângulo 8° · ORL &gt;65 dB · sistemas sensíveis · VERDE</td></tr>
-    </table>
-    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚠️ NUNCA conecte APC com UPC/PC!</div>O ângulo de 8° causa alta reflexão e pode danificar transmissores laser. Conectores APC são sempre <strong style="color:var(--green);">verdes</strong>.</div>
+    <div class="warn-box" style="margin-top:7px;"><div class="warn-ttl">⚠️ NUNCA conecte APC com UPC/PC!</div>Causa alta reflexão e danos ao laser. Conectores APC são sempre <strong style="color:var(--green);">verdes</strong>.</div>
   </div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
-    <div class="sec">Janelas Ópticas e Aplicações</div>
-    <table class="ft">
-      <tr><td>850 nm</td><td>MM · VCSEL · Ethernet 1G/10G local</td></tr>
-      <tr><td>1300 nm</td><td>MM · LED · Ethernet legado</td></tr>
-      <tr><td>1310 nm</td><td>SM · dispersão zero · links médios</td></tr>
-      <tr><td>1550 nm</td><td>SM · mínima atenuação · links longos</td></tr>
-      <tr><td>1625 nm</td><td>SM · monitoramento OTDR em serviço</td></tr>
-      <tr><td>CWDM</td><td>1270–1610 nm · 20 nm espaçamento · 18 canais</td></tr>
-      <tr><td>DWDM</td><td>1530–1565 nm · 0,8 nm espaçamento · 80+ canais</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
     <div class="sec">Calculadora de Orçamento Óptico</div>
-    <div style="font-size:.75rem;color:var(--label);margin-bottom:10px;">Verifica se o link tem potência suficiente: Budget = TX − RX ≥ Perdas + Margem</div>
-    <div class="grid2">
-      <div class="inp-group"><label>Potência TX (dBm)</label><div class="inp-row"><span class="inp-pfx">TX</span><input type="number" id="fib-tx" value="-3" step="0.1"></div></div>
-      <div class="inp-group"><label>Sensibilidade RX (dBm)</label><div class="inp-row"><span class="inp-pfx">RX</span><input type="number" id="fib-rx" value="-20" step="0.1"></div></div>
-      <div class="inp-group"><label>Comprimento (km)</label><div class="inp-row"><span class="inp-pfx">km</span><input type="number" id="fib-len" value="2" step="0.1" min="0"></div></div>
-      <div class="inp-group"><label>Aten. fibra (dB/km)</label><div class="inp-row"><span class="inp-pfx">α</span><input type="number" id="fib-att" value="0.4" step="0.01" min="0"></div></div>
-      <div class="inp-group"><label>Nº conectores</label><div class="inp-row"><span class="inp-pfx">CON</span><input type="number" id="fib-con" value="4" min="0"></div></div>
-      <div class="inp-group"><label>Nº emendas</label><div class="inp-row"><span class="inp-pfx">EMS</span><input type="number" id="fib-spl" value="0" min="0"></div></div>
+    <div class="g2">
+      <div class="fg"><label>Potência TX (dBm)</label><div class="fr"><span class="fp">TX</span><input type="number" id="fib-tx" value="-3" step="0.1"></div></div>
+      <div class="fg"><label>Sensibilidade RX (dBm)</label><div class="fr"><span class="fp">RX</span><input type="number" id="fib-rx" value="-20" step="0.1"></div></div>
+      <div class="fg"><label>Comprimento (km)</label><div class="fr"><span class="fp">km</span><input type="number" id="fib-len" value="2" step="0.1" min="0"></div></div>
+      <div class="fg"><label>Atenuação (dB/km)</label><div class="fr"><span class="fp">α</span><input type="number" id="fib-att" value="0.4" step="0.01" min="0"></div></div>
+      <div class="fg"><label>Nº conectores</label><div class="fr"><span class="fp">CON</span><input type="number" id="fib-con" value="4" min="0"></div></div>
+      <div class="fg"><label>Nº emendas</label><div class="fr"><span class="fp">EMS</span><input type="number" id="fib-spl" value="0" min="0"></div></div>
     </div>
-    <div class="inp-group"><label>Margem de segurança (dB)</label><div class="inp-row"><span class="inp-pfx">MRG</span><input type="number" id="fib-mrg" value="3" step="0.5" min="0"></div></div>
-    <button class="btn-main" onclick="calcFiber()"><span>📡 Calcular Link</span></button>
-    <div id="fib-result" style="display:none;margin-top:12px;">
-      <div class="result-grid">
-        <div class="ri hl" id="fib-status-box"><div class="rl">Status do Link</div><div class="rv" id="fib-status">—</div></div>
-        <div class="ri"><div class="rl">Budget disponível</div><div class="rv" id="fib-budget">—</div></div>
+    <div class="fg"><label>Margem (dB)</label><div class="fr"><span class="fp">MRG</span><input type="number" id="fib-mrg" value="3" step="0.5" min="0"></div></div>
+    <button class="bmain" onclick="calcFiber()"><span>📡 Calcular Link</span></button>
+    <div id="fib-result" style="display:none;margin-top:10px;">
+      <div class="rg">
+        <div class="ri hl" id="fib-sb"><div class="rl">Status do Link</div><div class="rv" id="fib-status">—</div></div>
+        <div class="ri"><div class="rl">Budget</div><div class="rv" id="fib-budget">—</div></div>
         <div class="ri"><div class="rl">Perda total</div><div class="rv" id="fib-loss">—</div></div>
         <div class="ri"><div class="rl">Margem real</div><div class="rv" id="fib-margin">—</div></div>
-        <div class="ri fw"><div class="rl">Detalhamento</div><div class="rv" id="fib-detail" style="font-size:.8rem;line-height:1.7;"></div></div>
+        <div class="ri fw"><div class="rl">Detalhamento</div><div class="rv" id="fib-detail" style="font-size:.78rem;line-height:1.7;"></div></div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="card">
-    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ff8800,transparent)"></div>
-    <div class="sec">Dicas de Manutenção em Campo</div>
-    <div class="tip-box"><div class="tip-title">🔧 Procedimento de Inspeção</div>
-      1. NUNCA olhe diretamente para a ponta — risco de lesão ocular<br>
-      2. Inspecione com microscópio antes de conectar<br>
-      3. Limpe com caneta de limpeza ou kit IEC 61300-3-35<br>
-      4. Meça potência no RX antes e após qualquer intervenção<br>
-      5. Registre valores para histórico de manutenção
+<!-- BALANÇAS -->
+<div class="page" id="page-balanca">
+  <div class="ptitle">⚖️ Balanças <span>Integradoras</span></div>
+  <div style="font-size:.72rem;color:var(--label);margin-bottom:12px;font-family:'Share Tech Mono',monospace;">FABRICANTE: PABR · BAL-05 TM111 · BAL-06 TM111</div>
+
+  <div class="btabs">
+    <button class="btab active" id="btab-zero"   onclick="setBalTab('zero')"   >📍 Zero</button>
+    <button class="btab"        id="btab-span"   onclick="setBalTab('span')"   >📐 Span</button>
+    <button class="btab"        id="btab-cf"     onclick="setBalTab('cf')"     >🔢 CF</button>
+    <button class="btab"        id="btab-hist"   onclick="setBalTab('hist')"   >📋 Histórico</button>
+  </div>
+
+  <!-- ZERO -->
+  <div class="bsub active" id="bsub-zero">
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+      <div class="sec">Calibração de Zero</div>
+      <div class="fg"><label>TAG da Balança</label>
+        <select id="z-tag"><option value="">— Selecione —</option><option>BAL-05 TM111</option><option>BAL-06 TM111</option></select>
+      </div>
+      <div class="g2">
+        <div class="fg"><label>Data</label><div class="fr"><span class="fp">📅</span><input type="date" id="z-date"></div></div>
+        <div class="fg"><label>Hora</label><div class="fr"><span class="fp">🕐</span><input type="time" id="z-time"></div></div>
+      </div>
+      <div class="fg"><label>Nome do Técnico</label><div class="fr"><span class="fp">👷</span><input type="text" id="z-tec" placeholder="Nome completo"></div></div>
+      <div class="fg"><label>Nome do Navio</label><div class="fr"><span class="fp">🚢</span><input type="text" id="z-navio" placeholder="Nome do navio"></div></div>
+      <div class="sec" style="margin-top:4px;">3 Leituras de Erro (%) — Repetibilidade</div>
+      <div class="g3">
+        <div class="fg"><label>Leitura 1</label><div class="fr"><span class="fp">%</span><input type="number" id="z-e1" placeholder="0.000" step="0.001" style="color:var(--yellow)" oninput="drawCalibChart('z')"></div></div>
+        <div class="fg"><label>Leitura 2</label><div class="fr"><span class="fp">%</span><input type="number" id="z-e2" placeholder="0.000" step="0.001" style="color:var(--yellow)" oninput="drawCalibChart('z')"></div></div>
+        <div class="fg"><label>Leitura 3</label><div class="fr"><span class="fp">%</span><input type="number" id="z-e3" placeholder="0.000" step="0.001" style="color:var(--yellow)" oninput="drawCalibChart('z')"></div></div>
+      </div>
+      <div id="z-chart"></div>
+      <div class="chk-row" onclick="document.getElementById('z-limpa').checked=!document.getElementById('z-limpa').checked">
+        <input type="checkbox" id="z-limpa"><span>✅ Balança está Limpa</span>
+      </div>
+      <div class="chk-row" onclick="document.getElementById('z-corr').checked=!document.getElementById('z-corr').checked">
+        <input type="checkbox" id="z-corr"><span>🔧 Houve correção do erro</span>
+      </div>
+      <button class="bmain" onclick="saveCalib('zero')"><span>💾 Salvar Registro de Zero</span></button>
+      <div class="errmsg" id="z-err"></div>
+      <div class="success-msg" id="z-ok">✅ Registro salvo com sucesso!</div>
     </div>
-    <div class="tip-box" style="margin-top:8px;"><div class="tip-title">📏 Raio mínimo de curvatura</div>
-      • SM/MM: mínimo 30 mm estático · 60 mm em movimento<br>
-      • Cabo de distribuição: mínimo 10× o diâmetro<br>
-      • Cabo de acometimento: mínimo 20× o diâmetro<br>
-      • Curvas excessivas causam micro-rupturas e aumento de atenuação
+  </div>
+
+  <!-- SPAN -->
+  <div class="bsub" id="bsub-span">
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
+      <div class="sec">Calibração de Span</div>
+      <div class="fg"><label>TAG da Balança</label>
+        <select id="s-tag"><option value="">— Selecione —</option><option>BAL-05 TM111</option><option>BAL-06 TM111</option></select>
+      </div>
+      <div class="g2">
+        <div class="fg"><label>Data</label><div class="fr"><span class="fp">📅</span><input type="date" id="s-date"></div></div>
+        <div class="fg"><label>Hora</label><div class="fr"><span class="fp">🕐</span><input type="time" id="s-time"></div></div>
+      </div>
+      <div class="fg"><label>Nome do Técnico</label><div class="fr"><span class="fp">👷</span><input type="text" id="s-tec" placeholder="Nome completo"></div></div>
+      <div class="fg"><label>Nome do Navio</label><div class="fr"><span class="fp">🚢</span><input type="text" id="s-navio" placeholder="Nome do navio"></div></div>
+      <div class="sec" style="margin-top:4px;">3 Leituras de Erro (%) — Repetibilidade</div>
+      <div class="g3">
+        <div class="fg"><label>Leitura 1</label><div class="fr"><span class="fp">%</span><input type="number" id="s-e1" placeholder="0.000" step="0.001" style="color:var(--yellow)" oninput="drawCalibChart('s')"></div></div>
+        <div class="fg"><label>Leitura 2</label><div class="fr"><span class="fp">%</span><input type="number" id="s-e2" placeholder="0.000" step="0.001" style="color:var(--yellow)" oninput="drawCalibChart('s')"></div></div>
+        <div class="fg"><label>Leitura 3</label><div class="fr"><span class="fp">%</span><input type="number" id="s-e3" placeholder="0.000" step="0.001" style="color:var(--yellow)" oninput="drawCalibChart('s')"></div></div>
+      </div>
+      <div id="s-chart"></div>
+      <div class="chk-row" onclick="document.getElementById('s-limpa').checked=!document.getElementById('s-limpa').checked">
+        <input type="checkbox" id="s-limpa"><span>✅ Balança está Limpa</span>
+      </div>
+      <div class="chk-row" onclick="document.getElementById('s-corr').checked=!document.getElementById('s-corr').checked">
+        <input type="checkbox" id="s-corr"><span>🔧 Houve correção do erro</span>
+      </div>
+      <button class="bmain" style="border-color:var(--yellow);color:var(--yellow);" onclick="saveCalib('span')"><span>💾 Salvar Registro de Span</span></button>
+      <div class="errmsg" id="s-err"></div>
+      <div class="success-msg" id="s-ok">✅ Registro salvo com sucesso!</div>
     </div>
-    <div class="warn-box" style="margin-top:8px;"><div class="warn-title">⚡ Equipamentos de Teste</div>
-      • <strong>OTDR</strong>: localiza falhas e mede atenuação por trecho<br>
-      • <strong>Power Meter + Light Source</strong>: mede perda total (IL)<br>
-      • <strong>VFL</strong>: laser vermelho visível, localiza quebras próximas<br>
-      • <strong>Microscópio de fibra</strong>: inspeção da face do conector
+  </div>
+
+  <!-- CF -->
+  <div class="bsub" id="bsub-cf">
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div class="sec">Correção de Massa — Coeficiente CF</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--dim);margin-bottom:10px;line-height:1.7;padding:8px;background:#060a0f;border-radius:3px;">CF = ACT ÷ IND&#10;ACT% = CF × IND% (fixo=100)</div>
+      <div class="fg"><label>TAG da Balança</label>
+        <select id="cf-tag"><option value="">— Selecione —</option><option>BAL-05 TM111</option><option>BAL-06 TM111</option></select>
+      </div>
+      <div class="fg"><label>Nome do Navio</label><div class="fr"><span class="fp">🚢</span><input type="text" id="cf-navio" placeholder="Nome do navio"></div></div>
+      <div class="g2">
+        <div class="fg"><label>ACT — Total do Navio (T)</label><div class="fr"><span class="fp">ACT</span><input type="number" id="cf-act" placeholder="156381" step="0.001" style="color:var(--green)" oninput="calcCF()"></div></div>
+        <div class="fg"><label>IND — Total da Balança (T)</label><div class="fr"><span class="fp">IND</span><input type="number" id="cf-ind" placeholder="158363" step="0.001" style="color:var(--accent)" oninput="calcCF()"></div></div>
+      </div>
+      <div class="fg"><label>IND% — Constante (fixo = 100)</label>
+        <div class="fr"><span class="fp">IND%</span><input type="number" value="100" readonly style="color:var(--dim);background:#060a0f;"></div>
+      </div>
+      <div id="cf-result" style="display:none;">
+        <div class="cf-res">
+          <div class="cf-formula" id="cf-formula"></div>
+          <div class="cf-row2"><span class="cf-lbl">Coeficiente CF</span><span class="cf-val" id="cf-val">—</span></div>
+          <div class="cf-row2"><span class="cf-lbl">ACT% (resultado)</span><span class="cf-val" id="cf-actpct">—</span></div>
+          <div class="cf-row2"><span class="cf-lbl">Erro em relação ao navio</span><span class="cf-val" id="cf-erro">—</span></div>
+          <div class="cf-alrt" id="cf-alrt"></div>
+        </div>
+        <div id="cf-chart"></div>
+        <button class="bmain" style="margin-top:10px;border-color:var(--green);color:var(--green);" onclick="saveCF()"><span>💾 Salvar no Histórico</span></button>
+        <div class="success-msg" id="cf-ok">✅ Registro salvo com sucesso!</div>
+      </div>
+      <div class="errmsg" id="cf-err"></div>
+    </div>
+  </div>
+
+  <!-- HISTÓRICO -->
+  <div class="bsub" id="bsub-hist">
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div class="sec" style="margin-bottom:0;flex:1;">Histórico de Registros</div>
+        <button onclick="clearHistory()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:3px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;margin-left:8px;">LIMPAR</button>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="fg" style="margin-bottom:0;"><label>Filtrar TAG</label>
+          <select id="hf-tag" onchange="renderHistory()"><option value="">Todas</option><option>BAL-05 TM111</option><option>BAL-06 TM111</option></select>
+        </div>
+        <div class="fg" style="margin-bottom:0;"><label>Filtrar Tipo</label>
+          <select id="hf-type" onchange="renderHistory()"><option value="">Todos</option><option value="zero">Zero</option><option value="span">Span</option><option value="cf">CF</option></select>
+        </div>
+      </div>
+      <div id="hist-list"></div>
     </div>
   </div>
 </div>
+
 <script>
-// ═══════════════ NAVIGATION ═══════════════
+// ══ NAVIGATION ══
 function goPage(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(e=>e.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   document.getElementById('nav-'+p).classList.add('active');
   window.scrollTo(0,0);
 }
 
-// ═══════════════ CLP ═══════════════
-const SIG_COLORS={
-  ED:{color:'#00d4ff',bg:'rgba(0,212,255,.09)'},
-  SD:{color:'#ffd600',bg:'rgba(255,214,0,.08)'},
-  EA:{color:'#00ff88',bg:'rgba(0,255,136,.08)'},
-  SA:{color:'#bf7fff',bg:'rgba(191,127,255,.08)'}
-};
-
+// ══ CLP ══
+const SC={ED:{color:'#00d4ff',bg:'rgba(0,212,255,.09)'},SD:{color:'#ffd600',bg:'rgba(255,214,0,.08)'},EA:{color:'#00ff88',bg:'rgba(0,255,136,.08)'},SA:{color:'#bf7fff',bg:'rgba(191,127,255,.08)'}};
 const MFR={
-  GE:{name:'GE Emerson PACSystems',color:'#00aaff',badge:'GE · PACSystems RX3i',
-    signals:{
-      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'%I · 16 bits/cartão',cardLabel:'Cartão ED',
-        resultFn:(addr,card,ch,off)=>({
-          address:'%I'+pad(addr+off-1,4),
-          location:'Cartão ED'+pad(card,2)+' · BIT '+pad(ch,2),
-          card:'Cartão ED'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null
-        }),
-        inputs:[{id:'inp-card',label:'Cartão ED',prefix:'Cartão ED',ph:'01',min:1,max:9999},
-                {id:'inp-ch',  label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
-        slotToAddr:(c,ch)=>(c-1)*16+ch,
-        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/16)+1,ch:(idx%16)+1};},
-        range:(c,off)=>({first:(c-1)*16+1+off-1,last:c*16+off-1,prefix:'%I'})},
-      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'%Q · 16 bits/cartão',cardLabel:'Cartão SD',
-        resultFn:(addr,card,ch,off)=>({
-          address:'%Q'+pad(addr+off-1,4),
-          location:'Cartão SD'+pad(card,2)+' · BIT '+pad(ch,2),
-          card:'Cartão SD'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null
-        }),
-        inputs:[{id:'inp-card',label:'Cartão SD',prefix:'Cartão SD',ph:'01',min:1,max:9999},
-                {id:'inp-ch',  label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
-        slotToAddr:(c,ch)=>(c-1)*16+ch,
-        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/16)+1,ch:(idx%16)+1};},
-        range:(c,off)=>({first:(c-1)*16+1+off-1,last:c*16+off-1,prefix:'%Q'})},
-      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'%AI · 8 canais/cartão',cardLabel:'Cartão EA',
-        resultFn:(addr,card,ch,off)=>({
-          address:'%AI'+pad(addr+off-1,4),
-          location:'Cartão EA'+pad(card,2)+' · CANAL '+pad(ch,2),
-          card:'Cartão EA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null
-        }),
-        inputs:[{id:'inp-card',label:'Cartão EA',prefix:'Cartão EA',ph:'01',min:1,max:9999},
-                {id:'inp-ch',  label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
-        slotToAddr:(c,ch)=>(c-1)*8+ch,
-        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/8)+1,ch:(idx%8)+1};},
-        range:(c,off)=>({first:(c-1)*8+1+off-1,last:c*8+off-1,prefix:'%AI'})},
-      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'%AQ · 8 canais/cartão',cardLabel:'Cartão SA',
-        resultFn:(addr,card,ch,off)=>({
-          address:'%AQ'+pad(addr+off-1,4),
-          location:'Cartão SA'+pad(card,2)+' · CANAL '+pad(ch,2),
-          card:'Cartão SA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null
-        }),
-        inputs:[{id:'inp-card',label:'Cartão SA',prefix:'Cartão SA',ph:'01',min:1,max:9999},
-                {id:'inp-ch',  label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
-        slotToAddr:(c,ch)=>(c-1)*8+ch,
-        addrToSlot:(a,off)=>{const idx=a-off;return{card:Math.floor(idx/8)+1,ch:(idx%8)+1};},
-        range:(c,off)=>({first:(c-1)*8+1+off-1,last:c*8+off-1,prefix:'%AQ'})}
-    }},
-  ROCK:{name:'Rockwell ControlLogix 5000',color:'#d4201a',badge:'Rockwell · ControlLogix 5000',
-    signals:{
-      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'Local:Slot:I.Data.Bit',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},
-                {id:'inp-bit', label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
-        calcFn:(s,ch)=>({address:'Local:'+s+':I.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'Tag: DI_Slot'+s+'_Bit'+ch}),
-        range:(s)=>({label:'Slot '+s+': Local:'+s+':I.Data.0 → Local:'+s+':I.Data.15'})},
-      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'Local:Slot:O.Data.Bit',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},
-                {id:'inp-bit', label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
-        calcFn:(s,ch)=>({address:'Local:'+s+':O.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'Tag: DO_Slot'+s+'_Bit'+ch}),
-        range:(s)=>({label:'Slot '+s+': Local:'+s+':O.Data.0 → Local:'+s+':O.Data.15'})},
-      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'Local:Slot:I.ChXData',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'1',min:0,max:99},
-                {id:'inp-ch',  label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
-        calcFn:(s,ch)=>({address:'Local:'+s+':I.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'Tag: AI_Slot'+s+'_Ch'+ch}),
-        range:(s)=>({label:'Slot '+s+': Local:'+s+':I.Ch0Data → Local:'+s+':I.Ch7Data'})},
-      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'Local:Slot:O.ChXData',
-        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'2',min:0,max:99},
-                {id:'inp-ch',  label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
-        calcFn:(s,ch)=>({address:'Local:'+s+':O.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'Tag: AO_Slot'+s+'_Ch'+ch}),
-        range:(s)=>({label:'Slot '+s+': Local:'+s+':O.Ch0Data → Local:'+s+':O.Ch7Data'})}
-    }},
-  SIEM:{name:'Siemens S7-400',color:'#009999',badge:'Siemens · S7-400 / Step 7',
-    signals:{
-      ED:{label:'Entrada Digital',icon:'📥',size:8,chWord:'BIT',addrSub:'Ibyte.bit',
-        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'I',ph:'0',min:0,max:65535},
-                {id:'inp-bit', label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
-        calcFn:(by,bi)=>({address:'I'+by+'.'+bi,location:'Byte '+by+' · Bit '+bi,card:'Byte de Entrada '+by,channel:'Bit '+bi,extra:'IB'+by+' (byte completo)'}),
-        range:(by)=>({label:'Byte '+by+': I'+by+'.0 → I'+by+'.7'})},
-      SD:{label:'Saída Digital',icon:'📤',size:8,chWord:'BIT',addrSub:'Qbyte.bit',
-        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'Q',ph:'0',min:0,max:65535},
-                {id:'inp-bit', label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
-        calcFn:(by,bi)=>({address:'Q'+by+'.'+bi,location:'Byte '+by+' · Bit '+bi,card:'Byte de Saída '+by,channel:'Bit '+bi,extra:'QB'+by+' (byte completo)'}),
-        range:(by)=>({label:'Byte '+by+': Q'+by+'.0 → Q'+by+'.7'})},
-      EA:{label:'Entrada Analógica',icon:'📊',size:0,chWord:'CANAL',addrSub:'PIW (endereço par)',
-        inputs:[{id:'inp-piw',label:'Endereço PIW (par)',prefix:'PIW',ph:'256',min:0,max:65534}],
-        calcFn:(v)=>({address:'PIW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PIW'+v,extra:'Próximo canal: PIW'+(v+2)}),
-        range:()=>null},
-      SA:{label:'Saída Analógica',icon:'🎛️',size:0,chWord:'CANAL',addrSub:'PQW (endereço par)',
-        inputs:[{id:'inp-pqw',label:'Endereço PQW (par)',prefix:'PQW',ph:'256',min:0,max:65534}],
-        calcFn:(v)=>({address:'PQW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PQW'+v,extra:'Próximo canal: PQW'+(v+2)}),
-        range:()=>null}
-    }}
+  GE:{name:'GE Emerson PACSystems',color:'#00aaff',badge:'GE · PACSystems RX3i',signals:{
+    ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'%I · 16 bits',cardLabel:'Cartão ED',
+      rFn:(a,c,ch,o)=>({address:'%I'+pad(a+o-1,4),location:'Cartão ED'+pad(c,2)+' · BIT '+pad(ch,2),card:'Cartão ED'+pad(c,2),channel:'BIT '+pad(ch,2)}),
+      inputs:[{id:'inp-card',label:'Cartão ED',prefix:'Cartão ED',ph:'01',min:1,max:9999},{id:'inp-ch',label:'BIT (1-16)',prefix:'BIT',ph:'16',min:1,max:16}],
+      s2a:(c,ch)=>(c-1)*16+ch,a2s:(a,o)=>{const i=a-o;return{card:Math.floor(i/16)+1,ch:(i%16)+1};},rng:(c,o)=>({f:(c-1)*16+1+o-1,l:c*16+o-1,p:'%I'})},
+    SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'%Q · 16 bits',cardLabel:'Cartão SD',
+      rFn:(a,c,ch,o)=>({address:'%Q'+pad(a+o-1,4),location:'Cartão SD'+pad(c,2)+' · BIT '+pad(ch,2),card:'Cartão SD'+pad(c,2),channel:'BIT '+pad(ch,2)}),
+      inputs:[{id:'inp-card',label:'Cartão SD',prefix:'Cartão SD',ph:'01',min:1,max:9999},{id:'inp-ch',label:'BIT (1-16)',prefix:'BIT',ph:'16',min:1,max:16}],
+      s2a:(c,ch)=>(c-1)*16+ch,a2s:(a,o)=>{const i=a-o;return{card:Math.floor(i/16)+1,ch:(i%16)+1};},rng:(c,o)=>({f:(c-1)*16+1+o-1,l:c*16+o-1,p:'%Q'})},
+    EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'%AI · 8 canais',cardLabel:'Cartão EA',
+      rFn:(a,c,ch,o)=>({address:'%AI'+pad(a+o-1,4),location:'Cartão EA'+pad(c,2)+' · CANAL '+pad(ch,2),card:'Cartão EA'+pad(c,2),channel:'CANAL '+pad(ch,2)}),
+      inputs:[{id:'inp-card',label:'Cartão EA',prefix:'Cartão EA',ph:'01',min:1,max:9999},{id:'inp-ch',label:'Canal (1-8)',prefix:'CANAL',ph:'8',min:1,max:8}],
+      s2a:(c,ch)=>(c-1)*8+ch,a2s:(a,o)=>{const i=a-o;return{card:Math.floor(i/8)+1,ch:(i%8)+1};},rng:(c,o)=>({f:(c-1)*8+1+o-1,l:c*8+o-1,p:'%AI'})},
+    SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'%AQ · 8 canais',cardLabel:'Cartão SA',
+      rFn:(a,c,ch,o)=>({address:'%AQ'+pad(a+o-1,4),location:'Cartão SA'+pad(c,2)+' · CANAL '+pad(ch,2),card:'Cartão SA'+pad(c,2),channel:'CANAL '+pad(ch,2)}),
+      inputs:[{id:'inp-card',label:'Cartão SA',prefix:'Cartão SA',ph:'01',min:1,max:9999},{id:'inp-ch',label:'Canal (1-8)',prefix:'CANAL',ph:'8',min:1,max:8}],
+      s2a:(c,ch)=>(c-1)*8+ch,a2s:(a,o)=>{const i=a-o;return{card:Math.floor(i/8)+1,ch:(i%8)+1};},rng:(c,o)=>({f:(c-1)*8+1+o-1,l:c*8+o-1,p:'%AQ'})}}},
+  ROCK:{name:'Rockwell ControlLogix 5000',color:'#d4201a',badge:'Rockwell · ControlLogix 5000',signals:{
+    ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'Local:S:I.Data.B',
+      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0-15)',prefix:'Bit',ph:'0',min:0,max:15}],
+      calcFn:(s,c)=>({address:'Local:'+s+':I.Data.'+c,location:'Slot '+s+' · Bit '+c,card:'Slot '+s,channel:'Bit '+c,extra:'DI_Slot'+s+'_Bit'+c}),rng:(s)=>({label:'Local:'+s+':I.Data.0 → Local:'+s+':I.Data.15'})},
+    SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'Local:S:O.Data.B',
+      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0-15)',prefix:'Bit',ph:'0',min:0,max:15}],
+      calcFn:(s,c)=>({address:'Local:'+s+':O.Data.'+c,location:'Slot '+s+' · Bit '+c,card:'Slot '+s,channel:'Bit '+c,extra:'DO_Slot'+s+'_Bit'+c}),rng:(s)=>({label:'Local:'+s+':O.Data.0 → Local:'+s+':O.Data.15'})},
+    EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'Local:S:I.ChXData',
+      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'1',min:0,max:99},{id:'inp-ch',label:'Canal (0-7)',prefix:'Ch',ph:'0',min:0,max:7}],
+      calcFn:(s,c)=>({address:'Local:'+s+':I.Ch'+c+'Data',location:'Slot '+s+' · Ch'+c,card:'Slot '+s,channel:'Canal '+c,extra:'AI_Slot'+s+'_Ch'+c}),rng:(s)=>({label:'Local:'+s+':I.Ch0Data → Local:'+s+':I.Ch7Data'})},
+    SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'Local:S:O.ChXData',
+      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'2',min:0,max:99},{id:'inp-ch',label:'Canal (0-7)',prefix:'Ch',ph:'0',min:0,max:7}],
+      calcFn:(s,c)=>({address:'Local:'+s+':O.Ch'+c+'Data',location:'Slot '+s+' · Ch'+c,card:'Slot '+s,channel:'Canal '+c,extra:'AO_Slot'+s+'_Ch'+c}),rng:(s)=>({label:'Local:'+s+':O.Ch0Data → Local:'+s+':O.Ch7Data'})}}},
+  SIEM:{name:'Siemens S7-400',color:'#009999',badge:'Siemens · S7-400 / Step 7',signals:{
+    ED:{label:'Entrada Digital',icon:'📥',size:8,chWord:'BIT',addrSub:'Ibyte.bit',
+      inputs:[{id:'inp-byte',label:'Byte',prefix:'I',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0-7)',prefix:'Bit',ph:'0',min:0,max:7}],
+      calcFn:(b,bi)=>({address:'I'+b+'.'+bi,location:'Byte '+b+' · Bit '+bi,card:'Byte '+b,channel:'Bit '+bi,extra:'IB'+b}),rng:(b)=>({label:'I'+b+'.0 → I'+b+'.7'})},
+    SD:{label:'Saída Digital',icon:'📤',size:8,chWord:'BIT',addrSub:'Qbyte.bit',
+      inputs:[{id:'inp-byte',label:'Byte',prefix:'Q',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0-7)',prefix:'Bit',ph:'0',min:0,max:7}],
+      calcFn:(b,bi)=>({address:'Q'+b+'.'+bi,location:'Byte '+b+' · Bit '+bi,card:'Byte '+b,channel:'Bit '+bi,extra:'QB'+b}),rng:(b)=>({label:'Q'+b+'.0 → Q'+b+'.7'})},
+    EA:{label:'Entrada Analógica',icon:'📊',size:0,chWord:'CANAL',addrSub:'PIW par',
+      inputs:[{id:'inp-piw',label:'Endereço PIW (par)',prefix:'PIW',ph:'256',min:0,max:65534}],
+      calcFn:(v)=>({address:'PIW'+v,location:'Word '+v,card:'Módulo AI',channel:'PIW'+v,extra:'Próximo: PIW'+(v+2)}),rng:()=>null},
+    SA:{label:'Saída Analógica',icon:'🎛️',size:0,chWord:'CANAL',addrSub:'PQW par',
+      inputs:[{id:'inp-pqw',label:'Endereço PQW (par)',prefix:'PQW',ph:'256',min:0,max:65534}],
+      calcFn:(v)=>({address:'PQW'+v,location:'Word '+v,card:'Módulo AO',channel:'PQW'+v,extra:'Próximo: PQW'+(v+2)}),rng:()=>null}}}
 };
 
-let curLR=null, curMfr=null, curSig=null, curClpDir='addr', remoteOffset=1;
-
+let curLR=null,curMfr=null,curSig=null,curDir='addr',remOff=1;
 function pad(n,w){return String(n).padStart(w,'0');}
-function showEl(id){const e=document.getElementById(id);if(e)e.style.display='';}
-function hideEl(id){const e=document.getElementById(id);if(e)e.style.display='none';}
-function showV(id){const e=document.getElementById(id);if(e)e.classList.add('visible');}
-function hideV(id){const e=document.getElementById(id);if(e)e.classList.remove('visible');}
-function getV(id){const e=document.getElementById(id);return e&&e.value.trim()!==''?parseInt(e.value.trim(),10):null;}
+function sEl(id){const e=document.getElementById(id);if(e)e.style.display='';}
+function hEl(id){const e=document.getElementById(id);if(e)e.style.display='none';}
+function sV(id){const e=document.getElementById(id);if(e)e.classList.add('visible');}
+function hV(id){const e=document.getElementById(id);if(e)e.classList.remove('visible');}
+function gV(id){const e=document.getElementById(id);return e&&e.value.trim()!==''?parseInt(e.value.trim(),10):null;}
 
-// LOCAL / REMOTA
 function setLR(lr){
-  curLR=lr; curMfr=null; curSig=null;
-  document.getElementById('lr-local').className ='lr-btn'+(lr==='local'?' active-local':'');
+  curLR=lr;curMfr=null;curSig=null;
+  document.getElementById('lr-local').className='lr-btn'+(lr==='local'?' active-local':'');
   document.getElementById('lr-remote').className='lr-btn'+(lr==='remote'?' active-remote':'');
-  const cfg=document.getElementById('remote-cfg');
-  if(lr==='remote'){cfg.classList.add('show');}
-  else{cfg.classList.remove('show'); remoteOffset=1;}
-  showEl('clp-step2'); showEl('clp-mfr-grid');
-  hideEl('clp-step3'); hideEl('clp-type-grid');
-  hideEl('clp-step4'); hideEl('clp-dir-row');
-  hideEl('clp-calc-btn');
+  document.getElementById('remote-cfg').classList.toggle('show',lr==='remote');
+  if(lr==='local')remOff=1;
+  sEl('clp-s2');sEl('clp-mfr');
+  hEl('clp-s3');hEl('clp-type');hEl('clp-s4');hEl('clp-dir');hEl('clp-calc');
   document.getElementById('clp-inputs').innerHTML='';
-  hideV('clp-result'); hideV('clp-err');
+  hV('clp-result');hV('clp-err');
   ['GE','ROCK','SIEM'].forEach(k=>document.getElementById('mfr-'+k).className='mfr-btn');
 }
 
 function updateRemotePreview(){
-  const val=parseInt(document.getElementById('remote-start').value)||0;
-  remoteOffset=val>=1?val:1;
-  const prev=document.getElementById('remote-preview');
-  const prevVal=document.getElementById('remote-preview-val');
-  if(val>=1){
-    prev.style.display='flex';
-    prevVal.textContent='%I'+pad(remoteOffset,4)+' → %I'+pad(remoteOffset+15,4)+' (Cartão ED01)';
-  } else {
-    prev.style.display='none';
-  }
-  if(curSig) renderClpInputs();
+  const v=parseInt(document.getElementById('remote-start').value)||0;
+  remOff=v>=1?v:1;
+  const p=document.getElementById('remote-preview');
+  if(v>=1){p.style.display='block';document.getElementById('remote-preview-val').textContent='%I'+pad(remOff,4)+' → %I'+pad(remOff+15,4);}
+  else p.style.display='none';
+  if(curSig)renderClpInputs();
 }
 
-// MANUFACTURER
 function setMfr(m){
-  if(!curLR) return;
-  curMfr=m; curSig=null;
-  if(curLR==='remote'){
-    const rs=parseInt(document.getElementById('remote-start').value)||0;
-    if(rs<1){showClpErr('Informe o endereço inicial da remota antes de continuar.');return;}
-    remoteOffset=rs;
-  }
+  if(!curLR)return;
+  if(curLR==='remote'){const rs=parseInt(document.getElementById('remote-start').value)||0;if(rs<1){clpErr('Informe o endereço inicial da remota.');return;}remOff=rs;}
+  curMfr=m;curSig=null;
   const mfr=MFR[m];
-  ['GE','ROCK','SIEM'].forEach(k=>{
-    document.getElementById('mfr-'+k).className='mfr-btn'+(k===m?' active-'+k:'');
-  });
+  ['GE','ROCK','SIEM'].forEach(k=>document.getElementById('mfr-'+k).className='mfr-btn'+(k===m?' active-'+k:''));
   document.getElementById('clp-bar').style.background='linear-gradient(90deg,transparent,'+mfr.color+',transparent)';
-  const grid=document.getElementById('clp-type-grid');
-  grid.innerHTML=''; grid.style.gridTemplateColumns='repeat(2,1fr)';
-  Object.entries(mfr.signals).forEach(([key,sig])=>{
-    const btn=document.createElement('button');
-    btn.className='type-btn'; btn.id='ctb-'+key; btn.onclick=()=>setClpSig(key);
-    btn.innerHTML=`<span class="ti">${sig.icon}</span><span class="tinfo"><span>${sig.label}</span><span class="ttag">${sig.addrSub}</span></span>`;
-    grid.appendChild(btn);
+  const g=document.getElementById('clp-type');g.innerHTML='';g.style.gridTemplateColumns='repeat(2,1fr)';
+  Object.entries(mfr.signals).forEach(([k,s])=>{
+    const b=document.createElement('button');b.className='type-btn';b.id='ctb-'+k;b.onclick=()=>setClpSig(k);
+    b.innerHTML=`<span class="ti">${s.icon}</span><span class="tinfo"><span>${s.label}</span><span class="ttag">${s.addrSub}</span></span>`;
+    g.appendChild(b);
   });
-  showEl('clp-step3'); showEl('clp-type-grid');
-  hideEl('clp-step4'); hideEl('clp-dir-row'); hideEl('clp-calc-btn');
-  document.getElementById('clp-inputs').innerHTML='';
-  hideV('clp-result'); hideV('clp-err');
+  sEl('clp-s3');sEl('clp-type');hEl('clp-s4');hEl('clp-dir');hEl('clp-calc');
+  document.getElementById('clp-inputs').innerHTML='';hV('clp-result');hV('clp-err');
 }
 
 function setClpSig(s){
-  curSig=s;
-  const mfr=MFR[curMfr];
-  Object.keys(mfr.signals).forEach(k=>{
-    const b=document.getElementById('ctb-'+k); if(!b)return;
-    const sc=SIG_COLORS[k];
-    b.style.cssText=k===s?`border-color:${sc.color};background:${sc.bg};color:${sc.color};`:'';
-  });
-  // Direction labels
+  curSig=s;const mfr=MFR[curMfr];
+  Object.keys(mfr.signals).forEach(k=>{const b=document.getElementById('ctb-'+k);if(!b)return;const c=SC[k];b.style.cssText=k===s?`border-color:${c.color};background:${c.bg};color:${c.color}`:''});
   const isGE=curMfr==='GE';
-  document.getElementById('clp-btn-addr').textContent=isGE?'Endereço → Cartão':'Local → Detalhes';
-  document.getElementById('clp-btn-slot').textContent=isGE?'Cartão → Endereço':'Slot/Canal → Tag';
-  showEl('clp-step4'); showEl('clp-dir-row'); showEl('clp-calc-btn');
-  setClpDir(curClpDir);
-  hideV('clp-result'); hideV('clp-err');
+  document.getElementById('clp-ba').textContent=isGE?'Endereço → Cartão':'Local → Detalhes';
+  document.getElementById('clp-bs').textContent=isGE?'Cartão → Endereço':'Slot → Tag';
+  sEl('clp-s4');sEl('clp-dir');sEl('clp-calc');
+  setClpDir(curDir);hV('clp-result');hV('clp-err');
 }
 
 function setClpDir(d){
-  curClpDir=d;
-  document.getElementById('clp-btn-addr').classList.toggle('active',d==='addr');
-  document.getElementById('clp-btn-slot').classList.toggle('active',d==='slot');
-  if(curSig) renderClpInputs();
-  hideV('clp-result'); hideV('clp-err');
+  curDir=d;
+  document.getElementById('clp-ba').classList.toggle('active',d==='addr');
+  document.getElementById('clp-bs').classList.toggle('active',d==='slot');
+  if(curSig)renderClpInputs();
+  hV('clp-result');hV('clp-err');
 }
 
 function renderClpInputs(){
   const sig=MFR[curMfr].signals[curSig];
-  const area=document.getElementById('clp-inputs'); area.innerHTML='';
-  const sc=SIG_COLORS[curSig];
-  const isRemote=curLR==='remote';
+  const area=document.getElementById('clp-inputs');area.innerHTML='';
+  const sc=SC[curSig];const isR=curLR==='remote';
   let defs;
-  if(curMfr==='GE'&&curClpDir==='addr'){
-    const pfxMap={ED:'%I',SD:'%Q',EA:'%AI',SA:'%AQ'};
-    const pfx=pfxMap[curSig];
-    const ph=isRemote?pad(remoteOffset,4):'0001';
-    defs=[{id:'inp-addr',label:'Endereço '+pfx+(isRemote?' (inicia em '+pad(remoteOffset,4)+')':''),prefix:pfx,ph:ph,min:isRemote?remoteOffset:1,max:99999}];
-  } else {
-    defs=sig.inputs;
+  if(curMfr==='GE'&&curDir==='addr'){
+    const pfxMap={ED:'%I',SD:'%Q',EA:'%AI',SA:'%AQ'};const pfx=pfxMap[curSig];
+    defs=[{id:'inp-addr',label:'Endereço '+pfx+(isR?' (offset '+pad(remOff,4)+')':''),prefix:pfx,ph:isR?pad(remOff,4):'0001',min:isR?remOff:1,max:99999}];
+  } else defs=sig.inputs;
+  if(isR&&curMfr==='GE'){
+    const h=document.createElement('div');
+    h.style.cssText='font-size:.68rem;color:var(--orange);font-family:"Share Tech Mono",monospace;margin-bottom:8px;padding:5px 9px;background:rgba(255,136,0,.06);border:1px solid rgba(255,136,0,.2);border-radius:3px;';
+    h.textContent='📡 Remota: offset base = '+pad(remOff,4);
+    area.appendChild(h);
   }
   defs.forEach(inp=>{
-    const d=document.createElement('div'); d.className='inp-group';
-    d.innerHTML=`<label>${inp.label}</label><div class="inp-row"><span class="inp-pfx">${inp.prefix}</span><input type="number" id="${inp.id}" placeholder="${inp.ph}" min="${inp.min}" max="${inp.max}" style="color:${sc.color}" onkeydown="if(event.key==='Enter')calcClp()"></div>`;
+    const d=document.createElement('div');d.className='fg';
+    d.innerHTML=`<label>${inp.label}</label><div class="fr"><span class="clp-pfx">${inp.prefix}</span><input type="number" id="${inp.id}" placeholder="${inp.ph}" min="${inp.min}" max="${inp.max}" style="color:${sc.color}" onkeydown="if(event.key==='Enter')calcClp()"></div>`;
     area.appendChild(d);
   });
-  // Remote hint
-  if(isRemote&&curMfr==='GE'){
-    const hint=document.createElement('div');
-    hint.style.cssText='font-size:.7rem;color:var(--orange);font-family:"Share Tech Mono",monospace;margin-bottom:8px;padding:6px 10px;background:rgba(255,136,0,.06);border:1px solid rgba(255,136,0,.2);border-radius:3px;';
-    hint.textContent='📡 Remota: offset base = '+pad(remoteOffset,4);
-    area.insertBefore(hint,area.firstChild);
-  }
 }
 
 function calcClp(){
-  hideV('clp-err'); hideV('clp-result');
-  if(!curLR) return showClpErr('Selecione Local ou Remota.');
-  if(!curMfr) return showClpErr('Selecione o fabricante.');
-  if(!curSig) return showClpErr('Selecione o tipo de sinal.');
-  const off=curLR==='remote'?remoteOffset:1;
-  const mfr=MFR[curMfr]; const sig=mfr.signals[curSig]; let res;
+  hV('clp-err');hV('clp-result');
+  if(!curLR)return clpErr('Selecione Local ou Remota.');
+  if(!curMfr)return clpErr('Selecione o fabricante.');
+  if(!curSig)return clpErr('Selecione o tipo de sinal.');
+  const off=curLR==='remote'?remOff:1;
+  const mfr=MFR[curMfr];const sig=mfr.signals[curSig];let res;
   try{
     if(curMfr==='GE'){
       let card,ch,addr;
-      if(curClpDir==='addr'){
-        addr=getV('inp-addr');
-        if(addr===null||addr<off)throw new Error('Endereço deve ser ≥ '+pad(off,4)+'.');
-        const idx=addr-off;
-        card=Math.floor(idx/sig.size)+1; ch=(idx%sig.size)+1;
+      if(curDir==='addr'){
+        addr=gV('inp-addr');if(addr===null||addr<off)throw new Error('Endereço deve ser ≥ '+pad(off,4)+'.');
+        const idx=addr-off;card=Math.floor(idx/sig.size)+1;ch=(idx%sig.size)+1;
       } else {
-        card=getV('inp-card'); ch=getV('inp-ch');
-        if(!card||card<1)throw new Error('Informe o número do cartão.');
-        if(!ch||ch<1||ch>sig.size)throw new Error('Canal deve ser entre 1 e '+sig.size+'.');
+        card=gV('inp-card');ch=gV('inp-ch');
+        if(!card||card<1)throw new Error('Informe o cartão.');
+        if(!ch||ch<1||ch>sig.size)throw new Error('Canal deve ser 1 a '+sig.size+'.');
         addr=(card-1)*sig.size+ch;
       }
-      const r=sig.resultFn(addr,card,ch,off);
-      const rng=sig.range(card,off);
-      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,
-           index:(addr-1),size:sig.size,activeCell:ch,
-           range:'Faixa: '+rng.prefix+pad(rng.first,4)+' → '+rng.prefix+pad(rng.last,4)};
+      const r=sig.rFn(addr,card,ch,off);const rg=sig.rng(card,off);
+      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:null,index:addr-1,size:sig.size,activeCell:ch,range:'Faixa: '+rg.p+pad(rg.f,4)+' → '+rg.p+pad(rg.l,4)};
     } else if(curMfr==='ROCK'){
-      const slot=getV('inp-slot');
-      const chId=document.getElementById('inp-bit')?'inp-bit':'inp-ch';
-      const ch=getV(chId);
-      if(slot===null)throw new Error('Informe o slot.');
-      if(ch===null)throw new Error('Informe o bit/canal.');
-      const r=sig.calcFn(slot,ch); const rng=sig.range(slot);
-      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,
-           index:null,size:sig.size,activeCell:ch+1,range:rng.label};
+      const slot=gV('inp-slot');const chId=document.getElementById('inp-bit')?'inp-bit':'inp-ch';const ch=gV(chId);
+      if(slot===null)throw new Error('Informe o slot.');if(ch===null)throw new Error('Informe o bit/canal.');
+      const r=sig.calcFn(slot,ch);const rg=sig.rng(slot);
+      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:sig.size,activeCell:ch+1,range:rg.label};
     } else {
       if(curSig==='EA'||curSig==='SA'){
-        const id=curSig==='EA'?'inp-piw':'inp-pqw'; const v=getV(id);
+        const id=curSig==='EA'?'inp-piw':'inp-pqw';const v=gV(id);
         if(v===null||v<0)throw new Error('Informe o endereço.');
         if(v%2!==0)throw new Error('Endereço deve ser par (ex: 256, 258).');
-        const r=sig.calcFn(v);
-        res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:0,activeCell:null,range:null};
+        const r=sig.calcFn(v);res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:0,activeCell:null,range:null};
       } else {
-        const by=getV('inp-byte'); const bi=getV('inp-bit');
-        if(by===null||by<0)throw new Error('Informe o byte.');
-        if(bi===null||bi<0||bi>7)throw new Error('Bit deve ser 0 a 7.');
-        const r=sig.calcFn(by,bi); const rng=sig.range(by);
-        res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:8,activeCell:bi+1,range:rng?rng.label:null};
+        const by=gV('inp-byte');const bi=gV('inp-bit');
+        if(by===null||by<0)throw new Error('Informe o byte.');if(bi===null||bi<0||bi>7)throw new Error('Bit deve ser 0 a 7.');
+        const r=sig.calcFn(by,bi);const rg=sig.rng(by);
+        res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:8,activeCell:bi+1,range:rg?rg.label:null};
       }
     }
-  }catch(e){return showClpErr(e.message);}
+  }catch(e){return clpErr(e.message);}
   renderClpResult(res,mfr,sig,off);
 }
 
 function renderClpResult(res,mfr,sig,off){
-  const sc=SIG_COLORS[curSig]; const isRemote=curLR==='remote';
-  document.getElementById('clp-badge').innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:2px;border:1px solid ${mfr.color};color:${mfr.color};background:${mfr.color}18;font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:2px;">${mfr.badge}</div>`;
-  const rt=document.getElementById('clp-remote-tag');
-  if(isRemote){rt.style.display='block';document.getElementById('clp-offset-display').textContent=pad(off,4);}
-  else{rt.style.display='none';}
-  const grid=document.getElementById('clp-res-grid'); grid.innerHTML='';
-  const items=[
-    {label:'Identificação',value:res.full,cls:'hl',color:sc.color},
-    {label:'Endereço / Tag',value:res.address,cls:'fw',color:sc.color},
-    {label:'Cartão / Módulo',value:res.card,cls:''},
-    {label:sig.chWord||'Canal',value:res.channel,cls:''},
-  ];
-  if(res.index!==null)items.push({label:'Índice (0-based)',value:String(res.index),cls:''});
-  if(res.extra)items.push({label:'Info Extra',value:res.extra,cls:''});
-  if(isRemote)items.push({label:'Offset Remota',value:'base '+pad(off,4),cls:''});
-  items.forEach(it=>{
-    const d=document.createElement('div'); d.className='ri'+(it.cls?' '+it.cls:'');
+  const sc=SC[curSig];const isR=curLR==='remote';
+  document.getElementById('clp-badge').innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:2px;border:1px solid ${mfr.color};color:${mfr.color};background:${mfr.color}18;font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:2px;">${mfr.badge}</div>`;
+  const rt=document.getElementById('clp-rtag');
+  rt.style.display=isR?'block':'none';
+  if(isR)document.getElementById('clp-off').textContent=pad(off,4);
+  const grid=document.getElementById('clp-rg');grid.innerHTML='';
+  [{label:'Identificação',value:res.full,cls:'hl',color:sc.color},
+   {label:'Endereço/Tag',value:res.address,cls:'fw',color:sc.color},
+   {label:'Cartão/Módulo',value:res.card,cls:''},
+   {label:sig.chWord,value:res.channel,cls:''},
+   ...(res.index!==null?[{label:'Índice (0-based)',value:String(res.index),cls:''}]:[]),
+   ...(res.extra?[{label:'Info Extra',value:res.extra,cls:''}]:[]),
+   ...(isR?[{label:'Offset Remota',value:'base '+pad(off,4),cls:''}]:[])
+  ].forEach(it=>{
+    const d=document.createElement('div');d.className='ri'+(it.cls?' '+it.cls:'');
     if(it.cls==='hl'){d.style.borderColor=it.color;d.style.background=it.color+'0a';}
     d.innerHTML=`<div class="rl">${it.label}</div><div class="rv" style="${it.cls?'color:'+it.color:''}">${it.value}</div>`;
     grid.appendChild(d);
   });
-  const row=document.getElementById('clp-ch-row'); row.innerHTML='';
-  document.getElementById('clp-diag-title').textContent='';
+  const row=document.getElementById('clp-ch');row.innerHTML='';
+  document.getElementById('clp-dtitle').textContent='';
   if(res.size>0&&res.activeCell!==null){
-    document.getElementById('clp-diag-title').textContent='Canais do Cartão';
-    const cw=res.size<=8?38:24;
+    document.getElementById('clp-dtitle').textContent='Canais do Cartão';
+    const cw=res.size<=8?36:22;
     for(let b=1;b<=res.size;b++){
-      const cell=document.createElement('div'); cell.className='ch-cell';
+      const cell=document.createElement('div');cell.className='ch-cell';
       cell.style.cssText=`width:${cw}px;height:${cw}px;`;
       if(b===res.activeCell){cell.style.borderColor=sc.color;cell.style.background=sc.color+'22';cell.style.color=sc.color;}
-      cell.textContent=pad(b-1,2); row.appendChild(cell);
+      cell.textContent=pad(b-1,2);row.appendChild(cell);
     }
   }
   document.getElementById('clp-range').textContent=res.range||'';
-  showV('clp-result');
+  sV('clp-result');
 }
+function clpErr(m){document.getElementById('clp-err').textContent='⚠ '+m;sV('clp-err');}
 
-function showClpErr(msg){document.getElementById('clp-err').textContent='⚠  '+msg;showV('clp-err');}
-
-// ═══════════════ LOGIC GATES ═══════════════
+// ══ GATES ══
 const GATES={
-  AND: {inputs:2,fn:v=>v[0]&v[1],desc:'A saída é 1 somente quando TODAS as entradas são 1. Multiplicação booleana: S = A · B'},
-  OR:  {inputs:2,fn:v=>v[0]|v[1],desc:'A saída é 1 quando PELO MENOS UMA entrada é 1. Soma booleana: S = A + B'},
-  NOT: {inputs:1,fn:v=>v[0]^1,   desc:'Inverte a entrada. S = Ā. Entrada 0 → Saída 1, Entrada 1 → Saída 0'},
-  NAND:{inputs:2,fn:v=>(v[0]&v[1])^1,desc:'NOT + AND. Saída 0 somente quando TODAS entradas são 1. Porta universal.'},
-  NOR: {inputs:2,fn:v=>(v[0]|v[1])^1,desc:'NOT + OR. Saída 1 somente quando TODAS entradas são 0. Porta universal.'},
-  XOR: {inputs:2,fn:v=>v[0]^v[1],desc:'Ou-exclusivo. Saída 1 quando entradas são DIFERENTES. S = A⊕B'},
-  XNOR:{inputs:2,fn:v=>(v[0]^v[1])^1,desc:'NOT + XOR. Saída 1 quando entradas são IGUAIS. Detector de igualdade.'},
-  BUF: {inputs:1,fn:v=>v[0],     desc:'Buffer. Repete a entrada na saída. Usado para amplificação e isolamento de estágios.'}
+  AND:{inputs:2,fn:v=>v[0]&v[1],desc:'Saída 1 somente quando TODAS entradas são 1. S = A·B'},
+  OR: {inputs:2,fn:v=>v[0]|v[1],desc:'Saída 1 quando PELO MENOS UMA entrada é 1. S = A+B'},
+  NOT:{inputs:1,fn:v=>v[0]^1,   desc:'Inverte a entrada. S = Ā. 0→1, 1→0'},
+  NAND:{inputs:2,fn:v=>(v[0]&v[1])^1,desc:'NOT+AND. Saída 0 somente quando todas são 1. Porta universal.'},
+  NOR: {inputs:2,fn:v=>(v[0]|v[1])^1,desc:'NOT+OR. Saída 1 somente quando todas são 0. Porta universal.'},
+  XOR: {inputs:2,fn:v=>v[0]^v[1],    desc:'Ou-exclusivo. Saída 1 quando entradas são DIFERENTES. S = A⊕B'},
+  XNOR:{inputs:2,fn:v=>(v[0]^v[1])^1,desc:'NOT+XOR. Saída 1 quando entradas são IGUAIS. Detector de igualdade.'},
+  BUF: {inputs:1,fn:v=>v[0],         desc:'Buffer. Repete a entrada. Usado para amplificação e isolamento.'}
 };
-
-let curGate=null, gateVals=[0,0];
-
+let curGate=null,gVals=[0,0];
+const GSVG={
+  AND:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="#00d4ff" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="#00d4ff" stroke-width="2"/><path d="M40,20 L40,60 Q85,60 85,40 Q85,20 40,20 Z" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="85" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="58" y="44" fill="#00d4ff" font-size="13" font-family="monospace" text-anchor="middle">&amp;</text><text x="5" y="30" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="5" y="54" fill="#6a9ab0" font-size="10" font-family="monospace">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`,
+  OR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="#00d4ff" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="#00d4ff" stroke-width="2"/><path d="M38,20 Q50,40 38,60 Q62,60 80,40 Q62,20 38,20 Z" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="80" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="57" y="44" fill="#00d4ff" font-size="12" font-family="monospace" text-anchor="middle">≥1</text><text x="5" y="30" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="5" y="54" fill="#6a9ab0" font-size="10" font-family="monospace">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`,
+  NOT:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="40" x2="35" y2="40" stroke="#00d4ff" stroke-width="2"/><polygon points="35,20 35,60 80,40" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><circle cx="85" cy="40" r="5" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="90" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="5" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`,
+  NAND:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="#00d4ff" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="#00d4ff" stroke-width="2"/><path d="M40,20 L40,60 Q82,60 82,40 Q82,20 40,20 Z" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><circle cx="87" cy="40" r="5" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="92" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="57" y="44" fill="#00d4ff" font-size="12" font-family="monospace" text-anchor="middle">&amp;</text><text x="5" y="30" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="5" y="54" fill="#6a9ab0" font-size="10" font-family="monospace">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`,
+  NOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="38" y2="28" stroke="#00d4ff" stroke-width="2"/><line x1="10" y1="52" x2="38" y2="52" stroke="#00d4ff" stroke-width="2"/><path d="M36,20 Q48,40 36,60 Q58,60 76,40 Q58,20 36,20 Z" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><circle cx="81" cy="40" r="5" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="86" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="53" y="44" fill="#00d4ff" font-size="11" font-family="monospace" text-anchor="middle">≥1</text><text x="5" y="30" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="5" y="54" fill="#6a9ab0" font-size="10" font-family="monospace">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`,
+  XOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="42" y2="28" stroke="#00d4ff" stroke-width="2"/><line x1="10" y1="52" x2="42" y2="52" stroke="#00d4ff" stroke-width="2"/><path d="M32,20 Q44,40 32,60" fill="none" stroke="#00d4ff" stroke-width="2"/><path d="M40,20 Q52,40 40,60 Q64,60 82,40 Q64,20 40,20 Z" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="82" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="58" y="44" fill="#00d4ff" font-size="11" font-family="monospace" text-anchor="middle">=1</text><text x="5" y="30" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="5" y="54" fill="#6a9ab0" font-size="10" font-family="monospace">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`,
+  XNOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="42" y2="28" stroke="#00d4ff" stroke-width="2"/><line x1="10" y1="52" x2="42" y2="52" stroke="#00d4ff" stroke-width="2"/><path d="M32,20 Q44,40 32,60" fill="none" stroke="#00d4ff" stroke-width="2"/><path d="M40,20 Q52,40 40,60 Q62,60 78,40 Q62,20 40,20 Z" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><circle cx="83" cy="40" r="5" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="88" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="57" y="44" fill="#00d4ff" font-size="10" font-family="monospace" text-anchor="middle">=1</text><text x="5" y="30" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="5" y="54" fill="#6a9ab0" font-size="10" font-family="monospace">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`,
+  BUF:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="40" x2="35" y2="40" stroke="#00d4ff" stroke-width="2"/><polygon points="35,20 35,60 85,40" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/><line x1="85" y1="40" x2="120" y2="40" stroke="#00d4ff" stroke-width="2"/><text x="50" y="44" fill="#00d4ff" font-size="10" font-family="monospace">BUF</text><text x="5" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">A</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="monospace">S</text></svg>`
+};
 function setGate(g){
-  curGate=g;
-  Object.keys(GATES).forEach(k=>document.getElementById('g-'+k).classList.toggle('active',k===g));
-  gateVals=Array(GATES[g].inputs).fill(0);
-  document.getElementById('gate-sec-title').textContent=g+' — Simulação Interativa';
-  renderGateSVG(g); renderGateInputs(g); updateGateOutput(); renderTruthTable(g);
-  document.getElementById('gate-desc').innerHTML='<div class="tip-title">ℹ️ '+g+'</div>'+GATES[g].desc;
-  document.getElementById('gate-panel').style.display='block';
-}
-function renderGateInputs(g){
-  const wrap=document.getElementById('gate-inputs'); wrap.innerHTML='';
+  curGate=g;Object.keys(GATES).forEach(k=>document.getElementById('g-'+k).classList.toggle('active',k===g));
+  gVals=Array(GATES[g].inputs).fill(0);
+  document.getElementById('gate-stitle').textContent=g+' — Simulação';
+  document.getElementById('gate-svg').innerHTML=GSVG[g]||'';
+  const wrap=document.getElementById('gate-inputs');wrap.innerHTML='';
   const n=GATES[g].inputs;
   for(let i=0;i<n;i++){
-    const btn=document.createElement('button'); btn.className='bit-btn'+(gateVals[i]?' on':'');
-    btn.id='gv-'+i;
-    btn.innerHTML=`<span>${gateVals[i]?'1':'0'}</span><span class="bl">${n>1?String.fromCharCode(65+i):'A'}</span>`;
-    btn.onclick=()=>{gateVals[i]^=1;btn.className='bit-btn'+(gateVals[i]?' on':'');btn.querySelector('span').textContent=gateVals[i]?'1':'0';updateGateOutput();renderTruthTable(curGate);};
+    const btn=document.createElement('button');btn.className='bit-btn';btn.id='gv-'+i;
+    btn.innerHTML=`<span>${gVals[i]}</span><span class="bl">${n>1?String.fromCharCode(65+i):'A'}</span>`;
+    btn.onclick=(()=>{const idx=i;return()=>{gVals[idx]^=1;btn.className='bit-btn'+(gVals[idx]?' on':'');btn.querySelector('span').textContent=gVals[idx];updateGout();renderTT(curGate);}})();
     wrap.appendChild(btn);
   }
+  document.getElementById('gate-desc').innerHTML='<div class="tip-ttl">ℹ️ '+g+'</div>'+GATES[g].desc;
+  document.getElementById('gate-panel').style.display='block';
+  updateGout();renderTT(g);
 }
-function updateGateOutput(){
-  const out=GATES[curGate].fn(gateVals);
-  document.getElementById('gate-output').innerHTML=`<div class="res-box ${out?'ok':'off'}"><div class="res-label">Saída (S)</div><div class="res-val ${out?'green':'red'}">${out}</div><div class="res-sub">${out?'NÍVEL ALTO — HIGH':'NÍVEL BAIXO — LOW'}</div></div>`;
+function updateGout(){
+  const out=GATES[curGate].fn(gVals);
+  document.getElementById('gate-out').innerHTML=`<div class="res-box ${out?'ok':'off'}"><div class="rlbl">Saída (S)</div><div class="rval ${out?'grn':'red'}">${out}</div><div class="rsub">${out?'NÍVEL ALTO — HIGH':'NÍVEL BAIXO — LOW'}</div></div>`;
 }
-function renderTruthTable(g){
-  const gate=GATES[g]; const n=gate.inputs; const rows=Math.pow(2,n);
-  let html='<table class="tt"><tr>';
-  for(let i=0;i<n;i++)html+=`<th>${n>1?String.fromCharCode(65+i):'A'}</th>`;
-  html+='<th>S</th></tr>';
+function renderTT(g){
+  const gate=GATES[g];const n=gate.inputs;const rows=Math.pow(2,n);
+  let h='<table class="tt"><tr>';
+  for(let i=0;i<n;i++)h+=`<th>${n>1?String.fromCharCode(65+i):'A'}</th>`;
+  h+='<th>S</th></tr>';
   for(let r=0;r<rows;r++){
-    const vals=[]; for(let i=n-1;i>=0;i--)vals.unshift((r>>i)&1);
-    const out=gate.fn(vals); const isActive=JSON.stringify(vals)===JSON.stringify(gateVals.slice(0,n));
-    html+=`<tr class="${isActive?'hrow':''}">`;
-    vals.forEach(v=>html+=`<td class="v${v}">${v}</td>`);
-    html+=`<td class="v${out}">${out}</td></tr>`;
+    const v=[];for(let i=n-1;i>=0;i--)v.unshift((r>>i)&1);
+    const out=gate.fn(v);const act=JSON.stringify(v)===JSON.stringify(gVals.slice(0,n));
+    h+=`<tr class="${act?'hrow':''}">`;v.forEach(x=>h+=`<td class="v${x}">${x}</td>`);
+    h+=`<td class="v${out}">${out}</td></tr>`;
   }
-  html+='</table>'; document.getElementById('gate-truth').innerHTML=html;
-}
-function renderGateSVG(g){
-  const c='#00d4ff',lc='#00d4ff33';
-  const svgs={
-    AND:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/><path d="M40,20 L40,60 Q85,60 85,40 Q85,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">&amp;</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    OR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/><path d="M38,20 Q50,40 38,60 Q62,60 80,40 Q62,20 38,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="80" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">≥1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    NOT:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/><polygon points="35,20 35,60 80,40" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="85" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="90" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    NAND:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/><path d="M40,20 L40,60 Q82,60 82,40 Q82,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="87" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="92" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="57" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">&amp;</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    NOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="38" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="38" y2="52" stroke="${c}" stroke-width="2"/><path d="M36,20 Q48,40 36,60 Q58,60 76,40 Q58,20 36,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="81" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="86" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="54" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">≥1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    XOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/><path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/><path d="M40,20 Q52,40 40,60 Q64,60 82,40 Q64,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="82" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="59" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">=1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    XNOR:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/><line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/><path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/><path d="M40,20 Q52,40 40,60 Q62,60 78,40 Q62,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/><circle cx="83" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="88" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="57" y="44" fill="${c}" font-size="10" font-family="Share Tech Mono" text-anchor="middle">=1</text><text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
-    BUF:`<svg width="140" height="80" viewBox="0 0 140 80"><line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/><polygon points="35,20 35,60 85,40" fill="${lc}" stroke="${c}" stroke-width="2"/><line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/><text x="52" y="44" fill="${c}" font-size="10" font-family="Share Tech Mono">BUF</text><text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text><text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`
-  };
-  document.getElementById('gate-svg-wrap').innerHTML=svgs[g]||'';
+  h+='</table>';document.getElementById('gate-truth').innerHTML=h;
 }
 
-// ═══════════════ FIBER CALC ═══════════════
+// ══ FIBER ══
 function calcFiber(){
   const tx=parseFloat(document.getElementById('fib-tx').value);
   const rx=parseFloat(document.getElementById('fib-rx').value);
@@ -1126,461 +901,105 @@ function calcFiber(){
   const con=parseInt(document.getElementById('fib-con').value)||0;
   const spl=parseInt(document.getElementById('fib-spl').value)||0;
   const mrg=parseFloat(document.getElementById('fib-mrg').value)||0;
-  const budget=tx-rx;
-  const lossFiber=len*att; const lossCon=con*0.5; const lossSpl=spl*0.1;
-  const totalLoss=lossFiber+lossCon+lossSpl;
-  const margin=budget-totalLoss-mrg;
-  const ok=margin>=0;
-  const sb=document.getElementById('fib-status-box');
-  document.getElementById('fib-status').innerHTML=`<span style="color:${ok?'#00ff88':'#ff4466'}">${ok?'✅ LINK OK':'❌ LINK INVIÁVEL'}</span>`;
-  sb.style.borderColor=ok?'#00ff88':'#ff4466';
-  sb.style.background=ok?'rgba(0,255,136,.05)':'rgba(255,68,102,.05)';
+  const budget=tx-rx;const lF=len*att;const lC=con*0.5;const lS=spl*0.1;
+  const total=lF+lC+lS;const margin=budget-total-mrg;const ok=margin>=0;
+  const sb=document.getElementById('fib-sb');
+  document.getElementById('fib-status').innerHTML=`<span style="color:${ok?'#00ff88':'#ff4466'}">${ok?'✅ LINK OK':'❌ INVIÁVEL'}</span>`;
+  sb.style.borderColor=ok?'#00ff88':'#ff4466';sb.style.background=ok?'rgba(0,255,136,.05)':'rgba(255,68,102,.05)';
   document.getElementById('fib-budget').textContent=budget.toFixed(2)+' dB';
-  document.getElementById('fib-loss').textContent=totalLoss.toFixed(2)+' dB';
+  document.getElementById('fib-loss').textContent=total.toFixed(2)+' dB';
   document.getElementById('fib-margin').innerHTML=`<span style="color:${margin>=0?'#00ff88':'#ff4466'}">${margin.toFixed(2)} dB</span>`;
-  document.getElementById('fib-detail').innerHTML=
-    `Fibra: ${len}km × ${att}dB/km = ${lossFiber.toFixed(2)}dB<br>`+
-    `Conectores: ${con} × 0,50dB = ${lossCon.toFixed(2)}dB<br>`+
-    `Emendas: ${spl} × 0,10dB = ${lossSpl.toFixed(2)}dB<br>`+
-    `Margem requerida: ${mrg.toFixed(1)}dB<br>`+
-    `<strong>Total+Margem: ${(totalLoss+mrg).toFixed(2)}dB / Budget: ${budget.toFixed(2)}dB</strong>`;
+  document.getElementById('fib-detail').innerHTML=`Fibra: ${len}km×${att}dB/km = ${lF.toFixed(2)}dB<br>Conectores: ${con}×0,50dB = ${lC.toFixed(2)}dB<br>Emendas: ${spl}×0,10dB = ${lS.toFixed(2)}dB<br>Margem: ${mrg.toFixed(1)}dB<br><strong>Total+Margem: ${(total+mrg).toFixed(2)}dB / Budget: ${budget.toFixed(2)}dB</strong>`;
   document.getElementById('fib-result').style.display='block';
 }
 
- // ═══════════════ PWA ═══════════════
- // Registra SW novo com updateViaCache none para sempre buscar versão nova
- window.addEventListener('load', async () => {
-   if (!('serviceWorker' in navigator)) return;
-   try {
-     const reg = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
-     await reg.update();
-     reg.addEventListener('updatefound', () => {
-       const sw = reg.installing;
-       sw.addEventListener('statechange', () => {
-         if (sw.state === 'installed' && navigator.serviceWorker.controller) {
-           window.location.reload();
-         }
-       });
-     });
-   } catch(e) {}
- });
- let deferredPrompt=null;
- window.addEventListener('beforeinstallprompt',e=>{
-   e.preventDefault(); deferredPrompt=e;
-   setTimeout(()=>document.getElementById('install-banner').classList.add('show'),1500);
- });
- document.getElementById('install-btn').addEventListener('click',()=>{
-   if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>deferredPrompt=null);}
-   document.getElementById('install-banner').classList.remove('show');
- });
- window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
- </script>
-
-<!-- ══════ BALANÇAS ══════ -->
-<div class="page" id="page-balanca">
-  <div class="page-title" style="margin-bottom:4px;">⚖️ Balanças <span>Integradoras</span></div>
-  <div style="font-size:.75rem;color:var(--label);margin-bottom:14px;font-family:'Share Tech Mono',monospace;">FABRICANTE: PABR · BAL-05 TM111 · BAL-06 TM111</div>
-
-  <!-- TABS -->
-  <div class="bal-tabs">
-    <button class="bal-tab active" id="btab-zero"   onclick="setBalTab('zero')"  >📍 Zero</button>
-    <button class="bal-tab"        id="btab-span"   onclick="setBalTab('span')"  >📐 Span</button>
-    <button class="bal-tab"        id="btab-cf"     onclick="setBalTab('cf')"    >🔢 Correção</button>
-    <button class="bal-tab"        id="btab-hist"   onclick="setBalTab('hist')"  >📋 Histórico</button>
-  </div>
-
-  <!-- ── ZERO ── -->
-  <div class="bal-sub active" id="bsub-zero">
-    <div class="card">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
-      <div class="sec">Calibração de Zero</div>
-
-      <div class="inp-group">
-        <label>TAG da Balança</label>
-        <select id="z-tag">
-          <option value="">— Selecione —</option>
-          <option value="BAL-05 TM111">BAL-05 TM111</option>
-          <option value="BAL-06 TM111">BAL-06 TM111</option>
-        </select>
-      </div>
-      <div class="grid2">
-        <div class="inp-group">
-          <label>Data</label>
-          <div class="inp-row"><span class="inp-pfx">📅</span><input type="date" id="z-date" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
-        </div>
-        <div class="inp-group">
-          <label>Hora</label>
-          <div class="inp-row"><span class="inp-pfx">🕐</span><input type="time" id="z-time" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
-        </div>
-      </div>
-      <div class="inp-group">
-        <label>Nome do Técnico</label>
-        <div class="inp-row"><span class="inp-pfx">👷</span><input type="text" id="z-tec" placeholder="Nome completo" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
-      </div>
-      <div class="inp-group">
-        <label>Nome do Navio</label>
-        <div class="inp-row"><span class="inp-pfx">🚢</span><input type="text" id="z-navio" placeholder="Nome do navio" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
-      </div>
-
-      <div class="sec" style="margin-top:4px;">Repetibilidade — 3 Leituras de Erro (%)</div>
-      <div class="grid3">
-        <div class="inp-group">
-          <label>Leitura 1</label>
-          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="z-e1" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewZeroChart()"></div>
-        </div>
-        <div class="inp-group">
-          <label>Leitura 2</label>
-          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="z-e2" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewZeroChart()"></div>
-        </div>
-        <div class="inp-group">
-          <label>Leitura 3</label>
-          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="z-e3" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewZeroChart()"></div>
-        </div>
-      </div>
-      <div id="zero-chart-preview"></div>
-
-      <div class="toggle-check" onclick="toggleCheck('z-limpa')">
-        <input type="checkbox" id="z-limpa"><span>✅ Balança está Limpa</span>
-      </div>
-      <div class="toggle-check" onclick="toggleCheck('z-corr')">
-        <input type="checkbox" id="z-corr"><span>🔧 Houve correção do erro</span>
-      </div>
-
-      <button class="btn-main" onclick="saveCalib('zero')"><span>💾 Salvar Registro de Zero</span></button>
-      <div class="err" id="z-err"></div>
-    </div>
-  </div>
-
-  <!-- ── SPAN ── -->
-  <div class="bal-sub" id="bsub-span">
-    <div class="card">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
-      <div class="sec">Calibração de Span</div>
-
-      <div class="inp-group">
-        <label>TAG da Balança</label>
-        <select id="s-tag">
-          <option value="">— Selecione —</option>
-          <option value="BAL-05 TM111">BAL-05 TM111</option>
-          <option value="BAL-06 TM111">BAL-06 TM111</option>
-        </select>
-      </div>
-      <div class="grid2">
-        <div class="inp-group">
-          <label>Data</label>
-          <div class="inp-row"><span class="inp-pfx">📅</span><input type="date" id="s-date" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
-        </div>
-        <div class="inp-group">
-          <label>Hora</label>
-          <div class="inp-row"><span class="inp-pfx">🕐</span><input type="time" id="s-time" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
-        </div>
-      </div>
-      <div class="inp-group">
-        <label>Nome do Técnico</label>
-        <div class="inp-row"><span class="inp-pfx">👷</span><input type="text" id="s-tec" placeholder="Nome completo" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
-      </div>
-      <div class="inp-group">
-        <label>Nome do Navio</label>
-        <div class="inp-row"><span class="inp-pfx">🚢</span><input type="text" id="s-navio" placeholder="Nome do navio" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
-      </div>
-
-      <div class="sec" style="margin-top:4px;">Repetibilidade — 3 Leituras de Erro (%)</div>
-      <div class="grid3">
-        <div class="inp-group">
-          <label>Leitura 1</label>
-          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="s-e1" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewSpanChart()"></div>
-        </div>
-        <div class="inp-group">
-          <label>Leitura 2</label>
-          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="s-e2" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewSpanChart()"></div>
-        </div>
-        <div class="inp-group">
-          <label>Leitura 3</label>
-          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="s-e3" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewSpanChart()"></div>
-        </div>
-      </div>
-      <div id="span-chart-preview"></div>
-
-      <div class="toggle-check" onclick="toggleCheck('s-limpa')">
-        <input type="checkbox" id="s-limpa"><span>✅ Balança está Limpa</span>
-      </div>
-      <div class="toggle-check" onclick="toggleCheck('s-corr')">
-        <input type="checkbox" id="s-corr"><span>🔧 Houve correção do erro</span>
-      </div>
-
-      <button class="btn-main" style="border-color:var(--yellow);color:var(--yellow);" onclick="saveCalib('span')"><span>💾 Salvar Registro de Span</span></button>
-      <div class="err" id="s-err"></div>
-    </div>
-  </div>
-
-  <!-- ── CORREÇÃO CF ── -->
-  <div class="bal-sub" id="bsub-cf">
-    <div class="card">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
-      <div class="sec">Correção de Massa — Coeficiente CF</div>
-      <div style="font-size:.75rem;color:var(--label);margin-bottom:12px;font-family:'Share Tech Mono',monospace;line-height:1.6;">
-        CF = ACT ÷ IND<br>
-        ACT% = CF × IND% (sempre 100)
-      </div>
-
-      <div class="inp-group">
-        <label>TAG da Balança</label>
-        <select id="cf-tag">
-          <option value="">— Selecione —</option>
-          <option value="BAL-05 TM111">BAL-05 TM111</option>
-          <option value="BAL-06 TM111">BAL-06 TM111</option>
-        </select>
-      </div>
-      <div class="inp-group">
-        <label>Nome do Navio</label>
-        <div class="inp-row"><span class="inp-pfx">🚢</span><input type="text" id="cf-navio" placeholder="Nome do navio" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
-      </div>
-
-      <div class="grid2">
-        <div class="inp-group">
-          <label>ACT — Total do Navio (T)</label>
-          <div class="inp-row"><span class="inp-pfx">ACT</span><input type="number" id="cf-act" placeholder="156381" step="0.001" oninput="calcCF()" style="color:var(--green);"></div>
-        </div>
-        <div class="inp-group">
-          <label>IND — Total da Balança (T)</label>
-          <div class="inp-row"><span class="inp-pfx">IND</span><input type="number" id="cf-ind" placeholder="158363" step="0.001" oninput="calcCF()" style="color:var(--accent);"></div>
-        </div>
-      </div>
-      <div class="inp-group">
-        <label>IND% — Constante (fixo = 100)</label>
-        <div class="inp-row"><span class="inp-pfx">IND%</span><input type="number" value="100" readonly style="color:var(--dim);background:#060a0f;border-radius:0 3px 3px 0;border:1px solid var(--border);padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:1rem;flex:1;min-width:0;"></div>
-      </div>
-
-      <div id="cf-result" style="display:none;">
-        <div class="cf-result">
-          <div class="cf-formula" id="cf-formula"></div>
-          <div class="cf-row"><span class="cf-label">Coeficiente CF</span><span class="cf-val" id="cf-val">—</span></div>
-          <div class="cf-row"><span class="cf-label">ACT% (resultado)</span><span class="cf-val" id="cf-actpct">—</span></div>
-          <div class="cf-row"><span class="cf-label">Erro em relação ao navio</span><span class="cf-val" id="cf-erro">—</span></div>
-          <div class="cf-alert" id="cf-alert"></div>
-        </div>
-        <div class="bar-chart" id="cf-bar-chart"></div>
-        <button class="btn-main" style="margin-top:12px;border-color:var(--green);color:var(--green);" onclick="saveCF()"><span>💾 Salvar no Histórico</span></button>
-      </div>
-      <div class="err" id="cf-err"></div>
-    </div>
-  </div>
-
-  <!-- ── HISTÓRICO ── -->
-  <div class="bal-sub" id="bsub-hist">
-    <div class="card">
-      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
-      <div class="sec" style="margin-bottom:10px;">
-        Histórico de Registros
-        <button onclick="clearHistory()" style="margin-left:auto;background:transparent;border:1px solid var(--red);color:var(--red);font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:2px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;">LIMPAR TUDO</button>
-      </div>
-
-      <!-- Filter -->
-      <div class="grid2" style="margin-bottom:12px;">
-        <div class="inp-group" style="margin-bottom:0;">
-          <label>Filtrar por TAG</label>
-          <select id="hist-filter-tag" onchange="renderHistory()">
-            <option value="">Todas</option>
-            <option value="BAL-05 TM111">BAL-05 TM111</option>
-            <option value="BAL-06 TM111">BAL-06 TM111</option>
-          </select>
-        </div>
-        <div class="inp-group" style="margin-bottom:0;">
-          <label>Filtrar por Tipo</label>
-          <select id="hist-filter-type" onchange="renderHistory()">
-            <option value="">Todos</option>
-            <option value="zero">Zero</option>
-            <option value="span">Span</option>
-            <option value="cf">Correção CF</option>
-          </select>
-        </div>
-      </div>
-
-      <div id="hist-list"></div>
-    </div>
-  </div>
-</div>
-
-<script>
-// ═══════════════ BALANÇAS ═══════════════
+// ══ BALANÇAS ══
 function setBalTab(t){
   ['zero','span','cf','hist'].forEach(k=>{
-    document.getElementById('btab-'+k).classList.toggle('active',k===t);
-    document.getElementById('bsub-'+k).classList.toggle('active',k===t);
+    document.getElementById('btab-'+k).classList.toggle('active', k===t);
+    document.getElementById('bsub-'+k).classList.toggle('active', k===t);
   });
   if(t==='hist') renderHistory();
 }
 
-function toggleCheck(id){
-  const cb=document.getElementById(id);
-  cb.checked=!cb.checked;
-}
+function ecClass(v){const a=Math.abs(v);return a<=0.5?'ecok':a<=1?'ecwarn':'ecerr';}
 
-// Set today's date/time on page load
-function setDefaultDateTime(){
-  const now=new Date();
-  const d=now.toISOString().slice(0,10);
-  const t=now.toTimeString().slice(0,5);
-  ['z-date','s-date'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.value)e.value=d;});
-  ['z-time','s-time'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.value)e.value=t;});
-}
-document.addEventListener('DOMContentLoaded', setDefaultDateTime);
-setDefaultDateTime();
-
-// ── Error color helper ──
-function errColor(v){
-  const a=Math.abs(v);
-  if(a<=0.5) return 'ok-pct';
-  if(a<=1.0) return 'warn-pct';
-  return 'err-pct';
-}
-
-// ── Bar chart for calibration readings ──
-function makeCalibChart(e1,e2,e3,containerId){
-  const vals=[e1,e2,e3].map(Number);
-  const max=Math.max(...vals.map(Math.abs),1.5);
-  const colors=['#00d4ff','#ffd600','#bf7fff'];
-  let html='<div class="bar-chart">';
-  html+='<div style="font-size:.68rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-family:'Share Tech Mono',monospace;">Gráfico de Repetibilidade</div>';
-  vals.forEach((v,i)=>{
-    const pct=Math.min(Math.abs(v)/max*100,100);
-    const cl=errColor(v);
-    const col=cl==='ok-pct'?'#00ff88':cl==='warn-pct'?'#ffd600':'#ff4466';
-    html+=`<div class="bar-wrap">
-      <div class="bar-label"><span style="color:${colors[i]}">Leitura ${i+1}</span><span class="${cl}">${v>=0?'+':''}${Number(v).toFixed(3)}%</span></div>
-      <div class="bar-track">
-        <div class="bar-fill" style="width:${pct}%;background:${col};"><span>${Number(v).toFixed(3)}%</span></div>
-        <div class="bar-ref" style="left:50%;"></div>
-      </div>
-    </div>`;
+function drawCalibChart(p){
+  const ids=[p+'-e1',p+'-e2',p+'-e3'];
+  const vals=ids.map(id=>document.getElementById(id).value);
+  if(vals.every(v=>v===''))return;
+  const nums=vals.map(v=>parseFloat(v)||0);
+  const mx=Math.max(...nums.map(Math.abs),1.5);
+  const cols=['#00d4ff','#ffd600','#bf7fff'];
+  let h='<div class="bc"><div style="font-size:.66rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-family:\'Share Tech Mono\',monospace;">Gráfico Repetibilidade</div>';
+  nums.forEach((v,i)=>{
+    const pct=Math.min(Math.abs(v)/mx*100,100);
+    const cl=ecClass(v);const col=cl==='ecok'?'#00ff88':cl==='ecwarn'?'#ffd600':'#ff4466';
+    h+=`<div class="bwrap"><div class="blbl"><span style="color:${cols[i]}">Leitura ${i+1}</span><span class="${cl}">${v>=0?'+':''}${v.toFixed(3)}%</span></div>
+    <div class="btrack"><div class="bfill" style="width:${pct}%;background:${col};"><span>${v.toFixed(3)}%</span></div></div></div>`;
   });
-  // Limit line at 1%
-  html+=`<div style="margin-top:6px;font-size:.68rem;color:var(--dim);font-family:'Share Tech Mono',monospace;">⚠ Limite aceitável: ±1,000%</div>`;
-  html+='</div>';
-  document.getElementById(containerId).innerHTML=html;
+  h+='<div style="font-size:.64rem;color:var(--dim);font-family:\'Share Tech Mono\',monospace;margin-top:4px;">⚠ Limite: ±1,000%</div></div>';
+  document.getElementById(p+'-chart').innerHTML=h;
 }
 
-function previewZeroChart(){
-  const v=[document.getElementById('z-e1').value,document.getElementById('z-e2').value,document.getElementById('z-e3').value];
-  if(v.some(x=>x!=='')) makeCalibChart(v[0]||0,v[1]||0,v[2]||0,'zero-chart-preview');
-}
-function previewSpanChart(){
-  const v=[document.getElementById('s-e1').value,document.getElementById('s-e2').value,document.getElementById('s-e3').value];
-  if(v.some(x=>x!=='')) makeCalibChart(v[0]||0,v[1]||0,v[2]||0,'span-chart-preview');
-}
-
-// ── Save calibration ──
-function saveCalib(type){
-  const p=type==='zero'?'z':'s';
+function saveCalib(tipo){
+  const p=tipo==='zero'?'z':'s';
   const tag=document.getElementById(p+'-tag').value;
   const date=document.getElementById(p+'-date').value;
   const time=document.getElementById(p+'-time').value;
   const tec=document.getElementById(p+'-tec').value.trim();
   const navio=document.getElementById(p+'-navio').value.trim();
-  const e1=document.getElementById(p+'-e1').value;
-  const e2=document.getElementById(p+'-e2').value;
-  const e3=document.getElementById(p+'-e3').value;
+  const erros=[document.getElementById(p+'-e1').value,document.getElementById(p+'-e2').value,document.getElementById(p+'-e3').value];
   const limpa=document.getElementById(p+'-limpa').checked;
   const corr=document.getElementById(p+'-corr').checked;
   const errEl=document.getElementById(p+'-err');
-
-  if(!tag){errEl.textContent='⚠ Selecione o TAG da balança.';errEl.classList.add('visible');return;}
-  if(!date||!time){errEl.textContent='⚠ Informe data e hora.';errEl.classList.add('visible');return;}
-  if(!tec){errEl.textContent='⚠ Informe o nome do técnico.';errEl.classList.add('visible');return;}
-  if(!navio){errEl.textContent='⚠ Informe o nome do navio.';errEl.classList.add('visible');return;}
-  if(e1===''||e2===''||e3===''){errEl.textContent='⚠ Preencha as 3 leituras de erro.';errEl.classList.add('visible');return;}
-  errEl.classList.remove('visible');
-
-  const erros=[Number(e1),Number(e2),Number(e3)];
-  const mediaErro=erros.reduce((a,b)=>a+b,0)/3;
-  const alerta=erros.some(v=>Math.abs(v)>1);
-
-  const rec={
-    id:Date.now(),
-    tipo:type,
-    tag,date,time,tec,navio,
-    erros,mediaErro:mediaErro.toFixed(3),
-    limpa,corr,alerta,
-    ts:new Date().toISOString()
-  };
-
-  const hist=getHistory();
-  hist.unshift(rec);
-  saveHistory(hist);
-
-  // Reset form
-  document.getElementById(p+'-tag').value='';
-  document.getElementById(p+'-e1').value='';
-  document.getElementById(p+'-e2').value='';
-  document.getElementById(p+'-e3').value='';
+  hV(p+'-err');hV(p+'-ok');
+  if(!tag)return showErr(errEl,'Selecione o TAG da balança.');
+  if(!date||!time)return showErr(errEl,'Informe data e hora.');
+  if(!tec)return showErr(errEl,'Informe o nome do técnico.');
+  if(!navio)return showErr(errEl,'Informe o nome do navio.');
+  if(erros.some(v=>v===''))return showErr(errEl,'Preencha as 3 leituras de erro.');
+  const nums=erros.map(Number);
+  const media=nums.reduce((a,b)=>a+b,0)/3;
+  const alerta=nums.some(v=>Math.abs(v)>1);
+  const rec={id:Date.now(),tipo,tag,date,time,tec,navio,erros:nums,media:media.toFixed(3),limpa,corr,alerta,ts:new Date().toISOString()};
+  const h=getHist();h.unshift(rec);saveHist(h);
+  // Reset
+  [p+'-tag',p+'-e1',p+'-e2',p+'-e3'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   document.getElementById(p+'-limpa').checked=false;
   document.getElementById(p+'-corr').checked=false;
-  document.getElementById((type==='zero'?'zero':'span')+'-chart-preview').innerHTML='';
-
-  // Success flash
-  errEl.style.color='var(--green)';errEl.style.borderColor='rgba(0,255,136,.3)';
-  errEl.textContent='✅ Registro salvo com sucesso!';errEl.classList.add('visible');
-  setTimeout(()=>{errEl.classList.remove('visible');errEl.style.color='';errEl.style.borderColor='';},3000);
+  document.getElementById(p+'-chart').innerHTML='';
+  sV(p+'-ok');setTimeout(()=>hV(p+'-ok'),3000);
 }
 
-// ── CF Calculation ──
 function calcCF(){
   const act=parseFloat(document.getElementById('cf-act').value);
   const ind=parseFloat(document.getElementById('cf-ind').value);
   const res=document.getElementById('cf-result');
-  const errEl=document.getElementById('cf-err');
   if(isNaN(act)||isNaN(ind)||ind===0){res.style.display='none';return;}
-  errEl.classList.remove('visible');
-  const cf=act/ind;
-  const actPct=cf*100;
-  const erroPct=actPct-100;
+  const cf=act/ind;const actPct=cf*100;const erroPct=actPct-100;
   const alerta=Math.abs(erroPct)>1;
-
-  document.getElementById('cf-formula').innerHTML=
-    `CF = ACT ÷ IND
-CF = ${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} ÷ ${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})}
-CF = ${cf.toFixed(7)}
-
-ACT% = CF × IND%
-ACT% = ${cf.toFixed(7)} × 100
-ACT% = ${actPct.toFixed(3)}`;
+  const navio=document.getElementById('cf-navio').value||'Navio';
+  document.getElementById('cf-formula').textContent=`CF = ${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} ÷ ${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})}\nCF = ${cf.toFixed(7)}\n\nACT% = ${cf.toFixed(7)} × 100\nACT% = ${actPct.toFixed(3)}`;
   document.getElementById('cf-val').textContent=cf.toFixed(7);
   document.getElementById('cf-actpct').textContent=actPct.toFixed(3)+'%';
-  document.getElementById('cf-erro').innerHTML=`<span class="${errColor(erroPct)}">${erroPct>=0?'+':''}${erroPct.toFixed(3)}%</span>`;
-
-  const alertEl=document.getElementById('cf-alert');
-  if(alerta){
-    alertEl.className='cf-alert warn';
-    alertEl.innerHTML='⚠️ ERRO ACIMA DE 1%! Correção necessária. Erro atual: '+(erroPct>=0?'+':'')+erroPct.toFixed(3)+'%';
-  } else {
-    alertEl.className='cf-alert ok';
-    alertEl.innerHTML='✅ Erro dentro do limite de ±1%. Link aprovado.';
-  }
-
-  // Bar chart
-  const navio=document.getElementById('cf-navio').value||'Navio';
-  const maxVal=Math.max(act,ind)*1.05;
-  const pAct=Math.min(act/maxVal*100,100);
-  const pInd=Math.min(ind/maxVal*100,100);
-  document.getElementById('cf-bar-chart').innerHTML=`
-    <div class="bar-chart" style="margin-top:14px;">
-      <div style="font-size:.68rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:'Share Tech Mono',monospace;">Comparação ACT × IND — ${navio}</div>
-      <div class="bar-wrap">
-        <div class="bar-label"><span style="color:#00ff88;">ACT (Arqueação do Navio)</span><span style="color:#00ff88;">${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:${pAct}%;background:#00ff88;"><span>${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div></div>
-      </div>
-      <div class="bar-wrap">
-        <div class="bar-label"><span style="color:#00d4ff;">IND (Total da Balança)</span><span style="color:#00d4ff;">${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:${pInd}%;background:#00d4ff;"><span>${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div></div>
-      </div>
-      <div class="bar-wrap">
-        <div class="bar-label"><span style="color:${alerta?'#ff4466':'#00ff88'}">Erro (%)</span><span class="${errColor(erroPct)}">${erroPct>=0?'+':''}${erroPct.toFixed(3)}%</span></div>
-        <div class="bar-track" style="height:20px;">
-          <div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,214,0,.7);z-index:1;"></div>
-          <div style="position:absolute;top:0;bottom:0;${erroPct>=0?'left:50%':'right:50%'};width:${Math.min(Math.abs(erroPct)/2*100,50)}%;background:${alerta?'#ff4466':'#00ff88'};"></div>
-        </div>
-      </div>
-    </div>`;
+  document.getElementById('cf-erro').innerHTML=`<span class="${ecClass(erroPct)}">${erroPct>=0?'+':''}${erroPct.toFixed(3)}%</span>`;
+  const al=document.getElementById('cf-alrt');
+  al.className='cf-alrt '+(alerta?'bad':'ok');
+  al.innerHTML=alerta?`⚠️ ERRO ACIMA DE 1%! Correção necessária. Erro: ${erroPct>=0?'+':''}${erroPct.toFixed(3)}%`:`✅ Erro dentro do limite ±1%. Link aprovado.`;
+  const maxV=Math.max(act,ind)*1.05;
+  const pA=Math.min(act/maxV*100,100);const pI=Math.min(ind/maxV*100,100);
+  const ep=Math.min(Math.abs(erroPct)/2*100,50);
+  document.getElementById('cf-chart').innerHTML=`<div class="bc" style="margin-top:12px;">
+    <div style="font-size:.66rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;font-family:'Share Tech Mono',monospace;">Comparação ACT × IND — ${navio}</div>
+    <div class="bwrap"><div class="blbl"><span style="color:#00ff88">ACT (Arqueação)</span><span style="color:#00ff88">${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div>
+    <div class="btrack"><div class="bfill" style="width:${pA}%;background:#00ff88"><span>${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div></div></div>
+    <div class="bwrap"><div class="blbl"><span style="color:#00d4ff">IND (Balança)</span><span style="color:#00d4ff">${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div>
+    <div class="btrack"><div class="bfill" style="width:${pI}%;background:#00d4ff"><span>${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div></div></div>
+    <div class="bwrap"><div class="blbl"><span style="color:${alerta?'#ff4466':'#00ff88'}">Erro (%)</span><span class="${ecClass(erroPct)}">${erroPct>=0?'+':''}${erroPct.toFixed(3)}%</span></div>
+    <div class="btrack" style="height:18px;"><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,214,0,.7);z-index:1;"></div>
+    <div style="position:absolute;top:0;bottom:0;${erroPct>=0?'left:50%':'right:50%'};width:${ep}%;background:${alerta?'#ff4466':'#00ff88'};"></div></div></div>
+  </div>`;
   res.style.display='block';
 }
 
@@ -1590,96 +1009,82 @@ function saveCF(){
   const act=parseFloat(document.getElementById('cf-act').value);
   const ind=parseFloat(document.getElementById('cf-ind').value);
   const errEl=document.getElementById('cf-err');
-  if(!tag){errEl.textContent='⚠ Selecione o TAG da balança.';errEl.classList.add('visible');return;}
-  if(!navio){errEl.textContent='⚠ Informe o nome do navio.';errEl.classList.add('visible');return;}
-  if(isNaN(act)||isNaN(ind)){errEl.textContent='⚠ Calcule o CF antes de salvar.';errEl.classList.add('visible');return;}
-  const cf=act/ind; const actPct=cf*100; const erroPct=actPct-100;
+  hV('cf-err');hV('cf-ok');
+  if(!tag)return showErr(errEl,'Selecione o TAG.');
+  if(!navio)return showErr(errEl,'Informe o navio.');
+  if(isNaN(act)||isNaN(ind))return showErr(errEl,'Calcule o CF antes de salvar.');
+  const cf=act/ind;const actPct=cf*100;const erroPct=actPct-100;
   const now=new Date();
-  const rec={
-    id:Date.now(),tipo:'cf',tag,
-    date:now.toISOString().slice(0,10),
-    time:now.toTimeString().slice(0,5),
-    navio,act,ind,cf:cf.toFixed(7),actPct:actPct.toFixed(3),
-    erroPct:erroPct.toFixed(3),alerta:Math.abs(erroPct)>1,
-    ts:now.toISOString()
-  };
-  const hist=getHistory(); hist.unshift(rec); saveHistory(hist);
-  errEl.style.color='var(--green)';errEl.style.borderColor='rgba(0,255,136,.3)';
-  errEl.textContent='✅ Registro de CF salvo!';errEl.classList.add('visible');
-  setTimeout(()=>{errEl.classList.remove('visible');errEl.style.color='';errEl.style.borderColor='';},3000);
+  const rec={id:Date.now(),tipo:'cf',tag,date:now.toISOString().slice(0,10),time:now.toTimeString().slice(0,5),navio,act,ind,cf:cf.toFixed(7),actPct:actPct.toFixed(3),erroPct:erroPct.toFixed(3),alerta:Math.abs(erroPct)>1,ts:now.toISOString()};
+  const h=getHist();h.unshift(rec);saveHist(h);
+  sV('cf-ok');setTimeout(()=>hV('cf-ok'),3000);
 }
 
-// ── History storage ──
-function getHistory(){
-  try{return JSON.parse(localStorage.getItem('csn-bal-hist')||'[]');}catch{return [];}
-}
-function saveHistory(h){
-  try{localStorage.setItem('csn-bal-hist',JSON.stringify(h));}catch{}
-}
-function clearHistory(){
-  if(confirm('Apagar todo o histórico? Esta ação não pode ser desfeita.')){
-    localStorage.removeItem('csn-bal-hist');
-    renderHistory();
-  }
-}
+function showErr(el,msg){el.textContent='⚠ '+msg;sV(el.id);}
+function getHist(){try{return JSON.parse(localStorage.getItem('csn-bal-v2')||'[]');}catch{return[];}}
+function saveHist(h){try{localStorage.setItem('csn-bal-v2',JSON.stringify(h));}catch{}}
+function clearHistory(){if(confirm('Apagar todo o histórico?')){localStorage.removeItem('csn-bal-v2');renderHistory();}}
 
-// ── Render History ──
 function renderHistory(){
-  const hist=getHistory();
-  const fTag=document.getElementById('hist-filter-tag').value;
-  const fType=document.getElementById('hist-filter-type').value;
-  const filtered=hist.filter(r=>{
-    if(fTag&&r.tag!==fTag) return false;
-    if(fType&&r.tipo!==fType) return false;
-    return true;
-  });
+  const h=getHist();
+  const ft=document.getElementById('hf-tag').value;
+  const fT=document.getElementById('hf-type').value;
+  const f=h.filter(r=>(!ft||r.tag===ft)&&(!fT||r.tipo===fT));
   const el=document.getElementById('hist-list');
-  if(!filtered.length){
-    el.innerHTML='<div class="no-hist">📭 Nenhum registro encontrado.</div>';
-    return;
-  }
-  el.innerHTML=filtered.map(r=>{
-    const typeLabel=r.tipo==='zero'?'ZERO':r.tipo==='span'?'SPAN':'CF';
-    const typeCls=r.tipo==='zero'?'zero':r.tipo==='span'?'span':'zero';
+  if(!f.length){el.innerHTML='<div class="no-hist">📭 Nenhum registro encontrado.</div>';return;}
+  el.innerHTML=f.map(r=>{
+    const tl=r.tipo==='zero'?'ZERO':r.tipo==='span'?'SPAN':'CF';
     let body='';
     if(r.tipo==='zero'||r.tipo==='span'){
-      const erros=r.erros||[];
-      body=`
-        <b>Técnico:</b> ${r.tec} &nbsp;|&nbsp; <b>Navio:</b> ${r.navio}<br>
-        <b>Erros:</b> ${erros.map((v,i)=>`L${i+1}: <span class="${errColor(v)}">${Number(v)>=0?'+':''}${Number(v).toFixed(3)}%</span>`).join(' · ')}<br>
-        <b>Média:</b> <span class="${errColor(Number(r.mediaErro))}">${Number(r.mediaErro)>=0?'+':''}${r.mediaErro}%</span> &nbsp;|&nbsp;
-        <b>Limpa:</b> ${r.limpa?'✅ Sim':'❌ Não'} &nbsp;|&nbsp;
-        <b>Corrigida:</b> ${r.corr?'✅ Sim':'❌ Não'}`;
+      body=`<b>Técnico:</b> ${r.tec} &nbsp;|&nbsp; <b>Navio:</b> ${r.navio}<br>
+      <b>Erros:</b> ${(r.erros||[]).map((v,i)=>`L${i+1}: <span class="${ecClass(v)}">${v>=0?'+':''}${Number(v).toFixed(3)}%</span>`).join(' · ')}<br>
+      <b>Média:</b> <span class="${ecClass(Number(r.media))}">${Number(r.media)>=0?'+':''}${r.media}%</span> &nbsp;|&nbsp;
+      <b>Limpa:</b> ${r.limpa?'✅':'❌'} &nbsp;|&nbsp; <b>Corrigida:</b> ${r.corr?'✅':'❌'}`;
     } else {
-      body=`
-        <b>Navio:</b> ${r.navio}<br>
-        <b>ACT:</b> ${Number(r.act).toLocaleString('pt-BR',{minimumFractionDigits:3})} T &nbsp;|&nbsp;
-        <b>IND:</b> ${Number(r.ind).toLocaleString('pt-BR',{minimumFractionDigits:3})} T<br>
-        <b>CF:</b> ${r.cf} &nbsp;|&nbsp;
-        <b>ACT%:</b> ${r.actPct}% &nbsp;|&nbsp;
-        <b>Erro:</b> <span class="${errColor(Number(r.erroPct))}">${Number(r.erroPct)>=0?'+':''}${r.erroPct}%</span>`;
+      body=`<b>Navio:</b> ${r.navio}<br>
+      <b>ACT:</b> ${Number(r.act).toLocaleString('pt-BR',{minimumFractionDigits:3})} T &nbsp;|&nbsp; <b>IND:</b> ${Number(r.ind).toLocaleString('pt-BR',{minimumFractionDigits:3})} T<br>
+      <b>CF:</b> ${r.cf} &nbsp;|&nbsp; <b>ACT%:</b> ${r.actPct}% &nbsp;|&nbsp; <b>Erro:</b> <span class="${ecClass(Number(r.erroPct))}">${Number(r.erroPct)>=0?'+':''}${r.erroPct}%</span>`;
     }
-    return `<div class="hist-item">
-      <button class="hist-del" onclick="delRecord(${r.id})">🗑</button>
-      <div class="hi-header">
-        <div>
-          <span class="hi-tag">${r.tag}</span>
-          <span class="hi-type ${typeCls}" style="margin-left:6px;">${typeLabel}</span>
-        </div>
-        <div class="hi-date">${r.date} ${r.time}</div>
-      </div>
+    return `<div class="hi"><button class="hdel" onclick="delRec(${r.id})">🗑</button>
+      <div class="hi-hdr"><div><span class="hi-tag">${r.tag}</span><span class="hi-type ${r.tipo}" style="margin-left:6px;">${tl}</span></div>
+      <div class="hi-date">${r.date} ${r.time}</div></div>
       <div class="hi-body">${body}</div>
-      ${r.alerta?'<div class="hi-alert">⚠️ Erro acima de 1% — Correção recomendada</div>':''}
+      ${r.alerta?'<div class="hi-alrt">⚠️ Erro acima de 1% — Correção recomendada</div>':''}
     </div>`;
   }).join('');
 }
 
-function delRecord(id){
-  if(!confirm('Excluir este registro?')) return;
-  const hist=getHistory().filter(r=>r.id!==id);
-  saveHistory(hist);
+function delRec(id){
+  if(!confirm('Excluir este registro?'))return;
+  saveHist(getHist().filter(r=>r.id!==id));
   renderHistory();
 }
+
+// ══ INIT ══
+(function init(){
+  const now=new Date();
+  const d=now.toISOString().slice(0,10);
+  const t=now.toTimeString().slice(0,5);
+  ['z-date','s-date'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=d;});
+  ['z-time','s-time'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=t;});
+})();
+
+// ══ PWA ══
+if('serviceWorker' in navigator){
+  window.addEventListener('load',async()=>{
+    try{
+      const regs=await navigator.serviceWorker.getRegistrations();
+      for(const r of regs)await r.unregister();
+      const keys=await caches.keys();
+      for(const k of keys)await caches.delete(k);
+      await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+    }catch(e){}
+  });
+}
+let dP=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dP=e;setTimeout(()=>document.getElementById('install-banner').classList.add('show'),1500);});
+document.getElementById('install-btn').addEventListener('click',()=>{if(dP){dP.prompt();dP.userChoice.then(()=>dP=null);}document.getElementById('install-banner').classList.remove('show');});
+window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
 </script>
 </body>
 </html>
