@@ -1067,119 +1067,117 @@ function exportPDF(){
   const fT = document.getElementById('hf-type').value;
   const filtered = h.filter(r=>(!ft||r.tag===ft)&&(!fT||r.tipo===fT));
 
-  if(!filtered.length){
-    alert('Nenhum registro para exportar.');
-    return;
-  }
+  if(!filtered.length){ alert('Nenhum registro para exportar.'); return; }
 
   const now = new Date();
   const dateStr = now.toLocaleDateString('pt-BR');
   const timeStr = now.toTimeString().slice(0,5);
+  const fileDate = now.toISOString().slice(0,10);
   const filterDesc = (ft||'Todas as balanças') + ' · ' + (fT ? fT.toUpperCase() : 'Todos os tipos');
 
-  // Build HTML for print window
   let rows = filtered.map((r,i) => {
     const tl = r.tipo==='zero'?'CALIBRAÇÃO ZERO': r.tipo==='span'?'CALIBRAÇÃO SPAN':'CORREÇÃO CF';
-    const color = r.tipo==='zero'?'#0055aa': r.tipo==='span'?'#886600':'#006633';
-    const alert = r.alerta ? '<tr><td colspan="2" style="background:#fff0f0;color:#cc0000;font-weight:bold;padding:6px 10px;border:1px solid #ffcccc;">⚠ ERRO ACIMA DE 1% — Correção recomendada</td></tr>' : '';
-
+    const bgColor = r.tipo==='zero'?'#0055aa': r.tipo==='span'?'#886600':'#006633';
+    const alertRow = r.alerta ? `<tr><td colspan="2" style="background:#fff0f0;color:#cc0000;font-weight:bold;padding:6px 10px;border:1px solid #ffcccc;">&#9888; ERRO ACIMA DE 1% &mdash; Correção recomendada</td></tr>` : '';
     let body = '';
     if(r.tipo==='zero'||r.tipo==='span'){
-      const erros = (r.erros||[]);
-      const eRows = erros.map((v,idx)=>{
-        const color = Math.abs(v)<=0.5?'#006600':Math.abs(v)<=1?'#886600':'#cc0000';
-        return `<tr><td>Leitura ${idx+1}</td><td style="color:${color};font-weight:bold;">${v>=0?'+':''}${Number(v).toFixed(3)} %</td></tr>`;
+      const eRows = (r.erros||[]).map((v,idx)=>{
+        const col = Math.abs(v)<=0.5?'#006600':Math.abs(v)<=1?'#886600':'#cc0000';
+        return `<tr><td>Leitura ${idx+1}</td><td style="color:${col};font-weight:bold;">${v>=0?'+':''}${Number(v).toFixed(3)} %</td></tr>`;
       }).join('');
-      const mColor = Math.abs(Number(r.media))<=0.5?'#006600':Math.abs(Number(r.media))<=1?'#886600':'#cc0000';
-      body = `
-        <tr><td>Técnico</td><td>${r.tec}</td></tr>
+      const mCol = Math.abs(Number(r.media))<=0.5?'#006600':Math.abs(Number(r.media))<=1?'#886600':'#cc0000';
+      body = `<tr><td>Técnico</td><td>${r.tec}</td></tr>
         <tr><td>Navio</td><td>${r.navio}</td></tr>
         ${eRows}
-        <tr><td>Média dos erros</td><td style="color:${mColor};font-weight:bold;">${Number(r.media)>=0?'+':''}${r.media} %</td></tr>
-        <tr><td>Balança limpa</td><td>${r.limpa?'✅ Sim':'❌ Não'}</td></tr>
-        <tr><td>Houve correção</td><td>${r.corr?'✅ Sim':'❌ Não'}</td></tr>
-        ${alert}`;
+        <tr><td>Média dos erros</td><td style="color:${mCol};font-weight:bold;">${Number(r.media)>=0?'+':''}${r.media} %</td></tr>
+        <tr><td>Balança limpa</td><td>${r.limpa?'Sim':'Não'}</td></tr>
+        <tr><td>Houve correção</td><td>${r.corr?'Sim':'Não'}</td></tr>${alertRow}`;
     } else {
-      const eColor = Math.abs(Number(r.erroPct))<=0.5?'#006600':Math.abs(Number(r.erroPct))<=1?'#886600':'#cc0000';
-      body = `
-        <tr><td>Navio</td><td>${r.navio}</td></tr>
-        <tr><td>ACT — Total do Navio</td><td>${Number(r.act).toLocaleString('pt-BR',{minimumFractionDigits:3})} T</td></tr>
-        <tr><td>IND — Total da Balança</td><td>${Number(r.ind).toLocaleString('pt-BR',{minimumFractionDigits:3})} T</td></tr>
+      const eCol = Math.abs(Number(r.erroPct))<=0.5?'#006600':Math.abs(Number(r.erroPct))<=1?'#886600':'#cc0000';
+      body = `<tr><td>Navio</td><td>${r.navio}</td></tr>
+        <tr><td>ACT &mdash; Total do Navio</td><td>${Number(r.act).toLocaleString('pt-BR',{minimumFractionDigits:3})} T</td></tr>
+        <tr><td>IND &mdash; Total da Balança</td><td>${Number(r.ind).toLocaleString('pt-BR',{minimumFractionDigits:3})} T</td></tr>
         <tr><td>Coeficiente CF</td><td>${r.cf}</td></tr>
         <tr><td>ACT%</td><td>${r.actPct} %</td></tr>
-        <tr><td>Erro em relação ao navio</td><td style="color:${eColor};font-weight:bold;">${Number(r.erroPct)>=0?'+':''}${r.erroPct} %</td></tr>
-        ${alert}`;
+        <tr><td>Erro em relação ao navio</td><td style="color:${eCol};font-weight:bold;">${Number(r.erroPct)>=0?'+':''}${r.erroPct} %</td></tr>${alertRow}`;
     }
-
-    return `
-      <div class="rec">
-        <div class="rec-header" style="background:${color};">
-          <span class="rec-num">#${String(i+1).padStart(2,'0')}</span>
-          <span>${r.tag} — ${tl}</span>
-          <span class="rec-date">${r.date} ${r.time}</span>
-        </div>
-        <table>${body}</table>
-      </div>`;
+    return `<div class="rec">
+      <div class="rec-hdr" style="background:${bgColor};">
+        <span class="rec-num">#${String(i+1).padStart(2,'0')}</span>
+        <span style="flex:1;">${r.tag} &mdash; ${tl}</span>
+        <span class="rec-date">${r.date} ${r.time}</span>
+      </div>
+      <table>${body}</table>
+    </div>`;
   }).join('');
 
   const html = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Relatório Balanças — CSN Automação</title>
+<title>Relatorio_Balancas_CSN_${fileDate}</title>
 <style>
-  @page { margin: 18mm 15mm; }
-  body { font-family: Arial, sans-serif; font-size: 11px; color: #111; }
-  .header { display:flex; align-items:center; justify-content:space-between; border-bottom: 3px solid #003366; padding-bottom: 10px; margin-bottom: 14px; }
-  .logo-block { display:flex; flex-direction:column; }
-  .logo-title { font-size: 20px; font-weight: 900; color: #003366; letter-spacing: 2px; }
-  .logo-sub { font-size: 10px; color: #666; letter-spacing: 1px; margin-top: 2px; }
-  .report-info { text-align: right; font-size: 10px; color: #555; line-height: 1.6; }
-  .filter-bar { background: #f0f4f8; border: 1px solid #ccd; border-radius: 4px; padding: 6px 10px; margin-bottom: 14px; font-size: 10px; color: #444; }
-  .filter-bar strong { color: #003366; }
-  .rec { margin-bottom: 14px; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; page-break-inside: avoid; }
-  .rec-header { display:flex; align-items:center; justify-content:space-between; padding: 7px 10px; color: white; font-weight: bold; font-size: 11px; gap: 8px; }
-  .rec-num { background: rgba(255,255,255,.25); padding: 2px 7px; border-radius: 10px; font-size: 10px; flex-shrink:0; }
-  .rec-date { font-size: 9.5px; opacity: .9; flex-shrink:0; }
-  table { width: 100%; border-collapse: collapse; }
-  td { padding: 5px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
-  td:first-child { width: 45%; color: #555; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; background: #fafafa; }
-  td:last-child { font-weight: 500; font-size: 11px; }
-  .total { margin-top: 14px; padding: 8px 12px; background: #f0f4f8; border: 1px solid #ccd; border-radius: 4px; font-size: 10px; color: #444; display:flex; justify-content:space-between; }
-  .footer { margin-top: 18px; padding-top: 8px; border-top: 1px solid #ccc; font-size: 9px; color: #888; text-align:center; }
+  @page{margin:15mm 12mm;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:Arial,sans-serif;font-size:11pt;color:#111;background:#fff;}
+  .hdr{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #003366;padding-bottom:10px;margin-bottom:12px;}
+  .hdr-left .title{font-size:18pt;font-weight:900;color:#003366;letter-spacing:2px;}
+  .hdr-left .sub{font-size:9pt;color:#555;margin-top:3px;letter-spacing:1px;}
+  .hdr-right{text-align:right;font-size:9pt;color:#555;line-height:1.7;}
+  .fbar{background:#f0f4ff;border:1px solid #aac;border-radius:3px;padding:5px 10px;margin-bottom:12px;font-size:9pt;color:#334;}
+  .fbar b{color:#003366;}
+  .rec{margin-bottom:12px;border:1px solid #bbb;border-radius:3px;overflow:hidden;page-break-inside:avoid;}
+  .rec-hdr{display:flex;align-items:center;gap:8px;padding:6px 10px;color:#fff;font-weight:bold;font-size:10.5pt;}
+  .rec-num{background:rgba(255,255,255,.25);padding:1px 7px;border-radius:10px;font-size:9.5pt;flex-shrink:0;}
+  .rec-date{font-size:9pt;opacity:.9;flex-shrink:0;margin-left:auto;}
+  table{width:100%;border-collapse:collapse;}
+  td{padding:5px 9px;border-bottom:1px solid #eee;vertical-align:top;}
+  td:first-child{width:42%;font-size:9pt;color:#555;text-transform:uppercase;letter-spacing:.5px;background:#f9f9f9;}
+  td:last-child{font-size:10.5pt;font-weight:500;}
+  .footer{margin-top:14px;padding-top:8px;border-top:1px solid #ccc;font-size:8.5pt;color:#888;display:flex;justify-content:space-between;}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="logo-block">
-    <div class="logo-title">⚖ CSN AUTOMAÇÃO</div>
-    <div class="logo-sub">RELATÓRIO DE CALIBRAÇÃO — BALANÇAS INTEGRADORAS PABR</div>
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="title">CSN AUTOMACAO</div>
+    <div class="sub">RELATORIO DE CALIBRACAO &mdash; BALANCAS INTEGRADORAS PABR</div>
+    <div class="sub" style="margin-top:4px;">BAL-05 TM111 &nbsp;|&nbsp; BAL-06 TM111</div>
   </div>
-  <div class="report-info">
-    Emitido em: ${dateStr} às ${timeStr}<br>
-    BAL-05 TM111 · BAL-06 TM111<br>
-    Total de registros: ${filtered.length}
+  <div class="hdr-right">
+    Emitido em: <b>${dateStr}</b> as ${timeStr}<br>
+    Total de registros: <b>${filtered.length}</b>
   </div>
 </div>
-<div class="filter-bar">
-  <strong>Filtros aplicados:</strong> ${filterDesc}
-</div>
+<div class="fbar"><b>Filtros:</b> ${filterDesc}</div>
 ${rows}
-<div class="total">
-  <span>Total exportado: <strong>${filtered.length} registros</strong></span>
-  <span>Gerado por: CSN Automação · ${dateStr}</span>
+<div class="footer">
+  <span>Total exportado: <b>${filtered.length} registros</b></span>
+  <span>CSN Automacao &mdash; ${dateStr}</span>
 </div>
-<div class="footer">Documento gerado automaticamente pelo app CSN Automação · Automação CSN · PABR</div>
 </body>
 </html>`;
 
-  // Open in print window
-  const win = window.open('','_blank','width=800,height=900');
-  if(!win){ alert('Permita pop-ups para gerar o PDF.'); return; }
-  win.document.write(html);
-  win.document.close();
-  win.focus();
-  setTimeout(()=>{ win.print(); }, 500);
+  // Create Blob and trigger .html download (abre no Chrome como página limpa pronta pra salvar como PDF)
+  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'Relatorio_Balancas_CSN_' + fileDate + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  // Also open print dialog for direct PDF save
+  setTimeout(()=>{
+    const win = window.open(url, '_blank');
+    if(win){
+      win.addEventListener('load', ()=>{
+        setTimeout(()=>{ win.print(); }, 400);
+      });
+    }
+  }, 200);
 }
 
 // ══ INIT ══
