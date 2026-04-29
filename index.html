@@ -1082,7 +1082,26 @@ function calcFiber(){
 
 // ═══════════════ PWA ═══════════════
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('./sw.js');
+      // Força verificação de atualização toda vez que abre
+      reg.update();
+      // Se houver SW novo esperando, ativa imediatamente
+      reg.addEventListener('updatefound', () => {
+        const newSW = reg.installing;
+        newSW.addEventListener('statechange', () => {
+          if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+            newSW.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
+      });
+      // Recarrega quando novo SW assumir o controle
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+      });
+    } catch(e) {}
+  });
 }
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{
