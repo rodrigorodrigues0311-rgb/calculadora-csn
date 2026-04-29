@@ -6,423 +6,1171 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="CLP CSN">
+<meta name="apple-mobile-web-app-title" content="CSN Automação">
 <meta name="theme-color" content="#1a6fd4">
-<meta name="description" content="Calculadora de endereços I/O para CLP – Automação CSN">
-
-<title>Automação CSN – Calculadora CLP</title>
-
-<!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<!-- Apple touch icon -->
 <link rel="apple-touch-icon" href="icon-192.png">
-<!-- Favicon -->
 <link rel="icon" type="image/png" href="icon-192.png">
-
+<title>Automação CSN – Ferramentas</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
-  :root {
-    --bg: #0a0e14;
-    --panel: #111820;
-    --border: #1e3a4a;
-    --accent: #00d4ff;
-    --accent2: #ff6b00;
-    --green: #00ff88;
-    --yellow: #ffd600;
-    --purple: #bf7fff;
-    --dim: #3a5a6a;
-    --text: #c8dce8;
-    --label: #6a9ab0;
-    --csn-blue: #1a6fd4;
-  }
+:root{
+  --bg:#0a0e14;--panel:#111820;--border:#1e3a4a;
+  --accent:#00d4ff;--accent2:#ff6b00;
+  --green:#00ff88;--yellow:#ffd600;--purple:#bf7fff;
+  --red:#ff4466;--orange:#ff8800;
+  --dim:#3a5a6a;--text:#c8dce8;--label:#6a9ab0;
+  --csn:#1a6fd4;
+  --ge:#00aaff;--rock:#d4201a;--siem:#009999;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:999;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── NAV BAR ── */
+.navbar{position:sticky;top:0;z-index:100;background:#0d1620;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
+.navbar::-webkit-scrollbar{display:none;}
+.nav-btn{flex:0 0 auto;padding:12px 14px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.nav-btn .nav-icon{font-size:1.1rem;}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.nav-btn:hover{color:var(--text);}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: max(28px, env(safe-area-inset-top)) 16px 52px;
-    overflow-x: hidden;
-  }
+/* ── PAGES ── */
+.page{display:none;padding:20px 14px 60px;max-width:660px;margin:0 auto;}
+.page.active{display:block;}
 
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0px, transparent 3px,
-      rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px
-    );
-    pointer-events: none; z-index: 999;
-  }
+/* ── HEADER ── */
+.csn-header{text-align:center;margin-bottom:20px;}
+.csn-brand{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:10px;}
+.csn-svg{width:80px;height:80px;filter:drop-shadow(0 0 12px rgba(26,111,212,.7));}
+@keyframes gearSpin{to{transform:rotate(360deg);}}
+.gear-spin{transform-box:fill-box;transform-origin:center;animation:gearSpin 12s linear infinite;}
+.csn-text-auto{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:5px;text-transform:uppercase;color:#e0eeff;}
+.csn-divider{width:44px;height:2px;background:linear-gradient(90deg,transparent,var(--csn),transparent);}
+.csn-text-csn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:8px;text-transform:uppercase;color:var(--csn);text-shadow:0 0 16px rgba(26,111,212,.5);}
+.page-title{font-size:1.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;}
+.page-title span{color:var(--accent);}
+.page-sub{font-size:.8rem;color:var(--label);margin-top:4px;letter-spacing:1px;}
 
-  /* ── HEADER ─────────────────────────────── */
-  header { text-align: center; margin-bottom: 28px; }
+/* ── CARDS ── */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
+.card-bar{position:absolute;top:0;left:0;right:0;height:2px;}
+.sec{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
 
-  .csn-brand { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 16px; }
+/* ── GRIDS ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
 
-  .csn-svg {
-    width: 110px; height: 110px;
-    filter: drop-shadow(0 0 16px rgba(26,111,212,0.75));
-  }
+/* ── BUTTONS ── */
+.btn-sel{padding:9px 6px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;}
+.btn-sel .bs-icon{font-size:1.3rem;}
+.btn-sel:hover{border-color:var(--dim);color:var(--text);}
+.btn-sel.active{border-color:var(--accent);background:rgba(0,212,255,.09);color:var(--accent);}
 
-  @keyframes gearSpin { to { transform: rotate(360deg); } }
-  .gear-spin { transform-box: fill-box; transform-origin: center; animation: gearSpin 12s linear infinite; }
+.btn-main{width:100%;padding:12px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .22s;position:relative;overflow:hidden;margin-top:4px;}
+.btn-main::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .22s;z-index:0;}
+.btn-main:hover::before{transform:translateX(0);}
+.btn-main:hover{color:#000;}
+.btn-main span{position:relative;z-index:1;}
 
-  .csn-text-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  .csn-text-auto { font-family: 'Rajdhani',sans-serif; font-weight:700; font-size:1rem; letter-spacing:5px; text-transform:uppercase; color:#e0eeff; }
-  .csn-divider   { width:56px; height:2px; background: linear-gradient(90deg,transparent,var(--csn-blue),transparent); }
-  .csn-text-csn  { font-family: 'Rajdhani',sans-serif; font-weight:700; font-size:1.75rem; letter-spacing:8px; text-transform:uppercase; color:var(--csn-blue); text-shadow:0 0 20px rgba(26,111,212,0.55); }
+/* ── INPUTS ── */
+.inp-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.inp-group label{font-size:.75rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
+.inp-row{display:flex;}
+.inp-pfx{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--dim);padding:8px 10px;background:#0d1620;border:1px solid var(--border);border-right:none;border-radius:3px 0 0 3px;white-space:nowrap;display:flex;align-items:center;}
+input[type=number]{flex:1;min-width:0;background:#0d1620;border:1px solid var(--border);border-radius:0 3px 3px 0;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:1rem;padding:8px 10px;outline:none;-moz-appearance:textfield;}
+input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;}
+input:focus{border-color:var(--accent);}
 
-  .logo-tag { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:5px; opacity:0.6; margin-bottom:8px; }
+/* ── TOGGLE BITS ── */
+.bit-toggle{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;}
+.bit-btn{width:48px;height:48px;border-radius:4px;border:2px solid var(--border);background:#0d1620;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.8rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all .18s;flex-shrink:0;}
+.bit-btn .bit-lbl{font-size:.55rem;color:var(--dim);opacity:.7;}
+.bit-btn.on{border-color:var(--green);background:rgba(0,255,136,.12);color:var(--green);}
+.bit-btn.on .bit-lbl{color:var(--green);}
 
-  h1 { font-size:1.8rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fff; line-height:1.1; }
-  h1 span { color: var(--accent); }
-  .subtitle { font-size:0.85rem; color:var(--label); margin-top:6px; letter-spacing:1px; }
+/* ── RESULT BOX ── */
+.res-box{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-top:10px;}
+.res-box.ok{border-color:var(--green);}
+.res-box.off{border-color:var(--red);}
+.res-label{font-size:.68rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.res-val{font-family:'Share Tech Mono',monospace;font-size:1.6rem;font-weight:700;}
+.res-val.green{color:var(--green);}
+.res-val.red{color:var(--red);}
+.res-sub{font-size:.7rem;color:var(--dim);margin-top:3px;}
 
-  /* ── CARD ───────────────────────────────── */
-  .card { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:26px; width:100%; max-width:580px; position:relative; overflow:hidden; }
-  .card-bar { position:absolute; top:0; left:0; right:0; height:2px; transition:background 0.35s; }
+/* ── GATE SYMBOL SVG ── */
+.gate-svg-wrap{display:flex;justify-content:center;margin:10px 0;}
+.gate-svg-wrap svg{filter:drop-shadow(0 0 8px rgba(0,212,255,.3));}
 
-  /* ── TYPE GRID ──────────────────────────── */
-  .type-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:22px; }
-  .type-btn {
-    padding:11px 8px; background:#0d1620; border:1px solid var(--border); border-radius:4px;
-    color:var(--label); font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.88rem;
-    letter-spacing:0.5px; cursor:pointer; text-transform:uppercase; transition:all 0.18s;
-    display:flex; flex-direction:column; align-items:center; gap:3px; line-height:1.2;
-  }
-  .type-btn .tb-tag { font-family:'Share Tech Mono',monospace; font-size:0.68rem; opacity:0.5; font-weight:400; }
-  .type-btn:hover { border-color:var(--dim); color:var(--text); }
-  .tb-ED.active { border-color:var(--accent);  background:rgba(0,212,255,0.09);   color:var(--accent);  }
-  .tb-SD.active { border-color:var(--yellow);  background:rgba(255,214,0,0.08);   color:var(--yellow);  }
-  .tb-EA.active { border-color:var(--green);   background:rgba(0,255,136,0.08);   color:var(--green);   }
-  .tb-SA.active { border-color:var(--purple);  background:rgba(191,127,255,0.08); color:var(--purple);  }
+/* ── TRUTH TABLE ── */
+.truth-table{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:.78rem;margin-top:8px;}
+.truth-table th{background:#0d1620;color:var(--accent);padding:6px 8px;text-align:center;border:1px solid var(--border);font-size:.7rem;letter-spacing:1px;}
+.truth-table td{padding:5px 8px;text-align:center;border:1px solid var(--border);color:var(--text);}
+.truth-table tr.highlight-row td{background:rgba(0,212,255,.07);color:var(--accent);}
+.truth-table .val1{color:var(--green);}
+.truth-table .val0{color:var(--red);}
 
-  /* ── SECTION TITLE ──────────────────────── */
-  .section-title { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:3px; color:var(--accent); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+/* ── RJ45 ── */
+.rj45-wrap{display:flex;justify-content:center;margin:12px 0;}
+.pin-row{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
+.pin{width:36px;padding:6px 2px;border-radius:3px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Share Tech Mono',monospace;font-size:.6rem;text-align:center;}
+.pin .pnum{font-size:.7rem;font-weight:700;color:#fff;}
+.pin .pname{font-size:.52rem;color:rgba(255,255,255,.6);line-height:1.1;}
 
-  /* ── INPUTS ─────────────────────────────── */
-  .input-group { display:flex; flex-direction:column; gap:7px; margin-bottom:18px; }
-  label { font-size:0.8rem; color:var(--label); letter-spacing:1px; text-transform:uppercase; }
-  .input-row { display:flex; align-items:stretch; }
-  .prefix { font-family:'Share Tech Mono',monospace; font-size:1rem; color:var(--dim); padding:10px 12px; background:#0d1620; border:1px solid var(--border); border-right:none; border-radius:3px 0 0 3px; white-space:nowrap; display:flex; align-items:center; }
-  input[type="number"] { flex:1; min-width:0; background:#0d1620; border:1px solid var(--border); border-radius:0 3px 3px 0; color:var(--accent); font-family:'Share Tech Mono',monospace; font-size:1.15rem; padding:10px 14px; outline:none; transition:border-color 0.2s,color 0.2s; -moz-appearance:textfield; width:100%; }
-  input::-webkit-inner-spin-button, input::-webkit-outer-spin-button { -webkit-appearance:none; }
-  input:focus { border-color:var(--accent); box-shadow:0 0 0 2px rgba(0,212,255,0.07); }
+/* Wire colors */
+.wOW{background:#cc7700;border-color:#cc7700;}
+.wO{background:#ff8800;border-color:#ff8800;}
+.wGW{background:#1a7a1a;border-color:#1a7a1a;}
+.wBL{background:#0055cc;border-color:#0055cc;}
+.wBLW{background:#3399ff;border-color:#3399ff;}
+.wG{background:#22aa22;border-color:#22aa22;}
+.wBR{background:#8b4513;border-color:#8b4513;}
+.wBRW{background:#d2691e;border-color:#d2691e;}
 
-  /* ── DIRECTION TOGGLE ───────────────────── */
-  .toggle-row { display:flex; margin-bottom:22px; border:1px solid var(--border); border-radius:3px; overflow:hidden; }
-  .toggle-btn { flex:1; padding:9px; background:transparent; border:none; color:var(--label); font-family:'Rajdhani',sans-serif; font-weight:600; font-size:0.82rem; letter-spacing:1px; cursor:pointer; text-transform:uppercase; transition:all 0.2s; }
-  .toggle-btn.active { background:var(--accent); color:#000; }
+.poe-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px;}
+.poe-table th{background:#0d1620;color:var(--yellow);padding:6px;text-align:left;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:1px;}
+.poe-table td{padding:6px 8px;border:1px solid var(--border);color:var(--text);font-size:.78rem;}
+.poe-table tr:nth-child(even) td{background:rgba(255,255,255,.02);}
 
-  /* ── CALC BUTTON ────────────────────────── */
-  .calc-btn { width:100%; padding:13px; background:transparent; border:1px solid var(--accent); color:var(--accent); font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1rem; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:3px; transition:all 0.22s; position:relative; overflow:hidden; }
-  .calc-btn::before { content:''; position:absolute; inset:0; background:var(--accent); transform:translateX(-101%); transition:transform 0.22s; z-index:0; }
-  .calc-btn:hover::before { transform:translateX(0); }
-  .calc-btn:hover { color:#000; }
-  .calc-btn span { position:relative; z-index:1; }
+/* ── FIBER ── */
+.fiber-card{background:#0d1620;border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:10px;}
+.fiber-card.mm{border-left:3px solid var(--orange);}
+.fiber-card.sm{border-left:3px solid var(--yellow);}
+.fiber-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.fiber-title .ft-badge{font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:2px 7px;border-radius:2px;border:1px solid;letter-spacing:1px;}
+.fiber-table{width:100%;border-collapse:collapse;font-size:.75rem;}
+.fiber-table td{padding:5px 8px;border:1px solid var(--border);vertical-align:top;}
+.fiber-table td:first-child{color:var(--label);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;width:38%;}
+.fiber-table td:last-child{color:var(--text);font-family:'Share Tech Mono',monospace;}
+.fiber-table tr:nth-child(even) td{background:rgba(255,255,255,.02);}
 
-  /* ── RESULTS ────────────────────────────── */
-  .result-panel { margin-top:22px; display:none; animation:fadeIn 0.28s ease; }
-  .result-panel.visible { display:block; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-  .result-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .result-item { background:#0d1620; border:1px solid var(--border); border-radius:3px; padding:13px 15px; transition:border-color 0.3s,background 0.3s; }
-  .result-item.highlight { grid-column:1/-1; }
-  .r-label { font-size:0.7rem; color:var(--label); letter-spacing:2px; text-transform:uppercase; margin-bottom:5px; }
-  .r-value { font-family:'Share Tech Mono',monospace; font-size:1.2rem; color:var(--text); transition:color 0.3s; }
-  .result-item.highlight .r-value { font-size:1.45rem; }
-  .r-sub { font-size:0.72rem; color:var(--dim); margin-top:3px; }
+.tip-box{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.78rem;color:var(--text);line-height:1.5;}
+.tip-box .tip-title{color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.warn-box{background:rgba(255,136,0,.05);border:1px solid rgba(255,136,0,.25);border-radius:3px;padding:10px 12px;margin-top:8px;font-size:.78rem;color:var(--text);line-height:1.5;}
+.warn-box .tip-title{color:var(--orange);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
 
-  /* ── CHANNEL DIAGRAM ────────────────────── */
-  .ch-row { display:flex; gap:4px; flex-wrap:wrap; margin-top:12px; }
-  .ch-cell { border:1px solid var(--border); border-radius:2px; display:flex; align-items:center; justify-content:center; font-family:'Share Tech Mono',monospace; font-size:0.58rem; color:var(--dim); flex-direction:column; gap:1px; transition:all 0.2s; cursor:default; width:28px; height:28px; }
-  .ch-cell .ch-num { font-size:0.52rem; color:inherit; opacity:0.7; }
+/* ── CONNECTOR CHIPS ── */
+.chip-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;}
+.chip{padding:4px 10px;border-radius:2px;border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--text);background:#0d1620;letter-spacing:1px;}
+.chip.blue{border-color:var(--accent);color:var(--accent);}
+.chip.green{border-color:var(--green);color:var(--green);}
+.chip.yellow{border-color:var(--yellow);color:var(--yellow);}
+.chip.orange{border-color:var(--orange);color:var(--orange);}
 
-  /* ── ERROR ──────────────────────────────── */
-  .error-msg { font-family:'Share Tech Mono',monospace; font-size:0.8rem; color:var(--accent2); padding:10px 14px; border:1px solid rgba(255,107,0,0.3); border-radius:3px; margin-top:14px; display:none; }
-  .error-msg.visible { display:block; }
-  .info-row { margin-top:18px; padding-top:14px; border-top:1px solid var(--border); font-size:0.74rem; color:var(--dim); font-family:'Share Tech Mono',monospace; text-align:center; letter-spacing:1px; }
+/* ── MFR GRID (CLP) ── */
+.mfr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
+.mfr-btn{padding:10px 5px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .18s;}
+.mfr-btn .mfr-logo{font-size:1.4rem;}
+.mfr-btn .mfr-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.5px;text-transform:uppercase;text-align:center;line-height:1.2;}
+.mfr-btn .mfr-model{font-family:'Share Tech Mono',monospace;font-size:.6rem;opacity:.5;text-align:center;}
+.mfr-btn:hover{border-color:var(--dim);color:var(--text);}
+.mfr-btn.active-GE{border-color:var(--ge);background:rgba(0,170,255,.09);color:var(--ge);}
+.mfr-btn.active-ROCK{border-color:var(--rock);background:rgba(212,32,26,.09);color:var(--rock);}
+.mfr-btn.active-SIEM{border-color:var(--siem);background:rgba(0,153,153,.09);color:var(--siem);}
 
-  /* ── INSTALL BANNER ─────────────────────── */
-  .install-banner { position:fixed; bottom:0; left:0; right:0; background:#111820; border-top:2px solid #1a6fd4; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; z-index:1000; transform:translateY(100%); transition:transform 0.35s; box-shadow:0 -4px 20px rgba(26,111,212,0.3); }
-  .install-banner.show { transform:translateY(0); }
-  .install-banner p { font-size:0.85rem; color:var(--text); flex:1; line-height:1.3; }
-  .install-banner p strong { color:#5aaaff; }
-  .install-btn { padding:9px 18px; background:#1a6fd4; color:#fff; border:none; border-radius:3px; font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.9rem; letter-spacing:1px; cursor:pointer; white-space:nowrap; }
-  .dismiss-btn { background:transparent; border:none; color:var(--dim); font-size:1.3rem; cursor:pointer; padding:4px 8px; }
+.type-grid{display:grid;gap:6px;margin-bottom:16px;}
+.type-btn{padding:9px 10px;background:#0d1620;border:1px solid var(--border);border-radius:4px;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;gap:8px;text-align:left;}
+.type-btn .tb-icon{font-size:1rem;flex-shrink:0;}
+.type-btn .tb-info{display:flex;flex-direction:column;gap:1px;}
+.type-btn .tb-tag{font-family:'Share Tech Mono',monospace;font-size:.62rem;opacity:.5;font-weight:400;}
 
-  @media (max-width:480px) {
-    .result-grid { grid-template-columns:1fr; }
-    .result-item.highlight { grid-column:1; }
-    h1 { font-size:1.45rem; }
-  }
+.toggle-row{display:flex;margin-bottom:16px;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.toggle-btn{flex:1;padding:8px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .2s;}
+.toggle-btn.active{background:var(--accent);color:#000;}
+
+.clp-prefix{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--dim);padding:8px 9px;background:#0d1620;border:1px solid var(--border);border-right:none;border-radius:3px 0 0 3px;white-space:nowrap;display:flex;align-items:center;}
+
+.err{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--accent2);padding:8px 12px;border:1px solid rgba(255,107,0,.3);border-radius:3px;margin-top:10px;display:none;}
+.err.visible{display:block;}
+
+.result-panel{margin-top:16px;display:none;}
+.result-panel.visible{display:block;}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ri{background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;transition:border-color .3s,background .3s;}
+.ri.hl{grid-column:1/-1;}
+.ri.fw{grid-column:1/-1;}
+.ri .rl{font-size:.67rem;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.ri .rv{font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:var(--text);word-break:break-all;}
+.ri.hl .rv{font-size:1.25rem;}
+.ri .rsub{font-size:.68rem;color:var(--dim);margin-top:2px;}
+.ch-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:10px;}
+.ch-cell{border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--dim);transition:all .2s;cursor:default;}
+.info-row{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:.7rem;color:var(--dim);font-family:'Share Tech Mono',monospace;text-align:center;letter-spacing:1px;}
+
+/* ── INSTALL BANNER ── */
+.install-banner{position:fixed;bottom:0;left:0;right:0;background:#111820;border-top:2px solid var(--csn);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:1000;transform:translateY(100%);transition:transform .35s;box-shadow:0 -4px 20px rgba(26,111,212,.3);}
+.install-banner.show{transform:translateY(0);}
+.install-banner p{font-size:.8rem;color:var(--text);flex:1;}
+.install-banner p strong{color:#5aaaff;}
+.ibtn{padding:7px 14px;background:var(--csn);color:#fff;border:none;border-radius:3px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;}
+.dbtn{background:transparent;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;padding:4px 8px;}
+
+@media(max-width:400px){
+  .grid4{grid-template-columns:repeat(4,1fr);}
+  .result-grid{grid-template-columns:1fr;}
+  .ri.hl,.ri.fw{grid-column:1;}
+}
 </style>
 </head>
 <body>
 
 <!-- Install Banner -->
 <div class="install-banner" id="install-banner">
-  <p>📱 Instalar <strong>CLP CSN</strong> na tela inicial?</p>
-  <button class="install-btn" id="install-btn">Instalar</button>
-  <button class="dismiss-btn" onclick="document.getElementById('install-banner').classList.remove('show')">✕</button>
+  <p>📱 Instalar <strong>CSN Automação</strong> na tela inicial?</p>
+  <button class="ibtn" id="install-btn">Instalar</button>
+  <button class="dbtn" onclick="document.getElementById('install-banner').classList.remove('show')">✕</button>
 </div>
 
-<!-- Header -->
-<header>
-  <div class="csn-brand">
-    <svg class="csn-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="gGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%"   stop-color="#ffffff"/>
-          <stop offset="50%"  stop-color="#c8dfff"/>
-          <stop offset="100%" stop-color="#1a6fd4"/>
-        </linearGradient>
-        <linearGradient id="aGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%"   stop-color="#0a3a8a"/>
-          <stop offset="100%" stop-color="#3a8fff"/>
-        </linearGradient>
-        <linearGradient id="arcGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%"   stop-color="#1a6fd4"/>
-          <stop offset="100%" stop-color="#0a2860"/>
-        </linearGradient>
-        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="1.8" result="b"/>
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <g class="gear-spin">
-        <path fill="url(#gGrad)" d="M50,14 L53,10 L56,15 L62,13 L63,19 L69,19 L68,25 L74,27 L72,33 L77,37 L73,42 L77,47 L72,50 L74,56 L68,57 L68,63 L62,63 L61,69 L55,67 L52,73 L47,70 L43,75 L39,71 L33,73 L32,67 L26,66 L26,60 L20,58 L22,52 L17,48 L21,43 L17,38 L22,35 L20,29 L26,28 L26,22 L32,22 L33,16 L39,17 L42,11 L47,14 Z"/>
-        <circle cx="50" cy="48" r="17" fill="#090f1a"/>
-        <circle cx="50" cy="48" r="15" fill="none" stroke="url(#gGrad)" stroke-width="1.5"/>
-        <path fill="url(#arcGrad)" d="M33,73 Q30,88 50,93 Q70,88 67,73 L61,69 Q60,80 50,83 Q40,80 39,69 Z"/>
-        <circle cx="50" cy="48" r="6" fill="url(#gGrad)"/>
-        <circle cx="50" cy="48" r="3" fill="#090f1a"/>
-      </g>
-      <g filter="url(#glow)">
-        <circle cx="50" cy="60" r="5.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
-        <rect x="48" y="42" width="5" height="20" rx="2.5" fill="url(#aGrad)" transform="rotate(-20 50 60)"/>
-        <circle cx="43" cy="50" r="4.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
-        <rect x="41" y="30" width="5" height="22" rx="2.5" fill="url(#aGrad)" transform="rotate(15 43 50)"/>
-        <circle cx="49" cy="32" r="4"   fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
-        <line x1="47" y1="28" x2="42" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
-        <line x1="52" y1="28" x2="58" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="41" cy="21" r="2.8" fill="#5aaaff"/>
-        <circle cx="59" cy="21" r="2.8" fill="#5aaaff"/>
-      </g>
-    </svg>
-    <div class="csn-text-wrap">
-      <span class="csn-text-auto">Automação</span>
-      <div class="csn-divider"></div>
-      <span class="csn-text-csn">CSN</span>
-    </div>
-  </div>
-  <div class="logo-tag">◈ Sistema CLP ◈</div>
-  <h1>Calculadora de<br><span>Sinais I/O</span></h1>
-  <p class="subtitle">Mapeamento de endereços → Cartão / Canal</p>
-</header>
+<!-- Navigation -->
+<nav class="navbar">
+  <button class="nav-btn active" onclick="goPage('home')" id="nav-home">
+    <span class="nav-icon">🏠</span>Home
+  </button>
+  <button class="nav-btn" onclick="goPage('clp')" id="nav-clp">
+    <span class="nav-icon">⚙️</span>CLP I/O
+  </button>
+  <button class="nav-btn" onclick="goPage('gates')" id="nav-gates">
+    <span class="nav-icon">🔲</span>Portas
+  </button>
+  <button class="nav-btn" onclick="goPage('rj45')" id="nav-rj45">
+    <span class="nav-icon">🔌</span>RJ45
+  </button>
+  <button class="nav-btn" onclick="goPage('fiber')" id="nav-fiber">
+    <span class="nav-icon">💡</span>Fibra
+  </button>
+</nav>
 
-<!-- Main Card -->
-<div class="card" id="main-card">
-  <div class="card-bar" id="card-bar"></div>
-
-  <div class="section-title">Tipo de Sinal</div>
-  <div class="type-grid">
-    <button class="type-btn tb-ED" id="tb-ED" onclick="setType('ED')">Entrada Digital<span class="tb-tag">%I0001 · 16 canais</span></button>
-    <button class="type-btn tb-SD" id="tb-SD" onclick="setType('SD')">Saída Digital<span class="tb-tag">%Q0001 · 16 canais</span></button>
-    <button class="type-btn tb-EA" id="tb-EA" onclick="setType('EA')">Entrada Analógica<span class="tb-tag">%AI0001 · 8 canais</span></button>
-    <button class="type-btn tb-SA" id="tb-SA" onclick="setType('SA')">Saída Analógica<span class="tb-tag">%AQ0001 · 8 canais</span></button>
-  </div>
-
-  <div class="section-title">Direção do Cálculo</div>
-  <div class="toggle-row">
-    <button class="toggle-btn active" id="btn-addr" onclick="setDir('addr')">Endereço → Cartão/Canal</button>
-    <button class="toggle-btn"        id="btn-slot" onclick="setDir('slot')">Cartão/Canal → Endereço</button>
-  </div>
-
-  <div id="mode-addr">
-    <div class="section-title">Informe o Endereço</div>
-    <div class="input-group">
-      <label>Variável</label>
-      <div class="input-row">
-        <span class="prefix" id="pfx-addr">%I</span>
-        <input type="number" id="inp-addr" placeholder="0032" min="1" max="99999" onkeydown="if(event.key==='Enter') calcular()">
+<!-- ═══════════════ HOME ═══════════════ -->
+<div class="page active" id="page-home">
+  <div class="csn-header">
+    <div class="csn-brand">
+      <svg class="csn-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#c8dfff"/><stop offset="100%" stop-color="#1a6fd4"/></linearGradient>
+          <linearGradient id="aG" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0a3a8a"/><stop offset="100%" stop-color="#3a8fff"/></linearGradient>
+          <linearGradient id="arG" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1a6fd4"/><stop offset="100%" stop-color="#0a2860"/></linearGradient>
+          <filter id="gl"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g class="gear-spin">
+          <path fill="url(#gG)" d="M50,14 L53,10 L56,15 L62,13 L63,19 L69,19 L68,25 L74,27 L72,33 L77,37 L73,42 L77,47 L72,50 L74,56 L68,57 L68,63 L62,63 L61,69 L55,67 L52,73 L47,70 L43,75 L39,71 L33,73 L32,67 L26,66 L26,60 L20,58 L22,52 L17,48 L21,43 L17,38 L22,35 L20,29 L26,28 L26,22 L32,22 L33,16 L39,17 L42,11 L47,14 Z"/>
+          <circle cx="50" cy="48" r="17" fill="#090f1a"/>
+          <circle cx="50" cy="48" r="15" fill="none" stroke="url(#gG)" stroke-width="1.5"/>
+          <path fill="url(#arG)" d="M33,73 Q30,88 50,93 Q70,88 67,73 L61,69 Q60,80 50,83 Q40,80 39,69 Z"/>
+          <circle cx="50" cy="48" r="6" fill="url(#gG)"/><circle cx="50" cy="48" r="3" fill="#090f1a"/>
+        </g>
+        <g filter="url(#gl)">
+          <circle cx="50" cy="60" r="5.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
+          <rect x="48" y="42" width="5" height="20" rx="2.5" fill="url(#aG)" transform="rotate(-20 50 60)"/>
+          <circle cx="43" cy="50" r="4.5" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
+          <rect x="41" y="30" width="5" height="22" rx="2.5" fill="url(#aG)" transform="rotate(15 43 50)"/>
+          <circle cx="49" cy="32" r="4" fill="#1a6fd4" stroke="#5aaaff" stroke-width="1.5"/>
+          <line x1="47" y1="28" x2="42" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
+          <line x1="52" y1="28" x2="58" y2="22" stroke="#5aaaff" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="41" cy="21" r="2.8" fill="#5aaaff"/><circle cx="59" cy="21" r="2.8" fill="#5aaaff"/>
+        </g>
+      </svg>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+        <span class="csn-text-auto">Automação</span>
+        <div class="csn-divider"></div>
+        <span class="csn-text-csn">CSN</span>
       </div>
     </div>
+    <div class="page-title">Ferramentas de<br><span>Automação</span></div>
+    <p class="page-sub">CLP · Portas Lógicas · Redes · Fibra Óptica</p>
   </div>
 
-  <div id="mode-slot" style="display:none">
-    <div class="section-title">Informe o Cartão e Canal</div>
-    <div class="input-group">
-      <label id="lbl-card">Número do Cartão</label>
-      <div class="input-row">
-        <span class="prefix" id="pfx-card">Cartão ED</span>
-        <input type="number" id="inp-card" placeholder="02" min="1" max="9999" onkeydown="if(event.key==='Enter') calcular()">
+  <div class="grid2">
+    <div class="card" style="cursor:pointer" onclick="goPage('clp')">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00aaff,transparent)"></div>
+      <div style="font-size:2rem;margin-bottom:8px;">⚙️</div>
+      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">CLP I/O</div>
+      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">GE · Rockwell · Siemens</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="goPage('gates')">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div style="font-size:2rem;margin-bottom:8px;">🔲</div>
+      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Portas</div>
+      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">AND OR NOT XOR…</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="goPage('rj45')">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
+      <div style="font-size:2rem;margin-bottom:8px;">🔌</div>
+      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">RJ45</div>
+      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">T568A · T568B · PoE</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="goPage('fiber')">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
+      <div style="font-size:2rem;margin-bottom:8px;">💡</div>
+      <div style="font-weight:700;font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Fibra Óptica</div>
+      <div style="font-size:.75rem;color:var(--label);margin-top:4px;">SM · MM · Conectores</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CLP I/O ═══════════════ -->
+<div class="page" id="page-clp">
+  <div class="page-title" style="margin-bottom:16px;">⚙️ Calculadora <span>CLP I/O</span></div>
+
+  <div class="card" id="clp-card">
+    <div class="card-bar" id="clp-bar"></div>
+    <div class="sec">1 · Fabricante</div>
+    <div class="mfr-grid">
+      <button class="mfr-btn" id="mfr-GE" onclick="setMfr('GE')"><span class="mfr-logo">⚡</span><span class="mfr-name">GE Emerson</span><span class="mfr-model">PACSystems</span></button>
+      <button class="mfr-btn" id="mfr-ROCK" onclick="setMfr('ROCK')"><span class="mfr-logo">🔴</span><span class="mfr-name">Rockwell</span><span class="mfr-model">ControlLogix</span></button>
+      <button class="mfr-btn" id="mfr-SIEM" onclick="setMfr('SIEM')"><span class="mfr-logo">🟦</span><span class="mfr-name">Siemens</span><span class="mfr-model">S7-400</span></button>
+    </div>
+
+    <div id="clp-sig-wrap" style="display:none">
+      <div class="sec">2 · Tipo de Sinal</div>
+      <div class="type-grid" id="clp-type-grid"></div>
+    </div>
+
+    <div id="clp-dir-wrap" style="display:none">
+      <div class="sec">3 · Direção</div>
+      <div class="toggle-row">
+        <button class="toggle-btn active" id="clp-btn-addr" onclick="setClpDir('addr')">Endereço → Local</button>
+        <button class="toggle-btn" id="clp-btn-slot" onclick="setClpDir('slot')">Local → Endereço</button>
       </div>
     </div>
-    <div class="input-group">
-      <label id="lbl-ch">Bit / Canal (1 a 16)</label>
-      <div class="input-row">
-        <span class="prefix" id="pfx-ch">CANAL</span>
-        <input type="number" id="inp-ch" placeholder="16" min="1" max="16" onkeydown="if(event.key==='Enter') calcular()">
+
+    <div id="clp-inputs"></div>
+    <button class="btn-main" id="clp-calc-btn" style="display:none" onclick="calcClp()"><span>⚡ Calcular</span></button>
+    <div class="err" id="clp-err"></div>
+
+    <div class="result-panel" id="clp-result">
+      <div class="sec" style="margin-top:8px;">Resultado</div>
+      <div id="clp-badge" style="margin-bottom:10px;"></div>
+      <div class="result-grid" id="clp-res-grid"></div>
+      <div class="sec" style="margin-top:14px;" id="clp-diag-title"></div>
+      <div class="ch-row" id="clp-ch-row"></div>
+      <div class="info-row" id="clp-range"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ LOGIC GATES ═══════════════ -->
+<div class="page" id="page-gates">
+  <div class="page-title" style="margin-bottom:16px;">🔲 Portas <span>Lógicas</span></div>
+
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+    <div class="sec">Selecione a Porta</div>
+    <div class="grid4" style="gap:6px;margin-bottom:16px;">
+      <button class="btn-sel" id="g-AND"    onclick="setGate('AND')"   ><span class="bs-icon">🔷</span>AND</button>
+      <button class="btn-sel" id="g-OR"     onclick="setGate('OR')"    ><span class="bs-icon">🔶</span>OR</button>
+      <button class="btn-sel" id="g-NOT"    onclick="setGate('NOT')"   ><span class="bs-icon">🔸</span>NOT</button>
+      <button class="btn-sel" id="g-NAND"   onclick="setGate('NAND')"  ><span class="bs-icon">🔹</span>NAND</button>
+      <button class="btn-sel" id="g-NOR"    onclick="setGate('NOR')"   ><span class="bs-icon">🔺</span>NOR</button>
+      <button class="btn-sel" id="g-XOR"    onclick="setGate('XOR')"   ><span class="bs-icon">🔻</span>XOR</button>
+      <button class="btn-sel" id="g-XNOR"   onclick="setGate('XNOR')"  ><span class="bs-icon">⬛</span>XNOR</button>
+      <button class="btn-sel" id="g-BUF"    onclick="setGate('BUF')"   ><span class="bs-icon">⬜</span>BUF</button>
+    </div>
+
+    <div id="gate-panel" style="display:none;">
+      <div class="sec" id="gate-sec-title">Entradas</div>
+
+      <!-- Gate SVG symbol -->
+      <div class="gate-svg-wrap" id="gate-svg-wrap"></div>
+
+      <!-- Input toggles -->
+      <div style="font-size:.75rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">ENTRADAS — toque para alternar 0/1</div>
+      <div class="bit-toggle" id="gate-inputs"></div>
+
+      <!-- Output -->
+      <div id="gate-output"></div>
+
+      <!-- Truth Table -->
+      <div class="sec" style="margin-top:16px;">Tabela Verdade</div>
+      <div id="gate-truth"></div>
+
+      <!-- Description -->
+      <div class="tip-box" id="gate-desc" style="margin-top:12px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ RJ45 ═══════════════ -->
+<div class="page" id="page-rj45">
+  <div class="page-title" style="margin-bottom:16px;">🔌 Crimpagem <span>RJ45</span></div>
+
+  <!-- T568A -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+    <div class="sec">Padrão T568A</div>
+    <div style="font-size:.78rem;color:var(--label);margin-bottom:10px;">Usado em redes residenciais e alguns ambientes industriais. Compatível com T568B via cabo cruzado.</div>
+    <div class="pin-row">
+      <div class="pin wGW"><span class="pnum">1</span><span class="pname">B.Verde TX+</span></div>
+      <div class="pin wG"> <span class="pnum">2</span><span class="pname">Verde TX-</span></div>
+      <div class="pin wOW"><span class="pnum">3</span><span class="pname">B.Laran RX+</span></div>
+      <div class="pin wBL"><span class="pnum">4</span><span class="pname">Azul</span></div>
+      <div class="pin wBLW"><span class="pnum">5</span><span class="pname">B.Azul</span></div>
+      <div class="pin wO"> <span class="pnum">6</span><span class="pname">Laranja RX-</span></div>
+      <div class="pin wBR"><span class="pnum">7</span><span class="pname">B.Marrom</span></div>
+      <div class="pin wBRW"><span class="pnum">8</span><span class="pname">Marrom</span></div>
+    </div>
+    <table class="truth-table" style="margin-top:8px;">
+      <tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
+      <tr><td>1</td><td style="color:#4caf50;">Branco/Verde</td><td>TX+</td><td>Par 3</td></tr>
+      <tr><td>2</td><td style="color:#4caf50;">Verde</td><td>TX−</td><td>Par 3</td></tr>
+      <tr><td>3</td><td style="color:#ff8800;">Branco/Laranja</td><td>RX+</td><td>Par 2</td></tr>
+      <tr><td>4</td><td style="color:#4488ff;">Azul</td><td>—</td><td>Par 1</td></tr>
+      <tr><td>5</td><td style="color:#4488ff;">Branco/Azul</td><td>—</td><td>Par 1</td></tr>
+      <tr><td>6</td><td style="color:#ff8800;">Laranja</td><td>RX−</td><td>Par 2</td></tr>
+      <tr><td>7</td><td style="color:#a0785a;">Branco/Marrom</td><td>—</td><td>Par 4</td></tr>
+      <tr><td>8</td><td style="color:#a0785a;">Marrom</td><td>—</td><td>Par 4</td></tr>
+    </table>
+  </div>
+
+  <!-- T568B -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
+    <div class="sec">Padrão T568B</div>
+    <div style="font-size:.78rem;color:var(--label);margin-bottom:10px;">Padrão mais comum em ambientes corporativos e industriais. Recomendado para novas instalações.</div>
+    <div class="pin-row">
+      <div class="pin wOW"><span class="pnum">1</span><span class="pname">B.Laran TX+</span></div>
+      <div class="pin wO"> <span class="pnum">2</span><span class="pname">Laranja TX-</span></div>
+      <div class="pin wGW"><span class="pnum">3</span><span class="pname">B.Verde RX+</span></div>
+      <div class="pin wBL"><span class="pnum">4</span><span class="pname">Azul</span></div>
+      <div class="pin wBLW"><span class="pnum">5</span><span class="pname">B.Azul</span></div>
+      <div class="pin wG"> <span class="pnum">6</span><span class="pname">Verde RX-</span></div>
+      <div class="pin wBR"><span class="pnum">7</span><span class="pname">B.Marrom</span></div>
+      <div class="pin wBRW"><span class="pnum">8</span><span class="pname">Marrom</span></div>
+    </div>
+    <table class="truth-table" style="margin-top:8px;">
+      <tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
+      <tr><td>1</td><td style="color:#ff8800;">Branco/Laranja</td><td>TX+</td><td>Par 2</td></tr>
+      <tr><td>2</td><td style="color:#ff8800;">Laranja</td><td>TX−</td><td>Par 2</td></tr>
+      <tr><td>3</td><td style="color:#4caf50;">Branco/Verde</td><td>RX+</td><td>Par 3</td></tr>
+      <tr><td>4</td><td style="color:#4488ff;">Azul</td><td>—</td><td>Par 1</td></tr>
+      <tr><td>5</td><td style="color:#4488ff;">Branco/Azul</td><td>—</td><td>Par 1</td></tr>
+      <tr><td>6</td><td style="color:#4caf50;">Verde</td><td>RX−</td><td>Par 3</td></tr>
+      <tr><td>7</td><td style="color:#a0785a;">Branco/Marrom</td><td>—</td><td>Par 4</td></tr>
+      <tr><td>8</td><td style="color:#a0785a;">Marrom</td><td>—</td><td>Par 4</td></tr>
+    </table>
+  </div>
+
+  <!-- Crossover -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ff4466,transparent)"></div>
+    <div class="sec">Cabo Crossover (Cruzado)</div>
+    <div style="font-size:.78rem;color:var(--label);margin-bottom:10px;">Conecta dois equipamentos iguais diretamente (switch-switch, PC-PC). Ponta A = T568B, Ponta B = T568A.</div>
+    <table class="truth-table">
+      <tr><th>Pino A (T568B)</th><th>↔</th><th>Pino B (T568A)</th><th>Sinal</th></tr>
+      <tr><td style="color:#ff8800;">1 Bco/Laranja TX+</td><td>↔</td><td style="color:#4caf50;">3 Bco/Verde RX+</td><td>TX↔RX</td></tr>
+      <tr><td style="color:#ff8800;">2 Laranja TX−</td><td>↔</td><td style="color:#4caf50;">6 Verde RX−</td><td>TX↔RX</td></tr>
+      <tr><td style="color:#4caf50;">3 Bco/Verde RX+</td><td>↔</td><td style="color:#ff8800;">1 Bco/Laranja TX+</td><td>RX↔TX</td></tr>
+      <tr><td style="color:#4caf50;">6 Verde RX−</td><td>↔</td><td style="color:#ff8800;">2 Laranja TX−</td><td>RX↔TX</td></tr>
+      <tr><td colspan="4" style="color:var(--dim);font-size:.7rem;">Pinos 4,5,7,8 — diretos nos dois lados</td></tr>
+    </table>
+    <div class="tip-box" style="margin-top:10px;">
+      <div class="tip-title">💡 Dica</div>
+      Equipamentos modernos com <strong>Auto-MDIX</strong> não precisam de cabo cruzado — detectam e ajustam automaticamente. Use crossover apenas em equipamentos mais antigos.
+    </div>
+  </div>
+
+  <!-- Par trançado -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+    <div class="sec">Categorias de Cabo (Par Trançado)</div>
+    <table class="poe-table">
+      <tr><th>Categoria</th><th>Velocidade</th><th>Freq.</th><th>Dist. máx.</th></tr>
+      <tr><td>Cat 5e</td><td>1 Gbps</td><td>100 MHz</td><td>100 m</td></tr>
+      <tr><td>Cat 6</td><td>1 Gbps</td><td>250 MHz</td><td>100 m</td></tr>
+      <tr><td>Cat 6A</td><td>10 Gbps</td><td>500 MHz</td><td>100 m</td></tr>
+      <tr><td>Cat 7</td><td>10 Gbps</td><td>600 MHz</td><td>100 m</td></tr>
+      <tr><td>Cat 8</td><td>25/40 Gbps</td><td>2000 MHz</td><td>30 m</td></tr>
+    </table>
+    <div class="tip-box" style="margin-top:10px;">
+      <div class="tip-title">⚠️ Blindagem</div>
+      Em ambientes industriais com alta interferência eletromagnética (motores, inversores, CLPs), use sempre cabos <strong>STP (Shielded Twisted Pair)</strong> ou <strong>FTP</strong>. O aterramento da blindagem é essencial — blindagem sem terra pode piorar a interferência.
+    </div>
+  </div>
+
+  <!-- PoE -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
+    <div class="sec">PoE — Power over Ethernet</div>
+    <table class="poe-table">
+      <tr><th>Padrão</th><th>IEEE</th><th>Potência</th><th>Pinos Usados</th></tr>
+      <tr><td>PoE</td><td>802.3af</td><td>até 15,4W</td><td>1,2,3,6 ou 4,5,7,8</td></tr>
+      <tr><td>PoE+</td><td>802.3at</td><td>até 30W</td><td>1,2,3,6 ou 4,5,7,8</td></tr>
+      <tr><td>PoE++</td><td>802.3bt T3</td><td>até 60W</td><td>Todos os 4 pares</td></tr>
+      <tr><td>PoE++</td><td>802.3bt T4</td><td>até 100W</td><td>Todos os 4 pares</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:.75rem;color:var(--label);">Modos de alimentação PoE:</div>
+    <table class="poe-table" style="margin-top:6px;">
+      <tr><th>Modo</th><th>Pinos +</th><th>Pinos −</th><th>Padrão</th></tr>
+      <tr><td>Modo A</td><td>1, 2</td><td>3, 6</td><td>802.3af/at</td></tr>
+      <tr><td>Modo B</td><td>4, 5</td><td>7, 8</td><td>802.3af/at</td></tr>
+      <tr><td>4-par</td><td>1,2,4,5</td><td>3,6,7,8</td><td>802.3bt</td></tr>
+    </table>
+    <div class="warn-box">
+      <div class="tip-title">⚠️ Atenção</div>
+      Verifique sempre a potência total do switch PoE. Um switch com 8 portas PoE+ (30W cada) precisa de fonte de pelo menos 240W. Em ambientes industriais, considere margem de 25% acima da demanda calculada.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FIBER OPTICS ═══════════════ -->
+<div class="page" id="page-fiber">
+  <div class="page-title" style="margin-bottom:16px;">💡 Fibra <span>Óptica</span></div>
+
+  <!-- Monomodo -->
+  <div class="fiber-card sm">
+    <div class="fiber-title" style="color:var(--yellow);">
+      Fibra Monomodo (SM)
+      <span class="ft-badge" style="border-color:var(--yellow);color:var(--yellow);">Single-Mode · OS1/OS2</span>
+    </div>
+    <table class="fiber-table">
+      <tr><td>Núcleo / Revestimento</td><td>9 µm / 125 µm</td></tr>
+      <tr><td>Janelas Ópticas</td><td>1310 nm · 1550 nm · 1625 nm</td></tr>
+      <tr><td>Distância típica</td><td>OS1: até 10 km · OS2: até 200 km</td></tr>
+      <tr><td>Atenuação OS1</td><td>≤ 1,0 dB/km @ 1310 nm</td></tr>
+      <tr><td>Atenuação OS2</td><td>≤ 0,4 dB/km @ 1550 nm</td></tr>
+      <tr><td>Largura de banda</td><td>Ilimitada (teórica)</td></tr>
+      <tr><td>Fonte de luz</td><td>Laser (LD)</td></tr>
+      <tr><td>Cor do cabo</td><td>Amarelo (padrão)</td></tr>
+      <tr><td>Aplicações</td><td>Backbone, links longos, WDM, telecom</td></tr>
+    </table>
+    <div class="chip-row" style="margin-top:8px;">
+      <span class="chip yellow">OS1</span>
+      <span class="chip yellow">OS2</span>
+      <span class="chip yellow">DWDM</span>
+      <span class="chip yellow">CWDM</span>
+      <span class="chip yellow">1310nm</span>
+      <span class="chip yellow">1550nm</span>
+    </div>
+    <div class="tip-box" style="margin-top:10px;">
+      <div class="tip-title">💡 Manutenção SM</div>
+      • Sempre limpe os conectores antes de conectar — use kit IEC 61300-3-35<br>
+      • Reflexão de retorno (ORL) deve ser &gt; 55 dB para SM polido UPC e &gt; 65 dB para APC<br>
+      • Conectores APC (ângulo 8°) têm melhor retorno — use em sistemas sensíveis<br>
+      • Use OTDR com janela 1310nm e 1550nm para localizar falhas precisamente
+    </div>
+  </div>
+
+  <!-- Multimodo -->
+  <div class="fiber-card mm">
+    <div class="fiber-title" style="color:var(--orange);">
+      Fibra Multimodo (MM)
+      <span class="ft-badge" style="border-color:var(--orange);color:var(--orange);">Multi-Mode · OM1~OM5</span>
+    </div>
+    <table class="fiber-table">
+      <tr><td>Núcleo / Revestimento</td><td>50 µm ou 62,5 µm / 125 µm</td></tr>
+      <tr><td>Janelas Ópticas</td><td>850 nm · 1300 nm</td></tr>
+      <tr><td>Fonte de luz</td><td>LED ou VCSEL</td></tr>
+      <tr><td>Cor do cabo</td><td>Laranja (OM1/OM2) · Aqua (OM3/OM4) · Lilás (OM5)</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Comparativo por Categoria</div>
+    <table class="poe-table">
+      <tr><th>Tipo</th><th>Núcleo</th><th>BW @850nm</th><th>Dist. 1G</th><th>Dist. 10G</th></tr>
+      <tr><td>OM1</td><td>62,5µm</td><td>200 MHz·km</td><td>275 m</td><td>33 m</td></tr>
+      <tr><td>OM2</td><td>50µm</td><td>500 MHz·km</td><td>550 m</td><td>82 m</td></tr>
+      <tr><td>OM3</td><td>50µm</td><td>2000 MHz·km</td><td>1000 m</td><td>300 m</td></tr>
+      <tr><td>OM4</td><td>50µm</td><td>4700 MHz·km</td><td>1000 m</td><td>550 m</td></tr>
+      <tr><td>OM5</td><td>50µm</td><td>28000 MHz·km</td><td>1000 m</td><td>550 m</td></tr>
+    </table>
+    <div class="chip-row" style="margin-top:8px;">
+      <span class="chip orange">OM1</span>
+      <span class="chip orange">OM2</span>
+      <span class="chip orange">OM3</span>
+      <span class="chip orange">OM4</span>
+      <span class="chip orange">OM5</span>
+      <span class="chip orange">850nm</span>
+    </div>
+    <div class="tip-box" style="margin-top:10px;">
+      <div class="tip-title">💡 Manutenção MM</div>
+      • Atenuação típica: ≤ 3,5 dB/km @ 850 nm (OM3/OM4)<br>
+      • Perda por conector: ≤ 0,75 dB (típico 0,3 dB limpo)<br>
+      • Perda por emenda por fusão: ≤ 0,1 dB<br>
+      • Inspeção visual com microscópio antes de qualquer medição<br>
+      • Use fonte de luz 850 nm + medidor de potência para teste de link
+    </div>
+  </div>
+
+  <!-- Conectores -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+    <div class="sec">Tipos de Conectores</div>
+    <table class="fiber-table">
+      <tr><td>SC</td><td>Push-pull · mais usado em telecom e industrial · SM e MM</td></tr>
+      <tr><td>LC</td><td>Small form factor · data centers · duplex compacto · SM e MM</td></tr>
+      <tr><td>FC</td><td>Rosca · alta vibração · industrial · SM preferencial</td></tr>
+      <tr><td>ST</td><td>Baioneta · legado · MM predominante</td></tr>
+      <tr><td>MPO/MTP</td><td>Multi-fibra (8/12/24) · data centers · alta densidade</td></tr>
+      <tr><td>E2000</td><td>Com tampa automática · proteção alta · SM · telecom</td></tr>
+    </table>
+
+    <div style="margin-top:12px;font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Polimento dos Conectores</div>
+    <table class="fiber-table">
+      <tr><td>PC (Physical Contact)</td><td>Superfície esférica · ORL &gt; 40 dB · uso geral</td></tr>
+      <tr><td>UPC (Ultra PC)</td><td>Polimento extra fino · ORL &gt; 55 dB · SM recomendado</td></tr>
+      <tr><td>APC (Angled PC)</td><td>Ângulo 8° · ORL &gt; 65 dB · sistemas sensíveis · cor verde</td></tr>
+    </table>
+    <div class="warn-box" style="margin-top:10px;">
+      <div class="tip-title">⚠️ NUNCA conecte APC com UPC/PC!</div>
+      A diferença de 8° no ângulo causa alta reflexão e pode danificar transmissores laser. Verifique sempre o tipo antes de conectar. Conectores APC são sempre verdes.
+    </div>
+  </div>
+
+  <!-- Janelas ópticas -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
+    <div class="sec">Janelas Ópticas e Aplicações</div>
+    <table class="fiber-table">
+      <tr><td>850 nm</td><td>MM · VCSEL · Ethernet 1G/10G local · baixo custo</td></tr>
+      <tr><td>1300 nm</td><td>MM · LED · Ethernet legado · menor atenuação que 850</td></tr>
+      <tr><td>1310 nm</td><td>SM · dispersão zero · links médios · redes metro</td></tr>
+      <tr><td>1550 nm</td><td>SM · mínima atenuação · links longos · EDFA amplif.</td></tr>
+      <tr><td>1625 nm</td><td>SM · monitoramento de rede (OTDR em serviço)</td></tr>
+      <tr><td>CWDM</td><td>1270–1610 nm · 20nm espaçamento · até 18 canais</td></tr>
+      <tr><td>DWDM</td><td>1530–1565 nm · 0,8nm espaçamento · até 80+ canais</td></tr>
+    </table>
+  </div>
+
+  <!-- Orçamento de potência -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+    <div class="sec">Calculadora de Orçamento Óptico</div>
+    <div style="font-size:.78rem;color:var(--label);margin-bottom:12px;">Calcule se o link tem potência suficiente: Pot. TX − Perdas ≥ Sens. RX + Margem</div>
+
+    <div class="grid2">
+      <div class="inp-group">
+        <label>Potência TX (dBm)</label>
+        <div class="inp-row"><span class="inp-pfx">TX</span><input type="number" id="fib-tx" value="-3" step="0.1"></div>
+      </div>
+      <div class="inp-group">
+        <label>Sensibilidade RX (dBm)</label>
+        <div class="inp-row"><span class="inp-pfx">RX</span><input type="number" id="fib-rx" value="-20" step="0.1"></div>
+      </div>
+      <div class="inp-group">
+        <label>Comprimento (km)</label>
+        <div class="inp-row"><span class="inp-pfx">km</span><input type="number" id="fib-len" value="2" step="0.1" min="0"></div>
+      </div>
+      <div class="inp-group">
+        <label>Aten. fibra (dB/km)</label>
+        <div class="inp-row"><span class="inp-pfx">α</span><input type="number" id="fib-att" value="0.4" step="0.01" min="0"></div>
+      </div>
+      <div class="inp-group">
+        <label>Nº de conectores</label>
+        <div class="inp-row"><span class="inp-pfx">CON</span><input type="number" id="fib-con" value="4" min="0"></div>
+      </div>
+      <div class="inp-group">
+        <label>Nº de emendas</label>
+        <div class="inp-row"><span class="inp-pfx">EMS</span><input type="number" id="fib-spl" value="0" min="0"></div>
+      </div>
+    </div>
+    <div class="inp-group">
+      <label>Margem de segurança (dB)</label>
+      <div class="inp-row"><span class="inp-pfx">MRG</span><input type="number" id="fib-mrg" value="3" step="0.5" min="0"></div>
+    </div>
+
+    <button class="btn-main" onclick="calcFiber()"><span>📡 Calcular Link</span></button>
+
+    <div id="fib-result" style="display:none;margin-top:12px;">
+      <div class="result-grid">
+        <div class="ri hl" id="fib-status-box">
+          <div class="rl">Status do Link</div>
+          <div class="rv" id="fib-status">—</div>
+        </div>
+        <div class="ri"><div class="rl">Orçamento disponível</div><div class="rv" id="fib-budget">—</div></div>
+        <div class="ri"><div class="rl">Perda total</div><div class="rv" id="fib-loss">—</div></div>
+        <div class="ri"><div class="rl">Margem real</div><div class="rv" id="fib-margin">—</div></div>
+        <div class="ri fw"><div class="rl">Detalhamento das perdas</div><div class="rv" id="fib-detail" style="font-size:.82rem;line-height:1.6;"></div></div>
       </div>
     </div>
   </div>
 
-  <button class="calc-btn" onclick="calcular()"><span>⚡ Calcular</span></button>
-  <div class="error-msg" id="error-msg"></div>
-
-  <div class="result-panel" id="result-panel">
-    <div class="section-title" style="margin-top:6px">Resultado</div>
-    <div class="result-grid">
-      <div class="result-item highlight" id="r-highlight">
-        <div class="r-label">Identificação Completa</div>
-        <div class="r-value" id="r-full">—</div>
-      </div>
-      <div class="result-item">
-        <div class="r-label">Endereço CLP</div>
-        <div class="r-value" id="r-addr-val">—</div>
-        <div class="r-sub"   id="r-addr-sub">—</div>
-      </div>
-      <div class="result-item">
-        <div class="r-label">Cartão</div>
-        <div class="r-value" id="r-card-val">—</div>
-        <div class="r-sub"   id="r-card-sub">—</div>
-      </div>
-      <div class="result-item">
-        <div class="r-label" id="r-ch-lbl">Canal</div>
-        <div class="r-value" id="r-ch-val">—</div>
-        <div class="r-sub"   id="r-ch-sub">Canal do cartão</div>
-      </div>
-      <div class="result-item">
-        <div class="r-label">Índice (0-based)</div>
-        <div class="r-value" id="r-idx">—</div>
-        <div class="r-sub">Offset absoluto</div>
-      </div>
+  <!-- Dicas de manutenção -->
+  <div class="card">
+    <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ff8800,transparent)"></div>
+    <div class="sec">Dicas de Manutenção em Campo</div>
+    <div class="tip-box">
+      <div class="tip-title">🔧 Procedimento de Inspeção</div>
+      1. NUNCA olhe diretamente para a ponta da fibra — risco de lesão ocular<br>
+      2. Inspecione o conector com microscópio antes de conectar<br>
+      3. Limpe com caneta de limpeza ou kit IEC 61300-3-35<br>
+      4. Meça a potência no RX antes e depois de qualquer intervenção<br>
+      5. Registre valores em planilha para histórico de manutenção
     </div>
-    <div class="section-title" style="margin-top:18px" id="diagram-title">Canais do Cartão</div>
-    <div class="ch-row" id="ch-row"></div>
-    <div class="info-row" id="r-range">—</div>
+    <div class="tip-box" style="margin-top:8px;">
+      <div class="tip-title">📏 Raio mínimo de curvatura</div>
+      • Fibra SM/MM: mínimo 30 mm estático, 60 mm em movimento<br>
+      • Cabo de distribuição: mínimo 10× o diâmetro do cabo<br>
+      • Cabo de acometimento: mínimo 20× o diâmetro<br>
+      • Curvas excessivas causam micro-rupturas e aumento de atenuação
+    </div>
+    <div class="warn-box" style="margin-top:8px;">
+      <div class="tip-title">⚡ Equipamentos de teste</div>
+      • <strong>OTDR</strong>: localiza falhas, emendas e mede atenuação por trecho<br>
+      • <strong>Power Meter + Light Source</strong>: mede perda total do link (IL)<br>
+      • <strong>VFL (Visual Fault Locator)</strong>: laser vermelho visível, localiza quebras próximas<br>
+      • <strong>Microscópio de fibra</strong>: inspeção da face do conector (obrigatório)
+    </div>
   </div>
 </div>
 
 <script>
-// ── Service Worker ──────────────────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+// ═══════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════
+function goPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.getElementById('nav-'+p).classList.add('active');
+  window.scrollTo(0,0);
 }
 
-// ── PWA Install prompt ──────────────────────────────
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  setTimeout(() => document.getElementById('install-banner').classList.add('show'), 1500);
-});
-document.getElementById('install-btn').addEventListener('click', () => {
-  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(() => deferredPrompt = null); }
-  document.getElementById('install-banner').classList.remove('show');
-});
-window.addEventListener('appinstalled', () => document.getElementById('install-banner').classList.remove('show'));
-
-// ── Calculator ──────────────────────────────────────
-const TYPES = {
-  ED: { prefix:'%I',  size:16, cardLabel:'Cartão ED', chWord:'BIT',   addrSub:'Entrada Digital',   cardSub:'Módulo Entrada Digital',   color:'#00d4ff', barBg:'linear-gradient(90deg,transparent,#00d4ff,transparent)', cellBg:'rgba(0,212,255,0.15)',   hlBg:'rgba(0,212,255,0.04)'   },
-  SD: { prefix:'%Q',  size:16, cardLabel:'Cartão SD', chWord:'BIT',   addrSub:'Saída Digital',     cardSub:'Módulo Saída Digital',     color:'#ffd600', barBg:'linear-gradient(90deg,transparent,#ffd600,transparent)', cellBg:'rgba(255,214,0,0.15)',   hlBg:'rgba(255,214,0,0.04)'   },
-  EA: { prefix:'%AI', size:8,  cardLabel:'Cartão EA', chWord:'CANAL', addrSub:'Entrada Analógica', cardSub:'Módulo Entrada Analógica', color:'#00ff88', barBg:'linear-gradient(90deg,transparent,#00ff88,transparent)', cellBg:'rgba(0,255,136,0.15)',   hlBg:'rgba(0,255,136,0.04)'   },
-  SA: { prefix:'%AQ', size:8,  cardLabel:'Cartão SA', chWord:'CANAL', addrSub:'Saída Analógica',   cardSub:'Módulo Saída Analógica',   color:'#bf7fff', barBg:'linear-gradient(90deg,transparent,#bf7fff,transparent)', cellBg:'rgba(191,127,255,0.15)', hlBg:'rgba(191,127,255,0.04)' }
+// ═══════════════════════════════════════════════════
+//  LOGIC GATES
+// ═══════════════════════════════════════════════════
+const GATES={
+  AND: { inputs:2, fn:v=>v[0]&v[1], desc:'A saída é 1 somente quando TODAS as entradas são 1. Equivale à multiplicação booleana: S = A · B', sym:'AND' },
+  OR:  { inputs:2, fn:v=>v[0]|v[1], desc:'A saída é 1 quando PELO MENOS UMA entrada é 1. Equivale à soma booleana: S = A + B', sym:'OR' },
+  NOT: { inputs:1, fn:v=>v[0]^1,    desc:'Inverte a entrada. S = Ā. Também chamada de inversor. Entrada 0 → Saída 1, Entrada 1 → Saída 0', sym:'NOT' },
+  NAND:{ inputs:2, fn:v=>(v[0]&v[1])^1, desc:'NOT + AND. A saída é 0 somente quando TODAS as entradas são 1. Porta universal — qualquer circuito pode ser feito com NANDs.', sym:'NAND' },
+  NOR: { inputs:2, fn:v=>(v[0]|v[1])^1, desc:'NOT + OR. A saída é 1 somente quando TODAS as entradas são 0. Também é porta universal.', sym:'NOR' },
+  XOR: { inputs:2, fn:v=>v[0]^v[1], desc:'Ou-exclusivo. A saída é 1 quando as entradas são DIFERENTES. S = A⊕B. Muito usado em paridade e somadores.', sym:'XOR' },
+  XNOR:{ inputs:2, fn:v=>(v[0]^v[1])^1, desc:'NOT + XOR. A saída é 1 quando as entradas são IGUAIS. Detector de igualdade.', sym:'XNOR' },
+  BUF: { inputs:1, fn:v=>v[0], desc:'Buffer. Repete a entrada na saída sem alteração. Usado para amplificação de sinal e isolamento de estágios.', sym:'BUF' }
 };
 
-let curType='ED', curDir='addr';
+let curGate=null;
+let gateVals=[0,0];
 
-function setType(t) {
-  curType=t; const cfg=TYPES[t];
-  ['ED','SD','EA','SA'].forEach(k=>document.getElementById('tb-'+k).classList.toggle('active',k===t));
-  document.getElementById('card-bar').style.background=cfg.barBg;
-  document.getElementById('pfx-addr').textContent=cfg.prefix;
-  document.getElementById('pfx-card').textContent=cfg.cardLabel;
-  document.getElementById('pfx-ch').textContent=cfg.chWord;
-  document.getElementById('lbl-card').textContent='Número do '+cfg.cardLabel;
-  document.getElementById('lbl-ch').textContent=cfg.chWord+' (1 a '+cfg.size+')';
-  document.getElementById('inp-ch').max=cfg.size;
-  document.getElementById('inp-ch').placeholder=String(cfg.size);
-  document.querySelectorAll('input[type="number"]').forEach(el=>el.style.color=cfg.color);
-  hide('result-panel'); hide('error-msg');
+function setGate(g){
+  curGate=g;
+  Object.keys(GATES).forEach(k=>document.getElementById('g-'+k).classList.toggle('active',k===g));
+  const gate=GATES[g];
+  gateVals=Array(gate.inputs).fill(0);
+  document.getElementById('gate-sec-title').textContent=g+' — Simulação';
+  renderGateSVG(g);
+  renderGateInputs(g);
+  updateGateOutput();
+  renderTruthTable(g);
+  document.getElementById('gate-desc').innerHTML='<div class="tip-title">ℹ️ '+g+'</div>'+gate.desc;
+  document.getElementById('gate-panel').style.display='block';
 }
 
-function setDir(d) {
-  curDir=d;
-  document.getElementById('mode-addr').style.display=d==='addr'?'block':'none';
-  document.getElementById('mode-slot').style.display=d==='slot'?'block':'none';
-  document.getElementById('btn-addr').classList.toggle('active',d==='addr');
-  document.getElementById('btn-slot').classList.toggle('active',d==='slot');
-  hide('result-panel'); hide('error-msg');
+function renderGateInputs(g){
+  const gate=GATES[g];
+  const wrap=document.getElementById('gate-inputs');
+  wrap.innerHTML='';
+  for(let i=0;i<gate.inputs;i++){
+    const btn=document.createElement('button');
+    btn.className='bit-btn'+(gateVals[i]?' on':'');
+    btn.id='gv-'+i;
+    btn.innerHTML='<span>'+(gateVals[i]?'1':'0')+'</span><span class="bit-lbl">'+(gate.inputs>1?String.fromCharCode(65+i):'A')+'</span>';
+    btn.onclick=()=>toggleGateInput(i);
+    wrap.appendChild(btn);
+  }
 }
 
-function show(id){document.getElementById(id).classList.add('visible');}
-function hide(id){document.getElementById(id).classList.remove('visible');}
+function toggleGateInput(i){
+  gateVals[i]^=1;
+  const btn=document.getElementById('gv-'+i);
+  btn.className='bit-btn'+(gateVals[i]?' on':'');
+  btn.querySelector('span').textContent=gateVals[i]?'1':'0';
+  updateGateOutput();
+  renderTruthTable(curGate);
+}
+
+function updateGateOutput(){
+  const gate=GATES[curGate];
+  const out=gate.fn(gateVals);
+  const wrap=document.getElementById('gate-output');
+  wrap.innerHTML=`
+    <div class="res-box ${out?'ok':'off'}" style="margin-top:10px;">
+      <div class="res-label">Saída (S / Y)</div>
+      <div class="res-val ${out?'green':'red'}">${out}</div>
+      <div class="res-sub">${out?'NÍVEL ALTO — tensão lógica HIGH':'NÍVEL BAIXO — tensão lógica LOW'}</div>
+    </div>`;
+}
+
+function renderTruthTable(g){
+  const gate=GATES[g];
+  const n=gate.inputs;
+  const rows=Math.pow(2,n);
+  let html='<table class="truth-table"><tr>';
+  for(let i=0;i<n;i++) html+='<th>'+(n>1?String.fromCharCode(65+i):'A')+'</th>';
+  html+='<th>S</th></tr>';
+  for(let r=0;r<rows;r++){
+    const vals=[];
+    for(let i=n-1;i>=0;i--) vals.unshift((r>>i)&1);
+    const out=gate.fn(vals);
+    const isActive=JSON.stringify(vals)===JSON.stringify(gateVals.slice(0,n));
+    html+=`<tr class="${isActive?'highlight-row':''}">`;
+    vals.forEach(v=>html+=`<td class="val${v}">${v}</td>`);
+    html+=`<td class="val${out}">${out}</td></tr>`;
+  }
+  html+='</table>';
+  document.getElementById('gate-truth').innerHTML=html;
+}
+
+function renderGateSVG(g){
+  const wrap=document.getElementById('gate-svg-wrap');
+  const c='#00d4ff'; const lc='#00d4ff44';
+  const svgs={
+    AND:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/>
+      <line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/>
+      <path d="M40,20 L40,60 Q85,60 85,40 Q85,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">&amp;</text>
+      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    OR:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/>
+      <line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/>
+      <path d="M38,20 Q50,40 38,60 Q62,60 80,40 Q62,20 38,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="80" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="58" y="44" fill="${c}" font-size="13" font-family="Share Tech Mono" text-anchor="middle">≥1</text>
+      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    NOT:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/>
+      <polygon points="35,20 35,60 80,40" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <circle cx="85" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="90" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    NAND:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="28" x2="40" y2="28" stroke="${c}" stroke-width="2"/>
+      <line x1="10" y1="52" x2="40" y2="52" stroke="${c}" stroke-width="2"/>
+      <path d="M40,20 L40,60 Q82,60 82,40 Q82,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <circle cx="87" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="92" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="57" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">&amp;</text>
+      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    NOR:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="28" x2="38" y2="28" stroke="${c}" stroke-width="2"/>
+      <line x1="10" y1="52" x2="38" y2="52" stroke="${c}" stroke-width="2"/>
+      <path d="M36,20 Q48,40 36,60 Q58,60 76,40 Q58,20 36,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <circle cx="81" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="86" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="54" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">≥1</text>
+      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    XOR:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/>
+      <line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/>
+      <path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/>
+      <path d="M40,20 Q52,40 40,60 Q64,60 82,40 Q64,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="82" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="59" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono" text-anchor="middle">=1</text>
+      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    XNOR:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="28" x2="42" y2="28" stroke="${c}" stroke-width="2"/>
+      <line x1="10" y1="52" x2="42" y2="52" stroke="${c}" stroke-width="2"/>
+      <path d="M32,20 Q44,40 32,60" fill="none" stroke="${c}" stroke-width="2"/>
+      <path d="M40,20 Q52,40 40,60 Q62,60 78,40 Q62,20 40,20 Z" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <circle cx="83" cy="40" r="5" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="88" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="57" y="44" fill="${c}" font-size="10" font-family="Share Tech Mono" text-anchor="middle">=1</text>
+      <text x="8" y="30" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="8" y="54" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">B</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`,
+    BUF:`<svg width="140" height="80" viewBox="0 0 140 80">
+      <line x1="10" y1="40" x2="35" y2="40" stroke="${c}" stroke-width="2"/>
+      <polygon points="35,20 35,60 85,40" fill="${lc}" stroke="${c}" stroke-width="2"/>
+      <line x1="85" y1="40" x2="120" y2="40" stroke="${c}" stroke-width="2"/>
+      <text x="53" y="44" fill="${c}" font-size="11" font-family="Share Tech Mono">BUF</text>
+      <text x="8" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">A</text>
+      <text x="122" y="44" fill="#6a9ab0" font-size="10" font-family="Share Tech Mono">S</text></svg>`
+  };
+  wrap.innerHTML=svgs[g]||'';
+}
+
+// ═══════════════════════════════════════════════════
+//  CLP CALCULATOR
+// ═══════════════════════════════════════════════════
+const MFR={
+  GE:{name:'GE Emerson PACSystems',color:'#00aaff',badge:'GE · PACSystems RX3i',
+    signals:{
+      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'%I0001',cardLabel:'Cartão ED',
+        resultFn:(addr,card,ch)=>({address:'%I'+pad(addr,4),location:'Cartão ED'+pad(card,2)+' · BIT '+pad(ch,2),card:'Cartão ED'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null}),
+        inputs:[{id:'inp-card',label:'Cartão ED',prefix:'Cartão ED',ph:'01',min:1,max:9999},{id:'inp-ch',label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
+        slotToAddr:(c,ch)=>(c-1)*16+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/16)+1,ch:((a-1)%16)+1}),range:(c)=>({first:(c-1)*16+1,last:c*16,prefix:'%I'})},
+      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'%Q0001',cardLabel:'Cartão SD',
+        resultFn:(addr,card,ch)=>({address:'%Q'+pad(addr,4),location:'Cartão SD'+pad(card,2)+' · BIT '+pad(ch,2),card:'Cartão SD'+pad(card,2),channel:'BIT '+pad(ch,2),extra:null}),
+        inputs:[{id:'inp-card',label:'Cartão SD',prefix:'Cartão SD',ph:'01',min:1,max:9999},{id:'inp-ch',label:'BIT (1 a 16)',prefix:'BIT',ph:'16',min:1,max:16}],
+        slotToAddr:(c,ch)=>(c-1)*16+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/16)+1,ch:((a-1)%16)+1}),range:(c)=>({first:(c-1)*16+1,last:c*16,prefix:'%Q'})},
+      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'%AI0001',cardLabel:'Cartão EA',
+        resultFn:(addr,card,ch)=>({address:'%AI'+pad(addr,4),location:'Cartão EA'+pad(card,2)+' · CANAL '+pad(ch,2),card:'Cartão EA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null}),
+        inputs:[{id:'inp-card',label:'Cartão EA',prefix:'Cartão EA',ph:'01',min:1,max:9999},{id:'inp-ch',label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
+        slotToAddr:(c,ch)=>(c-1)*8+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/8)+1,ch:((a-1)%8)+1}),range:(c)=>({first:(c-1)*8+1,last:c*8,prefix:'%AI'})},
+      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'%AQ0001',cardLabel:'Cartão SA',
+        resultFn:(addr,card,ch)=>({address:'%AQ'+pad(addr,4),location:'Cartão SA'+pad(card,2)+' · CANAL '+pad(ch,2),card:'Cartão SA'+pad(card,2),channel:'CANAL '+pad(ch,2),extra:null}),
+        inputs:[{id:'inp-card',label:'Cartão SA',prefix:'Cartão SA',ph:'01',min:1,max:9999},{id:'inp-ch',label:'Canal (1 a 8)',prefix:'CANAL',ph:'8',min:1,max:8}],
+        slotToAddr:(c,ch)=>(c-1)*8+ch,addrToSlot:(a)=>({card:Math.floor((a-1)/8)+1,ch:((a-1)%8)+1}),range:(c)=>({first:(c-1)*8+1,last:c*8,prefix:'%AQ'})}
+    }},
+  ROCK:{name:'Rockwell ControlLogix 5000',color:'#d4201a',badge:'Rockwell · ControlLogix 5000',
+    signals:{
+      ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'Local:S:I.Data.B',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
+        calcFn:(s,ch)=>({address:'Local:'+s+':I.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'Tag: DI_Slot'+s+'_Bit'+ch}),
+        range:(s)=>({label:'Slot '+s+': Local:'+s+':I.Data.0 → Local:'+s+':I.Data.15'})},
+      SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'Local:S:O.Data.B',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0 a 15)',prefix:'Bit',ph:'0',min:0,max:15}],
+        calcFn:(s,ch)=>({address:'Local:'+s+':O.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'Tag: DO_Slot'+s+'_Bit'+ch}),
+        range:(s)=>({label:'Slot '+s+': Local:'+s+':O.Data.0 → Local:'+s+':O.Data.15'})},
+      EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'Local:S:I.ChXData',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'1',min:0,max:99},{id:'inp-ch',label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
+        calcFn:(s,ch)=>({address:'Local:'+s+':I.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'Tag: AI_Slot'+s+'_Ch'+ch}),
+        range:(s)=>({label:'Slot '+s+': Local:'+s+':I.Ch0Data → Local:'+s+':I.Ch7Data'})},
+      SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'Local:S:O.ChXData',
+        inputs:[{id:'inp-slot',label:'Slot do Rack',prefix:'Slot',ph:'2',min:0,max:99},{id:'inp-ch',label:'Canal (0 a 7)',prefix:'Ch',ph:'0',min:0,max:7}],
+        calcFn:(s,ch)=>({address:'Local:'+s+':O.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'Tag: AO_Slot'+s+'_Ch'+ch}),
+        range:(s)=>({label:'Slot '+s+': Local:'+s+':O.Ch0Data → Local:'+s+':O.Ch7Data'})}
+    }},
+  SIEM:{name:'Siemens S7-400',color:'#009999',badge:'Siemens · S7-400 / Step 7',
+    signals:{
+      ED:{label:'Entrada Digital',icon:'📥',size:8,chWord:'BIT',addrSub:'IB.bit',
+        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'I',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
+        calcFn:(by,bi)=>({address:'I'+by+'.'+bi,location:'Byte '+by+' · Bit '+bi,card:'Byte de Entrada '+by,channel:'Bit '+bi,extra:'IB'+by+' (byte completo)'}),
+        range:(by)=>({label:'Byte '+by+': I'+by+'.0 → I'+by+'.7'})},
+      SD:{label:'Saída Digital',icon:'📤',size:8,chWord:'BIT',addrSub:'QB.bit',
+        inputs:[{id:'inp-byte',label:'Byte (endereço)',prefix:'Q',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0 a 7)',prefix:'Bit',ph:'0',min:0,max:7}],
+        calcFn:(by,bi)=>({address:'Q'+by+'.'+bi,location:'Byte '+by+' · Bit '+bi,card:'Byte de Saída '+by,channel:'Bit '+bi,extra:'QB'+by+' (byte completo)'}),
+        range:(by)=>({label:'Byte '+by+': Q'+by+'.0 → Q'+by+'.7'})},
+      EA:{label:'Entrada Analógica',icon:'📊',size:0,chWord:'CANAL',addrSub:'PIW (par)',
+        inputs:[{id:'inp-piw',label:'Endereço PIW (par)',prefix:'PIW',ph:'256',min:0,max:65534}],
+        calcFn:(v)=>({address:'PIW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PIW'+v,extra:'Próximo: PIW'+(v+2)}),
+        range:()=>null},
+      SA:{label:'Saída Analógica',icon:'🎛️',size:0,chWord:'CANAL',addrSub:'PQW (par)',
+        inputs:[{id:'inp-pqw',label:'Endereço PQW (par)',prefix:'PQW',ph:'256',min:0,max:65534}],
+        calcFn:(v)=>({address:'PQW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PQW'+v,extra:'Próximo: PQW'+(v+2)}),
+        range:()=>null}
+    }}
+};
+
+const SIG_COLORS={ED:{color:'#00d4ff',bg:'rgba(0,212,255,.09)'},SD:{color:'#ffd600',bg:'rgba(255,214,0,.08)'},EA:{color:'#00ff88',bg:'rgba(0,255,136,.08)'},SA:{color:'#bf7fff',bg:'rgba(191,127,255,.08)'}};
+let curMfr=null,curSig=null,curClpDir='addr';
+
 function pad(n,w){return String(n).padStart(w,'0');}
+function showEl(id){const e=document.getElementById(id);if(e)e.style.display='';}
+function hideEl(id){const e=document.getElementById(id);if(e)e.style.display='none';}
+function showV(id){const e=document.getElementById(id);if(e)e.classList.add('visible');}
+function hideV(id){const e=document.getElementById(id);if(e)e.classList.remove('visible');}
 
-function calcular() {
-  hide('error-msg'); hide('result-panel');
-  const cfg=TYPES[curType]; let cardNum,chNum,addrNum;
-  if (curDir==='addr') {
-    const raw=document.getElementById('inp-addr').value.trim();
-    if(!raw) return showError('Informe o número do endereço.');
-    addrNum=parseInt(raw,10);
-    if(isNaN(addrNum)||addrNum<1) return showError('Endereço deve ser ≥ 1 (ex: '+cfg.prefix+'0001)');
-    cardNum=Math.floor((addrNum-1)/cfg.size)+1; chNum=((addrNum-1)%cfg.size)+1;
-  } else {
-    const rc=document.getElementById('inp-card').value.trim();
-    const rb=document.getElementById('inp-ch').value.trim();
-    if(!rc) return showError('Informe o número do '+cfg.cardLabel+'.');
-    if(!rb) return showError('Informe o '+cfg.chWord+' (1 a '+cfg.size+').');
-    cardNum=parseInt(rc,10); chNum=parseInt(rb,10);
-    if(isNaN(cardNum)||cardNum<1) return showError('Cartão deve ser ≥ 1.');
-    if(isNaN(chNum)||chNum<1||chNum>cfg.size) return showError(cfg.chWord+' deve estar entre 1 e '+cfg.size+'.');
-    addrNum=(cardNum-1)*cfg.size+chNum;
-  }
-  const idx=addrNum-1;
-  const addrFmt=cfg.prefix+pad(addrNum,4);
-  const cardFmt=cfg.cardLabel+pad(cardNum,2);
-  const chFmt=cfg.chWord+' '+pad(chNum,2);
-  const firstAddr=(cardNum-1)*cfg.size+1, lastAddr=cardNum*cfg.size;
-  const hl=document.getElementById('r-highlight');
-  hl.style.borderColor=cfg.color; hl.style.background=cfg.hlBg;
-  document.getElementById('r-full').textContent=cardFmt+'  ·  '+chFmt;
-  document.getElementById('r-full').style.color=cfg.color;
-  document.getElementById('r-addr-val').textContent=addrFmt;
-  document.getElementById('r-addr-sub').textContent=cfg.addrSub;
-  document.getElementById('r-card-val').textContent=cardFmt;
-  document.getElementById('r-card-sub').textContent=cfg.cardSub;
-  document.getElementById('r-ch-lbl').textContent=cfg.chWord;
-  document.getElementById('r-ch-val').textContent=chFmt;
-  document.getElementById('r-idx').textContent=idx;
-  document.getElementById('diagram-title').textContent=cfg.chWord+'S DO '+cardFmt.toUpperCase();
-  document.getElementById('r-range').textContent='Faixa do '+cardFmt+':  '+cfg.prefix+pad(firstAddr,4)+'  →  '+cfg.prefix+pad(lastAddr,4);
-  const row=document.getElementById('ch-row'); row.innerHTML='';
-  const cellW=cfg.size===8?42:28;
-  for(let b=1;b<=cfg.size;b++){
-    const cell=document.createElement('div'); cell.className='ch-cell';
-    cell.style.width=cell.style.height=cellW+'px';
-    if(b===chNum){cell.style.borderColor=cfg.color;cell.style.background=cfg.cellBg;cell.style.color=cfg.color;}
-    cell.innerHTML=`<span class="ch-num">${pad(b,2)}</span>`;
-    cell.title=cfg.prefix+pad((cardNum-1)*cfg.size+b,4);
-    row.appendChild(cell);
-  }
-  show('result-panel');
+function setMfr(m){
+  curMfr=m; curSig=null;
+  const mfr=MFR[m];
+  ['GE','ROCK','SIEM'].forEach(k=>{
+    const b=document.getElementById('mfr-'+k);
+    b.className='mfr-btn'+(k===m?' active-'+k:'');
+  });
+  document.getElementById('clp-bar').style.background='linear-gradient(90deg,transparent,'+mfr.color+',transparent)';
+  const grid=document.getElementById('clp-type-grid');
+  grid.innerHTML='';
+  grid.style.gridTemplateColumns='repeat(2,1fr)';
+  Object.entries(mfr.signals).forEach(([key,sig])=>{
+    const btn=document.createElement('button');
+    btn.className='type-btn'; btn.id='ctb-'+key; btn.onclick=()=>setClpSig(key);
+    btn.innerHTML=`<span class="tb-icon">${sig.icon}</span><span class="tb-info"><span>${sig.label}</span><span class="tb-tag">${sig.addrSub}</span></span>`;
+    grid.appendChild(btn);
+  });
+  showEl('clp-sig-wrap'); hideEl('clp-dir-wrap');
+  hideEl('clp-calc-btn'); document.getElementById('clp-inputs').innerHTML='';
+  hideV('clp-result'); hideV('clp-err');
 }
 
-function showError(msg){document.getElementById('error-msg').textContent='⚠  '+msg; show('error-msg');}
-setType('ED');
+function setClpSig(s){
+  curSig=s;
+  const mfr=MFR[curMfr];
+  Object.keys(mfr.signals).forEach(k=>{
+    const b=document.getElementById('ctb-'+k); if(!b)return;
+    const sc=SIG_COLORS[k];
+    if(k===s){b.style.borderColor=sc.color;b.style.background=sc.bg;b.style.color=sc.color;}
+    else{b.style.borderColor='';b.style.background='';b.style.color='';}
+  });
+  document.getElementById('clp-btn-addr').textContent=curMfr==='GE'?'Endereço → Cartão':'Local → Detalhes';
+  document.getElementById('clp-btn-slot').textContent=curMfr==='GE'?'Cartão → Endereço':'Slot/Canal → Tag';
+  showEl('clp-dir-wrap'); showEl('clp-calc-btn');
+  setClpDir(curClpDir);
+  hideV('clp-result'); hideV('clp-err');
+}
+
+function setClpDir(d){
+  curClpDir=d;
+  document.getElementById('clp-btn-addr').classList.toggle('active',d==='addr');
+  document.getElementById('clp-btn-slot').classList.toggle('active',d==='slot');
+  if(curSig) renderClpInputs();
+  hideV('clp-result'); hideV('clp-err');
+}
+
+function renderClpInputs(){
+  const sig=MFR[curMfr].signals[curSig];
+  const area=document.getElementById('clp-inputs');
+  area.innerHTML='';
+  const sc=SIG_COLORS[curSig];
+  let inputDefs;
+  if(curMfr==='GE'&&curClpDir==='addr'){
+    inputDefs=[{id:'inp-addr',label:'Endereço '+sig.resultFn(1,1,1).address.replace(/\d+/,''),prefix:sig.resultFn(1,1,1).address.replace(/\d.*/,''),ph:'0001',min:1,max:99999}];
+  } else {
+    inputDefs=sig.inputs;
+  }
+  inputDefs.forEach(inp=>{
+    const d=document.createElement('div'); d.className='inp-group';
+    d.innerHTML=`<label>${inp.label}</label><div class="inp-row"><span class="clp-prefix">${inp.prefix}</span><input type="number" id="${inp.id}" placeholder="${inp.ph}" min="${inp.min}" max="${inp.max}" style="color:${sc.color}" onkeydown="if(event.key==='Enter')calcClp()"></div>`;
+    area.appendChild(d);
+  });
+}
+
+function getV(id){const e=document.getElementById(id);return e&&e.value.trim()!==''?parseInt(e.value.trim(),10):null;}
+
+function calcClp(){
+  hideV('clp-err'); hideV('clp-result');
+  if(!curMfr||!curSig)return clpErr('Selecione o fabricante e tipo de sinal.');
+  const mfr=MFR[curMfr]; const sig=mfr.signals[curSig]; let res;
+  try{
+    if(curMfr==='GE'){
+      let card,ch,addr;
+      if(curClpDir==='addr'){
+        addr=getV('inp-addr');
+        if(!addr||addr<1)throw new Error('Informe um endereço ≥ 1.');
+        const r=sig.addrToSlot(addr); card=r.card; ch=r.ch;
+      } else {
+        card=getV('inp-card'); ch=getV('inp-ch');
+        if(!card||card<1)throw new Error('Informe o número do cartão.');
+        if(!ch||ch<1||ch>sig.size)throw new Error('Canal deve ser entre 1 e '+sig.size+'.');
+        addr=sig.slotToAddr(card,ch);
+      }
+      const r=sig.resultFn(addr,card,ch);
+      const rng=sig.range(card);
+      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:addr-1,size:sig.size,activeCell:ch,range:'Faixa: '+rng.prefix+pad(rng.first,4)+' → '+rng.prefix+pad(rng.last,4)};
+    } else if(curMfr==='ROCK'){
+      const slot=getV('inp-slot');
+      const chId=document.getElementById('inp-bit')?'inp-bit':'inp-ch';
+      const ch=getV(chId);
+      if(slot===null)throw new Error('Informe o slot.');
+      if(ch===null)throw new Error('Informe o bit/canal.');
+      const r=sig.calcFn(slot,ch);
+      const rng=sig.range(slot);
+      res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:sig.size,activeCell:ch+1,range:rng.label};
+    } else {
+      if(curSig==='EA'||curSig==='SA'){
+        const id=curSig==='EA'?'inp-piw':'inp-pqw';
+        const v=getV(id);
+        if(v===null||v<0)throw new Error('Informe o endereço.');
+        if(v%2!==0)throw new Error('Endereço deve ser número par (ex: 256, 258).');
+        const r=sig.calcFn(v);
+        res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:0,activeCell:null,range:null};
+      } else {
+        const byteId='inp-byte'; const by=getV(byteId); const bi=getV('inp-bit');
+        if(by===null||by<0)throw new Error('Informe o byte.');
+        if(bi===null||bi<0||bi>7)throw new Error('Bit deve ser 0 a 7.');
+        const r=sig.calcFn(by,bi);
+        const rng=sig.range(by);
+        res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:8,activeCell:bi+1,range:rng?rng.label:null};
+      }
+    }
+  }catch(e){return clpErr(e.message);}
+  renderClpResult(res,MFR[curMfr],MFR[curMfr].signals[curSig]);
+}
+
+function renderClpResult(res,mfr,sig){
+  const sc=SIG_COLORS[curSig];
+  document.getElementById('clp-badge').innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:2px;border:1px solid ${mfr.color};color:${mfr.color};background:${mfr.color}18;font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;">${mfr.badge}</div>`;
+  const grid=document.getElementById('clp-res-grid'); grid.innerHTML='';
+  const items=[
+    {label:'Identificação',value:res.full,cls:'hl',color:sc.color},
+    {label:'Endereço / Tag',value:res.address,cls:'fw',color:sc.color},
+    {label:'Cartão / Módulo',value:res.card,cls:''},
+    {label:sig.chWord||'Canal',value:res.channel,cls:''},
+  ];
+  if(res.index!==null)items.push({label:'Índice (0-based)',value:String(res.index),cls:''});
+  if(res.extra)items.push({label:'Info Extra',value:res.extra,cls:''});
+  items.forEach(it=>{
+    const d=document.createElement('div'); d.className='ri'+(it.cls?' '+it.cls:'');
+    if(it.cls==='hl'){d.style.borderColor=it.color;d.style.background=it.color+'0a';}
+    d.innerHTML=`<div class="rl">${it.label}</div><div class="rv" style="${it.cls?'color:'+it.color:''}">${it.value}</div>`;
+    grid.appendChild(d);
+  });
+  const row=document.getElementById('clp-ch-row'); row.innerHTML='';
+  document.getElementById('clp-diag-title').textContent='';
+  if(res.size>0&&res.activeCell!==null){
+    document.getElementById('clp-diag-title').textContent='Canais do Cartão';
+    const cw=res.size<=8?38:24;
+    for(let b=1;b<=res.size;b++){
+      const cell=document.createElement('div'); cell.className='ch-cell';
+      cell.style.cssText=`width:${cw}px;height:${cw}px;font-size:.5rem;`;
+      if(b===res.activeCell){cell.style.borderColor=sc.color;cell.style.background=sc.color+'22';cell.style.color=sc.color;}
+      cell.textContent=pad(b-1,2); row.appendChild(cell);
+    }
+  }
+  document.getElementById('clp-range').textContent=res.range||'';
+  showV('clp-result');
+}
+
+function clpErr(msg){document.getElementById('clp-err').textContent='⚠  '+msg;showV('clp-err');}
+
+// ═══════════════════════════════════════════════════
+//  FIBER CALCULATOR
+// ═══════════════════════════════════════════════════
+function calcFiber(){
+  const tx=parseFloat(document.getElementById('fib-tx').value);
+  const rx=parseFloat(document.getElementById('fib-rx').value);
+  const len=parseFloat(document.getElementById('fib-len').value);
+  const att=parseFloat(document.getElementById('fib-att').value);
+  const con=parseInt(document.getElementById('fib-con').value)||0;
+  const spl=parseInt(document.getElementById('fib-spl').value)||0;
+  const mrg=parseFloat(document.getElementById('fib-mrg').value)||0;
+
+  const budget=tx-rx;
+  const lossFiber=len*att;
+  const lossCon=con*0.5;
+  const lossSpl=spl*0.1;
+  const totalLoss=lossFiber+lossCon+lossSpl;
+  const margin=budget-totalLoss-mrg;
+
+  const ok=margin>=0;
+  const statusEl=document.getElementById('fib-status');
+  const statusBox=document.getElementById('fib-status-box');
+  statusEl.textContent=ok?'✅ LINK OK':'❌ LINK INVIÁVEL';
+  statusEl.style.color=ok?'#00ff88':'#ff4466';
+  statusBox.style.borderColor=ok?'#00ff88':'#ff4466';
+  statusBox.style.background=ok?'rgba(0,255,136,.05)':'rgba(255,68,102,.05)';
+
+  document.getElementById('fib-budget').textContent=budget.toFixed(2)+' dB';
+  document.getElementById('fib-loss').textContent=totalLoss.toFixed(2)+' dB';
+  document.getElementById('fib-margin').innerHTML=`<span style="color:${margin>=0?'#00ff88':'#ff4466'}">${margin.toFixed(2)} dB</span>`;
+  document.getElementById('fib-detail').innerHTML=
+    `Fibra: ${len} km × ${att} dB/km = ${lossFiber.toFixed(2)} dB<br>`+
+    `Conectores: ${con} × 0,50 dB = ${lossCon.toFixed(2)} dB<br>`+
+    `Emendas: ${spl} × 0,10 dB = ${lossSpl.toFixed(2)} dB<br>`+
+    `Margem requerida: ${mrg.toFixed(1)} dB<br>`+
+    `<strong>Total + margem: ${(totalLoss+mrg).toFixed(2)} dB / Budget: ${budget.toFixed(2)} dB</strong>`;
+  document.getElementById('fib-result').style.display='block';
+}
+
+// ═══════════════════════════════════════════════════
+//  PWA
+// ═══════════════════════════════════════════════════
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredPrompt=e;
+  setTimeout(()=>document.getElementById('install-banner').classList.add('show'),1500);
+});
+document.getElementById('install-btn').addEventListener('click',()=>{
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>deferredPrompt=null);}
+  document.getElementById('install-banner').classList.remove('show');
+});
+window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
 </script>
 </body>
 </html>
