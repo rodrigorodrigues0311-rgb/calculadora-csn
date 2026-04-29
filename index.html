@@ -1,4 +1,3 @@
-<!-- CSN Automação v3.0 - 2026 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,10 +11,30 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json?v=5">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<title>Automação CSN v3 – Ferramentas</title>
+<title>CSN Automação v5</title>
+<script>
+// EXECUTADO ANTES DE QUALQUER COISA - Mata todos os Service Workers antigos
+(async function nukeSW() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    // Desregistra TODOS os SWs registrados
+    const regs = await navigator.serviceWorker.getRegistrations();
+    for (const reg of regs) {
+      await reg.unregister();
+      console.log('[CSN] SW desregistrado:', reg.scope);
+    }
+    // Limpa TODOS os caches
+    const keys = await caches.keys();
+    for (const key of keys) {
+      await caches.delete(key);
+      console.log('[CSN] Cache apagado:', key);
+    }
+  } catch(e) { console.warn('[CSN] Erro ao limpar:', e); }
+})();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -214,6 +233,47 @@ input:focus{border-color:var(--accent);}
   .result-grid{grid-template-columns:1fr;}
   .ri.hl,.ri.fw{grid-column:1;}
 }
+
+/* ══ BALANÇA ══ */
+.bal-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.bal-tab{flex:1;padding:9px 4px;background:transparent;border:none;color:var(--label);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;transition:all .2s;text-align:center;}
+.bal-tab.active{background:var(--green);color:#000;}
+.bal-sub{display:none;}.bal-sub.active{display:block;}
+select{width:100%;background:#0d1620;border:1px solid var(--border);border-radius:3px;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:.95rem;padding:9px 10px;outline:none;cursor:pointer;-webkit-appearance:none;}
+select:focus{border-color:var(--accent);}
+.toggle-check{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0d1620;border:1px solid var(--border);border-radius:3px;cursor:pointer;margin-bottom:8px;}
+.toggle-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
+.toggle-check span{font-size:.82rem;color:var(--text);}
+.err-pct{color:var(--red);font-weight:700;}
+.ok-pct{color:var(--green);font-weight:700;}
+.warn-pct{color:var(--yellow);font-weight:700;}
+.hist-item{background:#0d1620;border:1px solid var(--border);border-radius:4px;padding:12px;margin-bottom:8px;position:relative;}
+.hist-item .hi-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.hist-item .hi-tag{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--accent);font-weight:700;}
+.hist-item .hi-date{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--dim);}
+.hist-item .hi-type{font-size:.65rem;padding:2px 7px;border-radius:2px;border:1px solid;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.hist-item .hi-type.zero{border-color:#00d4ff;color:#00d4ff;}
+.hist-item .hi-type.span{border-color:#ffd600;color:#ffd600;}
+.hist-item .hi-body{font-size:.75rem;color:var(--text);line-height:1.6;}
+.hist-item .hi-alert{margin-top:6px;padding:5px 8px;background:rgba(255,68,102,.1);border:1px solid rgba(255,68,102,.3);border-radius:3px;font-size:.72rem;color:var(--red);}
+.hist-del{position:absolute;top:10px;right:10px;background:transparent;border:none;color:var(--dim);cursor:pointer;font-size:1rem;padding:2px 6px;}
+.hist-del:hover{color:var(--red);}
+.cf-result{background:#060a0f;border:1px solid var(--green);border-radius:4px;padding:14px;margin-top:12px;}
+.cf-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.cf-label{font-size:.72rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;}
+.cf-val{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--green);}
+.cf-formula{font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--dim);margin:8px 0;padding:8px;background:#0d1620;border-radius:3px;line-height:1.6;}
+.cf-alert{padding:8px 12px;border-radius:3px;margin-top:8px;font-size:.8rem;font-weight:700;}
+.cf-alert.ok{background:rgba(0,255,136,.08);border:1px solid var(--green);color:var(--green);}
+.cf-alert.warn{background:rgba(255,68,102,.1);border:1px solid var(--red);color:var(--red);}
+.bar-chart{margin-top:12px;}
+.bar-wrap{margin-bottom:10px;}
+.bar-label{font-size:.72rem;color:var(--label);font-family:'Share Tech Mono',monospace;margin-bottom:3px;display:flex;justify-content:space-between;}
+.bar-track{background:#0d1620;border-radius:3px;height:28px;position:relative;border:1px solid var(--border);overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;transition:width .6s ease;display:flex;align-items:center;padding-left:8px;}
+.bar-fill span{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#000;font-weight:700;white-space:nowrap;}
+.bar-ref{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,214,0,.7);}
+.no-hist{text-align:center;padding:30px;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.8rem;}
 </style>
 </head>
 <body>
@@ -229,7 +289,8 @@ input:focus{border-color:var(--accent);}
   <button class="nav-btn" onclick="goPage('clp')"   id="nav-clp"  ><span class="ni">⚙️</span>CLP I/O</button>
   <button class="nav-btn" onclick="goPage('gates')" id="nav-gates"><span class="ni">🔲</span>Portas</button>
   <button class="nav-btn" onclick="goPage('rj45')"  id="nav-rj45" ><span class="ni">🔌</span>RJ45</button>
-  <button class="nav-btn" onclick="goPage('fiber')" id="nav-fiber"><span class="ni">💡</span>Fibra</button>
+  <button class="nav-btn" onclick="goPage('fiber')"   id="nav-fiber"  ><span class="ni">💡</span>Fibra</button>
+  <button class="nav-btn" onclick="goPage('balanca')" id="nav-balanca"><span class="ni">⚖️</span>Balanças</button>
 </nav>
 
 <!-- ══════ HOME ══════ -->
@@ -292,6 +353,12 @@ input:focus{border-color:var(--accent);}
       <div style="font-size:2rem;margin-bottom:6px;">💡</div>
       <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Fibra Óptica</div>
       <div style="font-size:.72rem;color:var(--label);margin-top:3px;">SM · MM · Conectores<br>Cálculo de link</div>
+    </div>
+    <div class="card" style="cursor:pointer;grid-column:1/-1;" onclick="goPage('balanca')">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div style="font-size:2rem;margin-bottom:6px;">⚖️</div>
+      <div style="font-weight:700;font-size:.95rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Balanças Integradoras</div>
+      <div style="font-size:.72rem;color:var(--label);margin-top:3px;">PABR · BAL-05 · BAL-06 · Calibração Zero/Span · Correção de Massa · Histórico</div>
     </div>
   </div>
 </div>
@@ -1080,39 +1147,538 @@ function calcFiber(){
   document.getElementById('fib-result').style.display='block';
 }
 
-// ═══════════════ PWA ═══════════════
-if('serviceWorker' in navigator){
-  window.addEventListener('load', async () => {
-    try {
-      const reg = await navigator.serviceWorker.register('./sw.js');
-      // Força verificação de atualização toda vez que abre
-      reg.update();
-      // Se houver SW novo esperando, ativa imediatamente
-      reg.addEventListener('updatefound', () => {
-        const newSW = reg.installing;
-        newSW.addEventListener('statechange', () => {
-          if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
-            newSW.postMessage({ type: 'SKIP_WAITING' });
-          }
-        });
-      });
-      // Recarrega quando novo SW assumir o controle
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        window.location.reload();
-      });
-    } catch(e) {}
+ // ═══════════════ PWA ═══════════════
+ // Registra SW novo com updateViaCache none para sempre buscar versão nova
+ window.addEventListener('load', async () => {
+   if (!('serviceWorker' in navigator)) return;
+   try {
+     const reg = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
+     await reg.update();
+     reg.addEventListener('updatefound', () => {
+       const sw = reg.installing;
+       sw.addEventListener('statechange', () => {
+         if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+           window.location.reload();
+         }
+       });
+     });
+   } catch(e) {}
+ });
+ let deferredPrompt=null;
+ window.addEventListener('beforeinstallprompt',e=>{
+   e.preventDefault(); deferredPrompt=e;
+   setTimeout(()=>document.getElementById('install-banner').classList.add('show'),1500);
+ });
+ document.getElementById('install-btn').addEventListener('click',()=>{
+   if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>deferredPrompt=null);}
+   document.getElementById('install-banner').classList.remove('show');
+ });
+ window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
+ </script>
+
+<!-- ══════ BALANÇAS ══════ -->
+<div class="page" id="page-balanca">
+  <div class="page-title" style="margin-bottom:4px;">⚖️ Balanças <span>Integradoras</span></div>
+  <div style="font-size:.75rem;color:var(--label);margin-bottom:14px;font-family:'Share Tech Mono',monospace;">FABRICANTE: PABR · BAL-05 TM111 · BAL-06 TM111</div>
+
+  <!-- TABS -->
+  <div class="bal-tabs">
+    <button class="bal-tab active" id="btab-zero"   onclick="setBalTab('zero')"  >📍 Zero</button>
+    <button class="bal-tab"        id="btab-span"   onclick="setBalTab('span')"  >📐 Span</button>
+    <button class="bal-tab"        id="btab-cf"     onclick="setBalTab('cf')"    >🔢 Correção</button>
+    <button class="bal-tab"        id="btab-hist"   onclick="setBalTab('hist')"  >📋 Histórico</button>
+  </div>
+
+  <!-- ── ZERO ── -->
+  <div class="bal-sub active" id="bsub-zero">
+    <div class="card">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+      <div class="sec">Calibração de Zero</div>
+
+      <div class="inp-group">
+        <label>TAG da Balança</label>
+        <select id="z-tag">
+          <option value="">— Selecione —</option>
+          <option value="BAL-05 TM111">BAL-05 TM111</option>
+          <option value="BAL-06 TM111">BAL-06 TM111</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <div class="inp-group">
+          <label>Data</label>
+          <div class="inp-row"><span class="inp-pfx">📅</span><input type="date" id="z-date" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
+        </div>
+        <div class="inp-group">
+          <label>Hora</label>
+          <div class="inp-row"><span class="inp-pfx">🕐</span><input type="time" id="z-time" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label>Nome do Técnico</label>
+        <div class="inp-row"><span class="inp-pfx">👷</span><input type="text" id="z-tec" placeholder="Nome completo" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
+      </div>
+      <div class="inp-group">
+        <label>Nome do Navio</label>
+        <div class="inp-row"><span class="inp-pfx">🚢</span><input type="text" id="z-navio" placeholder="Nome do navio" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
+      </div>
+
+      <div class="sec" style="margin-top:4px;">Repetibilidade — 3 Leituras de Erro (%)</div>
+      <div class="grid3">
+        <div class="inp-group">
+          <label>Leitura 1</label>
+          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="z-e1" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewZeroChart()"></div>
+        </div>
+        <div class="inp-group">
+          <label>Leitura 2</label>
+          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="z-e2" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewZeroChart()"></div>
+        </div>
+        <div class="inp-group">
+          <label>Leitura 3</label>
+          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="z-e3" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewZeroChart()"></div>
+        </div>
+      </div>
+      <div id="zero-chart-preview"></div>
+
+      <div class="toggle-check" onclick="toggleCheck('z-limpa')">
+        <input type="checkbox" id="z-limpa"><span>✅ Balança está Limpa</span>
+      </div>
+      <div class="toggle-check" onclick="toggleCheck('z-corr')">
+        <input type="checkbox" id="z-corr"><span>🔧 Houve correção do erro</span>
+      </div>
+
+      <button class="btn-main" onclick="saveCalib('zero')"><span>💾 Salvar Registro de Zero</span></button>
+      <div class="err" id="z-err"></div>
+    </div>
+  </div>
+
+  <!-- ── SPAN ── -->
+  <div class="bal-sub" id="bsub-span">
+    <div class="card">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
+      <div class="sec">Calibração de Span</div>
+
+      <div class="inp-group">
+        <label>TAG da Balança</label>
+        <select id="s-tag">
+          <option value="">— Selecione —</option>
+          <option value="BAL-05 TM111">BAL-05 TM111</option>
+          <option value="BAL-06 TM111">BAL-06 TM111</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <div class="inp-group">
+          <label>Data</label>
+          <div class="inp-row"><span class="inp-pfx">📅</span><input type="date" id="s-date" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
+        </div>
+        <div class="inp-group">
+          <label>Hora</label>
+          <div class="inp-row"><span class="inp-pfx">🕐</span><input type="time" id="s-time" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:.9rem;outline:none;flex:1;min-width:0;"></div>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label>Nome do Técnico</label>
+        <div class="inp-row"><span class="inp-pfx">👷</span><input type="text" id="s-tec" placeholder="Nome completo" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
+      </div>
+      <div class="inp-group">
+        <label>Nome do Navio</label>
+        <div class="inp-row"><span class="inp-pfx">🚢</span><input type="text" id="s-navio" placeholder="Nome do navio" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
+      </div>
+
+      <div class="sec" style="margin-top:4px;">Repetibilidade — 3 Leituras de Erro (%)</div>
+      <div class="grid3">
+        <div class="inp-group">
+          <label>Leitura 1</label>
+          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="s-e1" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewSpanChart()"></div>
+        </div>
+        <div class="inp-group">
+          <label>Leitura 2</label>
+          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="s-e2" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewSpanChart()"></div>
+        </div>
+        <div class="inp-group">
+          <label>Leitura 3</label>
+          <div class="inp-row"><span class="inp-pfx">%</span><input type="number" id="s-e3" placeholder="0.000" step="0.001" style="color:var(--yellow);" oninput="previewSpanChart()"></div>
+        </div>
+      </div>
+      <div id="span-chart-preview"></div>
+
+      <div class="toggle-check" onclick="toggleCheck('s-limpa')">
+        <input type="checkbox" id="s-limpa"><span>✅ Balança está Limpa</span>
+      </div>
+      <div class="toggle-check" onclick="toggleCheck('s-corr')">
+        <input type="checkbox" id="s-corr"><span>🔧 Houve correção do erro</span>
+      </div>
+
+      <button class="btn-main" style="border-color:var(--yellow);color:var(--yellow);" onclick="saveCalib('span')"><span>💾 Salvar Registro de Span</span></button>
+      <div class="err" id="s-err"></div>
+    </div>
+  </div>
+
+  <!-- ── CORREÇÃO CF ── -->
+  <div class="bal-sub" id="bsub-cf">
+    <div class="card">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div class="sec">Correção de Massa — Coeficiente CF</div>
+      <div style="font-size:.75rem;color:var(--label);margin-bottom:12px;font-family:'Share Tech Mono',monospace;line-height:1.6;">
+        CF = ACT ÷ IND<br>
+        ACT% = CF × IND% (sempre 100)
+      </div>
+
+      <div class="inp-group">
+        <label>TAG da Balança</label>
+        <select id="cf-tag">
+          <option value="">— Selecione —</option>
+          <option value="BAL-05 TM111">BAL-05 TM111</option>
+          <option value="BAL-06 TM111">BAL-06 TM111</option>
+        </select>
+      </div>
+      <div class="inp-group">
+        <label>Nome do Navio</label>
+        <div class="inp-row"><span class="inp-pfx">🚢</span><input type="text" id="cf-navio" placeholder="Nome do navio" style="color:var(--text);border-radius:0 3px 3px 0;border:1px solid var(--border);background:#0d1620;padding:8px 10px;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;flex:1;min-width:0;"></div>
+      </div>
+
+      <div class="grid2">
+        <div class="inp-group">
+          <label>ACT — Total do Navio (T)</label>
+          <div class="inp-row"><span class="inp-pfx">ACT</span><input type="number" id="cf-act" placeholder="156381" step="0.001" oninput="calcCF()" style="color:var(--green);"></div>
+        </div>
+        <div class="inp-group">
+          <label>IND — Total da Balança (T)</label>
+          <div class="inp-row"><span class="inp-pfx">IND</span><input type="number" id="cf-ind" placeholder="158363" step="0.001" oninput="calcCF()" style="color:var(--accent);"></div>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label>IND% — Constante (fixo = 100)</label>
+        <div class="inp-row"><span class="inp-pfx">IND%</span><input type="number" value="100" readonly style="color:var(--dim);background:#060a0f;border-radius:0 3px 3px 0;border:1px solid var(--border);padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:1rem;flex:1;min-width:0;"></div>
+      </div>
+
+      <div id="cf-result" style="display:none;">
+        <div class="cf-result">
+          <div class="cf-formula" id="cf-formula"></div>
+          <div class="cf-row"><span class="cf-label">Coeficiente CF</span><span class="cf-val" id="cf-val">—</span></div>
+          <div class="cf-row"><span class="cf-label">ACT% (resultado)</span><span class="cf-val" id="cf-actpct">—</span></div>
+          <div class="cf-row"><span class="cf-label">Erro em relação ao navio</span><span class="cf-val" id="cf-erro">—</span></div>
+          <div class="cf-alert" id="cf-alert"></div>
+        </div>
+        <div class="bar-chart" id="cf-bar-chart"></div>
+        <button class="btn-main" style="margin-top:12px;border-color:var(--green);color:var(--green);" onclick="saveCF()"><span>💾 Salvar no Histórico</span></button>
+      </div>
+      <div class="err" id="cf-err"></div>
+    </div>
+  </div>
+
+  <!-- ── HISTÓRICO ── -->
+  <div class="bal-sub" id="bsub-hist">
+    <div class="card">
+      <div class="card-bar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
+      <div class="sec" style="margin-bottom:10px;">
+        Histórico de Registros
+        <button onclick="clearHistory()" style="margin-left:auto;background:transparent;border:1px solid var(--red);color:var(--red);font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:2px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;">LIMPAR TUDO</button>
+      </div>
+
+      <!-- Filter -->
+      <div class="grid2" style="margin-bottom:12px;">
+        <div class="inp-group" style="margin-bottom:0;">
+          <label>Filtrar por TAG</label>
+          <select id="hist-filter-tag" onchange="renderHistory()">
+            <option value="">Todas</option>
+            <option value="BAL-05 TM111">BAL-05 TM111</option>
+            <option value="BAL-06 TM111">BAL-06 TM111</option>
+          </select>
+        </div>
+        <div class="inp-group" style="margin-bottom:0;">
+          <label>Filtrar por Tipo</label>
+          <select id="hist-filter-type" onchange="renderHistory()">
+            <option value="">Todos</option>
+            <option value="zero">Zero</option>
+            <option value="span">Span</option>
+            <option value="cf">Correção CF</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="hist-list"></div>
+    </div>
+  </div>
+</div>
+
+// ═══════════════ BALANÇAS ═══════════════
+function setBalTab(t){
+  ['zero','span','cf','hist'].forEach(k=>{
+    document.getElementById('btab-'+k).classList.toggle('active',k===t);
+    document.getElementById('bsub-'+k).classList.toggle('active',k===t);
   });
+  if(t==='hist') renderHistory();
 }
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault(); deferredPrompt=e;
-  setTimeout(()=>document.getElementById('install-banner').classList.add('show'),1500);
-});
-document.getElementById('install-btn').addEventListener('click',()=>{
-  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>deferredPrompt=null);}
-  document.getElementById('install-banner').classList.remove('show');
-});
-window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
-</script>
+
+function toggleCheck(id){
+  const cb=document.getElementById(id);
+  cb.checked=!cb.checked;
+}
+
+// Set today's date/time on page load
+function setDefaultDateTime(){
+  const now=new Date();
+  const d=now.toISOString().slice(0,10);
+  const t=now.toTimeString().slice(0,5);
+  ['z-date','s-date'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.value)e.value=d;});
+  ['z-time','s-time'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.value)e.value=t;});
+}
+document.addEventListener('DOMContentLoaded', setDefaultDateTime);
+setDefaultDateTime();
+
+// ── Error color helper ──
+function errColor(v){
+  const a=Math.abs(v);
+  if(a<=0.5) return 'ok-pct';
+  if(a<=1.0) return 'warn-pct';
+  return 'err-pct';
+}
+
+// ── Bar chart for calibration readings ──
+function makeCalibChart(e1,e2,e3,containerId){
+  const vals=[e1,e2,e3].map(Number);
+  const max=Math.max(...vals.map(Math.abs),1.5);
+  const colors=['#00d4ff','#ffd600','#bf7fff'];
+  let html='<div class="bar-chart">';
+  html+='<div style="font-size:.68rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-family:'Share Tech Mono',monospace;">Gráfico de Repetibilidade</div>';
+  vals.forEach((v,i)=>{
+    const pct=Math.min(Math.abs(v)/max*100,100);
+    const cl=errColor(v);
+    const col=cl==='ok-pct'?'#00ff88':cl==='warn-pct'?'#ffd600':'#ff4466';
+    html+=`<div class="bar-wrap">
+      <div class="bar-label"><span style="color:${colors[i]}">Leitura ${i+1}</span><span class="${cl}">${v>=0?'+':''}${Number(v).toFixed(3)}%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${col};"><span>${Number(v).toFixed(3)}%</span></div>
+        <div class="bar-ref" style="left:50%;"></div>
+      </div>
+    </div>`;
+  });
+  // Limit line at 1%
+  html+=`<div style="margin-top:6px;font-size:.68rem;color:var(--dim);font-family:'Share Tech Mono',monospace;">⚠ Limite aceitável: ±1,000%</div>`;
+  html+='</div>';
+  document.getElementById(containerId).innerHTML=html;
+}
+
+function previewZeroChart(){
+  const v=[document.getElementById('z-e1').value,document.getElementById('z-e2').value,document.getElementById('z-e3').value];
+  if(v.some(x=>x!=='')) makeCalibChart(v[0]||0,v[1]||0,v[2]||0,'zero-chart-preview');
+}
+function previewSpanChart(){
+  const v=[document.getElementById('s-e1').value,document.getElementById('s-e2').value,document.getElementById('s-e3').value];
+  if(v.some(x=>x!=='')) makeCalibChart(v[0]||0,v[1]||0,v[2]||0,'span-chart-preview');
+}
+
+// ── Save calibration ──
+function saveCalib(type){
+  const p=type==='zero'?'z':'s';
+  const tag=document.getElementById(p+'-tag').value;
+  const date=document.getElementById(p+'-date').value;
+  const time=document.getElementById(p+'-time').value;
+  const tec=document.getElementById(p+'-tec').value.trim();
+  const navio=document.getElementById(p+'-navio').value.trim();
+  const e1=document.getElementById(p+'-e1').value;
+  const e2=document.getElementById(p+'-e2').value;
+  const e3=document.getElementById(p+'-e3').value;
+  const limpa=document.getElementById(p+'-limpa').checked;
+  const corr=document.getElementById(p+'-corr').checked;
+  const errEl=document.getElementById(p+'-err');
+
+  if(!tag){errEl.textContent='⚠ Selecione o TAG da balança.';errEl.classList.add('visible');return;}
+  if(!date||!time){errEl.textContent='⚠ Informe data e hora.';errEl.classList.add('visible');return;}
+  if(!tec){errEl.textContent='⚠ Informe o nome do técnico.';errEl.classList.add('visible');return;}
+  if(!navio){errEl.textContent='⚠ Informe o nome do navio.';errEl.classList.add('visible');return;}
+  if(e1===''||e2===''||e3===''){errEl.textContent='⚠ Preencha as 3 leituras de erro.';errEl.classList.add('visible');return;}
+  errEl.classList.remove('visible');
+
+  const erros=[Number(e1),Number(e2),Number(e3)];
+  const mediaErro=erros.reduce((a,b)=>a+b,0)/3;
+  const alerta=erros.some(v=>Math.abs(v)>1);
+
+  const rec={
+    id:Date.now(),
+    tipo:type,
+    tag,date,time,tec,navio,
+    erros,mediaErro:mediaErro.toFixed(3),
+    limpa,corr,alerta,
+    ts:new Date().toISOString()
+  };
+
+  const hist=getHistory();
+  hist.unshift(rec);
+  saveHistory(hist);
+
+  // Reset form
+  document.getElementById(p+'-tag').value='';
+  document.getElementById(p+'-e1').value='';
+  document.getElementById(p+'-e2').value='';
+  document.getElementById(p+'-e3').value='';
+  document.getElementById(p+'-limpa').checked=false;
+  document.getElementById(p+'-corr').checked=false;
+  document.getElementById((type==='zero'?'zero':'span')+'-chart-preview').innerHTML='';
+
+  // Success flash
+  errEl.style.color='var(--green)';errEl.style.borderColor='rgba(0,255,136,.3)';
+  errEl.textContent='✅ Registro salvo com sucesso!';errEl.classList.add('visible');
+  setTimeout(()=>{errEl.classList.remove('visible');errEl.style.color='';errEl.style.borderColor='';},3000);
+}
+
+// ── CF Calculation ──
+function calcCF(){
+  const act=parseFloat(document.getElementById('cf-act').value);
+  const ind=parseFloat(document.getElementById('cf-ind').value);
+  const res=document.getElementById('cf-result');
+  const errEl=document.getElementById('cf-err');
+  if(isNaN(act)||isNaN(ind)||ind===0){res.style.display='none';return;}
+  errEl.classList.remove('visible');
+  const cf=act/ind;
+  const actPct=cf*100;
+  const erroPct=actPct-100;
+  const alerta=Math.abs(erroPct)>1;
+
+  document.getElementById('cf-formula').innerHTML=
+    `CF = ACT ÷ IND
+CF = ${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} ÷ ${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})}
+CF = ${cf.toFixed(7)}
+
+ACT% = CF × IND%
+ACT% = ${cf.toFixed(7)} × 100
+ACT% = ${actPct.toFixed(3)}`;
+  document.getElementById('cf-val').textContent=cf.toFixed(7);
+  document.getElementById('cf-actpct').textContent=actPct.toFixed(3)+'%';
+  document.getElementById('cf-erro').innerHTML=`<span class="${errColor(erroPct)}">${erroPct>=0?'+':''}${erroPct.toFixed(3)}%</span>`;
+
+  const alertEl=document.getElementById('cf-alert');
+  if(alerta){
+    alertEl.className='cf-alert warn';
+    alertEl.innerHTML='⚠️ ERRO ACIMA DE 1%! Correção necessária. Erro atual: '+(erroPct>=0?'+':'')+erroPct.toFixed(3)+'%';
+  } else {
+    alertEl.className='cf-alert ok';
+    alertEl.innerHTML='✅ Erro dentro do limite de ±1%. Link aprovado.';
+  }
+
+  // Bar chart
+  const navio=document.getElementById('cf-navio').value||'Navio';
+  const maxVal=Math.max(act,ind)*1.05;
+  const pAct=Math.min(act/maxVal*100,100);
+  const pInd=Math.min(ind/maxVal*100,100);
+  document.getElementById('cf-bar-chart').innerHTML=`
+    <div class="bar-chart" style="margin-top:14px;">
+      <div style="font-size:.68rem;color:var(--label);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:'Share Tech Mono',monospace;">Comparação ACT × IND — ${navio}</div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span style="color:#00ff88;">ACT (Arqueação do Navio)</span><span style="color:#00ff88;">${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pAct}%;background:#00ff88;"><span>${act.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div></div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span style="color:#00d4ff;">IND (Total da Balança)</span><span style="color:#00d4ff;">${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pInd}%;background:#00d4ff;"><span>${ind.toLocaleString('pt-BR',{minimumFractionDigits:3})} T</span></div></div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span style="color:${alerta?'#ff4466':'#00ff88'}">Erro (%)</span><span class="${errColor(erroPct)}">${erroPct>=0?'+':''}${erroPct.toFixed(3)}%</span></div>
+        <div class="bar-track" style="height:20px;">
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,214,0,.7);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;${erroPct>=0?'left:50%':'right:50%'};width:${Math.min(Math.abs(erroPct)/2*100,50)}%;background:${alerta?'#ff4466':'#00ff88'};"></div>
+        </div>
+      </div>
+    </div>`;
+  res.style.display='block';
+}
+
+function saveCF(){
+  const tag=document.getElementById('cf-tag').value;
+  const navio=document.getElementById('cf-navio').value.trim();
+  const act=parseFloat(document.getElementById('cf-act').value);
+  const ind=parseFloat(document.getElementById('cf-ind').value);
+  const errEl=document.getElementById('cf-err');
+  if(!tag){errEl.textContent='⚠ Selecione o TAG da balança.';errEl.classList.add('visible');return;}
+  if(!navio){errEl.textContent='⚠ Informe o nome do navio.';errEl.classList.add('visible');return;}
+  if(isNaN(act)||isNaN(ind)){errEl.textContent='⚠ Calcule o CF antes de salvar.';errEl.classList.add('visible');return;}
+  const cf=act/ind; const actPct=cf*100; const erroPct=actPct-100;
+  const now=new Date();
+  const rec={
+    id:Date.now(),tipo:'cf',tag,
+    date:now.toISOString().slice(0,10),
+    time:now.toTimeString().slice(0,5),
+    navio,act,ind,cf:cf.toFixed(7),actPct:actPct.toFixed(3),
+    erroPct:erroPct.toFixed(3),alerta:Math.abs(erroPct)>1,
+    ts:now.toISOString()
+  };
+  const hist=getHistory(); hist.unshift(rec); saveHistory(hist);
+  errEl.style.color='var(--green)';errEl.style.borderColor='rgba(0,255,136,.3)';
+  errEl.textContent='✅ Registro de CF salvo!';errEl.classList.add('visible');
+  setTimeout(()=>{errEl.classList.remove('visible');errEl.style.color='';errEl.style.borderColor='';},3000);
+}
+
+// ── History storage ──
+function getHistory(){
+  try{return JSON.parse(localStorage.getItem('csn-bal-hist')||'[]');}catch{return [];}
+}
+function saveHistory(h){
+  try{localStorage.setItem('csn-bal-hist',JSON.stringify(h));}catch{}
+}
+function clearHistory(){
+  if(confirm('Apagar todo o histórico? Esta ação não pode ser desfeita.')){
+    localStorage.removeItem('csn-bal-hist');
+    renderHistory();
+  }
+}
+
+// ── Render History ──
+function renderHistory(){
+  const hist=getHistory();
+  const fTag=document.getElementById('hist-filter-tag').value;
+  const fType=document.getElementById('hist-filter-type').value;
+  const filtered=hist.filter(r=>{
+    if(fTag&&r.tag!==fTag) return false;
+    if(fType&&r.tipo!==fType) return false;
+    return true;
+  });
+  const el=document.getElementById('hist-list');
+  if(!filtered.length){
+    el.innerHTML='<div class="no-hist">📭 Nenhum registro encontrado.</div>';
+    return;
+  }
+  el.innerHTML=filtered.map(r=>{
+    const typeLabel=r.tipo==='zero'?'ZERO':r.tipo==='span'?'SPAN':'CF';
+    const typeCls=r.tipo==='zero'?'zero':r.tipo==='span'?'span':'zero';
+    let body='';
+    if(r.tipo==='zero'||r.tipo==='span'){
+      const erros=r.erros||[];
+      body=`
+        <b>Técnico:</b> ${r.tec} &nbsp;|&nbsp; <b>Navio:</b> ${r.navio}<br>
+        <b>Erros:</b> ${erros.map((v,i)=>`L${i+1}: <span class="${errColor(v)}">${Number(v)>=0?'+':''}${Number(v).toFixed(3)}%</span>`).join(' · ')}<br>
+        <b>Média:</b> <span class="${errColor(Number(r.mediaErro))}">${Number(r.mediaErro)>=0?'+':''}${r.mediaErro}%</span> &nbsp;|&nbsp;
+        <b>Limpa:</b> ${r.limpa?'✅ Sim':'❌ Não'} &nbsp;|&nbsp;
+        <b>Corrigida:</b> ${r.corr?'✅ Sim':'❌ Não'}`;
+    } else {
+      body=`
+        <b>Navio:</b> ${r.navio}<br>
+        <b>ACT:</b> ${Number(r.act).toLocaleString('pt-BR',{minimumFractionDigits:3})} T &nbsp;|&nbsp;
+        <b>IND:</b> ${Number(r.ind).toLocaleString('pt-BR',{minimumFractionDigits:3})} T<br>
+        <b>CF:</b> ${r.cf} &nbsp;|&nbsp;
+        <b>ACT%:</b> ${r.actPct}% &nbsp;|&nbsp;
+        <b>Erro:</b> <span class="${errColor(Number(r.erroPct))}">${Number(r.erroPct)>=0?'+':''}${r.erroPct}%</span>`;
+    }
+    return `<div class="hist-item">
+      <button class="hist-del" onclick="delRecord(${r.id})">🗑</button>
+      <div class="hi-header">
+        <div>
+          <span class="hi-tag">${r.tag}</span>
+          <span class="hi-type ${typeCls}" style="margin-left:6px;">${typeLabel}</span>
+        </div>
+        <div class="hi-date">${r.date} ${r.time}</div>
+      </div>
+      <div class="hi-body">${body}</div>
+      ${r.alerta?'<div class="hi-alert">⚠️ Erro acima de 1% — Correção recomendada</div>':''}
+    </div>`;
+  }).join('');
+}
+
+function delRecord(id){
+  if(!confirm('Excluir este registro?')) return;
+  const hist=getHistory().filter(r=>r.id!==id);
+  saveHistory(hist);
+  renderHistory();
+}
+
 </body>
 </html>

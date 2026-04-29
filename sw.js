@@ -1,33 +1,24 @@
-// CSN Automação - Service Worker Network-First
-const CACHE = 'clp-csn-v4';
+// CSN Automação - SW v5 NUCLEAR
+// Este SW se auto-destrói, limpa TODO o cache e força reload
+const CACHE = 'csn-v5';
 
-self.addEventListener('install', e => {
-  self.skipWaiting();
-});
+self.addEventListener('install', () => self.skipWaiting());
 
 self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
+  e.waitUntil((async () => {
+    // Apaga TODOS os caches sem exceção
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => caches.delete(k)));
+    await self.clients.claim();
+    // Força reload em todas as abas abertas
+    const clients = await self.clients.matchAll({ type: 'window' });
+    clients.forEach(c => c.navigate(c.url));
+  })());
 });
 
-// NETWORK FIRST: sempre tenta buscar da rede primeiro
-// Só usa cache se estiver offline
+// Sem cache - sempre busca da rede
 self.addEventListener('fetch', e => {
   e.respondWith(
-    fetch(e.request)
-      .then(response => {
-        // Salva cópia fresca no cache
-        const clone = response.clone();
-        caches.open(CACHE).then(c => c.put(e.request, clone));
-        return response;
-      })
-      .catch(() => {
-        // Sem rede: usa cache (modo offline)
-        return caches.match(e.request);
-      })
+    fetch(e.request, { cache: 'no-store' }).catch(() => caches.match(e.request))
   );
 });
