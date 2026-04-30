@@ -212,6 +212,18 @@ select:focus{border-color:var(--accent);}
 .ibtn{padding:9px 16px;background:var(--csn);color:#fff;border:none;border-radius:3px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;}
 .dbtn{background:transparent;border:none;color:var(--dim);font-size:1.1rem;cursor:pointer;padding:4px 7px;}
 @media(max-width:400px){.rg{grid-template-columns:1fr;}.ri.hl,.ri.fw{grid-column:1;}}
+
+/* ── POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;display:none;align-items:flex-start;justify-content:center;padding:20px 14px;overflow-y:auto;}
+.popup-overlay.show{display:flex;}
+.popup-box{background:var(--panel);border:1px solid var(--accent);border-radius:6px;padding:20px;max-width:540px;width:100%;position:relative;margin:auto;}
+.popup-close{position:absolute;top:10px;right:10px;background:#0d1620;border:1px solid var(--border);color:var(--dim);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.popup-close:hover{border-color:var(--red);color:var(--red);}
+.popup-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;padding-right:32px;}
+.tut-step{background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:3px;padding:10px 12px;margin-bottom:8px;}
+.tut-step .ts-num{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.tut-step .ts-body{font-size:.85rem;color:var(--text);line-height:1.6;}
+.tut-step .ts-val{font-family:'Share Tech Mono',monospace;color:var(--green);font-weight:700;}
 </style>
 </head>
 <body>
@@ -226,8 +238,7 @@ select:focus{border-color:var(--accent);}
   <button class="nb active" onclick="goPage('home')"   id="nav-home"   ><span class="ni">🏠</span>Home</button>
   <button class="nb"        onclick="goPage('clp')"    id="nav-clp"    ><span class="ni">⚙️</span>CLP</button>
   <button class="nb"        onclick="goPage('gates')"  id="nav-gates"  ><span class="ni">🔲</span>Portas</button>
-  <button class="nb"        onclick="goPage('rj45')"   id="nav-rj45"   ><span class="ni">🔌</span>RJ45</button>
-  <button class="nb"        onclick="goPage('fiber')"  id="nav-fiber"  ><span class="ni">💡</span>Fibra</button>
+  <button class="nb"        onclick="goPage('redes')"  id="nav-redes"  ><span class="ni">🌐</span>Redes</button>
   <button class="nb"        onclick="goPage('balanca')" id="nav-balanca"><span class="ni">⚖️</span>Balanças</button>
 </nav>
 
@@ -269,8 +280,7 @@ select:focus{border-color:var(--accent);}
   <div class="g2">
     <div class="card" style="cursor:pointer" onclick="goPage('clp')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00aaff,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">⚙️</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">CLP I/O</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">GE · Rockwell · Siemens<br>Local · Remota</div></div>
     <div class="card" style="cursor:pointer" onclick="goPage('gates')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">🔲</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Portas</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">AND OR NOT XOR<br>NAND NOR XNOR BUF</div></div>
-    <div class="card" style="cursor:pointer" onclick="goPage('rj45')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">🔌</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">RJ45</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">T568A · T568B<br>Crossover · PoE</div></div>
-    <div class="card" style="cursor:pointer" onclick="goPage('fiber')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">💡</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Fibra</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">SM · MM · Conectores<br>Cálculo de link</div></div>
+    <div class="card" style="cursor:pointer;grid-column:1/-1;" onclick="goPage('redes')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">🌐</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Redes & Fibra</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">RJ45 · Fibra Óptica · ABNT · DeviceNet · Profibus · Modbus · Ethernet Industrial</div></div>
     <div class="card" style="cursor:pointer;grid-column:1/-1;" onclick="goPage('balanca')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">⚖️</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Balanças Integradoras</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">PABR · BAL-05 TM111 · BAL-06 TM111 · Calibração Zero/Span · Correção de Massa · Histórico</div></div>
   </div>
 </div>
@@ -352,133 +362,351 @@ select:focus{border-color:var(--accent);}
   </div>
 </div>
 
-<!-- RJ45 -->
-<div class="page" id="page-rj45">
-  <div class="ptitle">🔌 Crimpagem <span>RJ45</span></div>
-  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
-    <div class="sec">T568A</div>
-    <div style="font-size:.72rem;color:var(--label);margin-bottom:7px;">Residencial. Compatível via cruzado com T568B.</div>
-    <div class="pin-row">
-      <div class="pin wGW"><span class="pn">1</span><span class="pname">Bco Verde TX+</span></div><div class="pin wG"><span class="pn">2</span><span class="pname">Verde TX-</span></div>
-      <div class="pin wOW"><span class="pn">3</span><span class="pname">Bco Lar RX+</span></div><div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
-      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div><div class="pin wO"><span class="pn">6</span><span class="pname">Laranja RX-</span></div>
-      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div><div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
-    </div>
-    <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
-      <tr><td>1</td><td style="color:#4caf50">Bco/Verde</td><td>TX+</td><td>3</td></tr><tr><td>2</td><td style="color:#4caf50">Verde</td><td>TX−</td><td>3</td></tr>
-      <tr><td>3</td><td style="color:#ff8800">Bco/Laranja</td><td>RX+</td><td>2</td></tr><tr><td>4</td><td style="color:#4488ff">Azul</td><td>—</td><td>1</td></tr>
-      <tr><td>5</td><td style="color:#4488ff">Bco/Azul</td><td>—</td><td>1</td></tr><tr><td>6</td><td style="color:#ff8800">Laranja</td><td>RX−</td><td>2</td></tr>
-      <tr><td>7</td><td style="color:#a0785a">Bco/Marrom</td><td>—</td><td>4</td></tr><tr><td>8</td><td style="color:#a0785a">Marrom</td><td>—</td><td>4</td></tr>
-    </table>
-  </div>
-  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
-    <div class="sec">T568B</div>
-    <div style="font-size:.72rem;color:var(--label);margin-bottom:7px;">Padrão corporativo e industrial. Recomendado para novas instalações.</div>
-    <div class="pin-row">
-      <div class="pin wOW"><span class="pn">1</span><span class="pname">Bco Lar TX+</span></div><div class="pin wO"><span class="pn">2</span><span class="pname">Laranja TX-</span></div>
-      <div class="pin wGW"><span class="pn">3</span><span class="pname">Bco Verde RX+</span></div><div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
-      <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div><div class="pin wG"><span class="pn">6</span><span class="pname">Verde RX-</span></div>
-      <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div><div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
-    </div>
-    <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
-      <tr><td>1</td><td style="color:#ff8800">Bco/Laranja</td><td>TX+</td><td>2</td></tr><tr><td>2</td><td style="color:#ff8800">Laranja</td><td>TX−</td><td>2</td></tr>
-      <tr><td>3</td><td style="color:#4caf50">Bco/Verde</td><td>RX+</td><td>3</td></tr><tr><td>4</td><td style="color:#4488ff">Azul</td><td>—</td><td>1</td></tr>
-      <tr><td>5</td><td style="color:#4488ff">Bco/Azul</td><td>—</td><td>1</td></tr><tr><td>6</td><td style="color:#4caf50">Verde</td><td>RX−</td><td>3</td></tr>
-      <tr><td>7</td><td style="color:#a0785a">Bco/Marrom</td><td>—</td><td>4</td></tr><tr><td>8</td><td style="color:#a0785a">Marrom</td><td>—</td><td>4</td></tr>
-    </table>
-  </div>
-  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ff4466,transparent)"></div>
-    <div class="sec">Crossover (Cruzado)</div>
-    <table class="tt"><tr><th>Pino A (T568B)</th><th>↔</th><th>Pino B (T568A)</th></tr>
-      <tr><td style="color:#ff8800">1 Bco/Laranja TX+</td><td>↔</td><td style="color:#4caf50">3 Bco/Verde RX+</td></tr>
-      <tr><td style="color:#ff8800">2 Laranja TX−</td><td>↔</td><td style="color:#4caf50">6 Verde RX−</td></tr>
-      <tr><td style="color:#4caf50">3 Bco/Verde RX+</td><td>↔</td><td style="color:#ff8800">1 Bco/Laranja TX+</td></tr>
-      <tr><td style="color:#4caf50">6 Verde RX−</td><td>↔</td><td style="color:#ff8800">2 Laranja TX−</td></tr>
-      <tr><td colspan="3" style="color:var(--dim);font-size:.68rem;">Pinos 4,5,7,8 — diretos nos dois lados</td></tr>
-    </table>
-    <div class="tip-box" style="margin-top:7px;"><div class="tip-ttl">💡 Auto-MDIX</div>Equipamentos modernos detectam e ajustam automaticamente. Crossover necessário apenas em equipamentos legados.</div>
-  </div>
-  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
-    <div class="sec">Categorias de Cabo</div>
-    <table class="pt"><tr><th>Categoria</th><th>Velocidade</th><th>Freq.</th><th>Dist.</th></tr>
-      <tr><td>Cat 5e</td><td>1 Gbps</td><td>100 MHz</td><td>100 m</td></tr>
-      <tr><td>Cat 6</td><td>1 Gbps</td><td>250 MHz</td><td>100 m</td></tr>
-      <tr><td>Cat 6A</td><td>10 Gbps</td><td>500 MHz</td><td>100 m</td></tr>
-      <tr><td>Cat 7</td><td>10 Gbps</td><td>600 MHz</td><td>100 m</td></tr>
-      <tr><td>Cat 8</td><td>25/40 Gbps</td><td>2000 MHz</td><td>30 m</td></tr>
-    </table>
-  </div>
-  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
-    <div class="sec">PoE — Power over Ethernet</div>
-    <table class="pt"><tr><th>Padrão</th><th>IEEE</th><th>Potência</th><th>Pares</th></tr>
-      <tr><td>PoE</td><td>802.3af</td><td>15,4 W</td><td>2 pares</td></tr>
-      <tr><td>PoE+</td><td>802.3at</td><td>30 W</td><td>2 pares</td></tr>
-      <tr><td>PoE++ T3</td><td>802.3bt</td><td>60 W</td><td>4 pares</td></tr>
-      <tr><td>PoE++ T4</td><td>802.3bt</td><td>100 W</td><td>4 pares</td></tr>
-    </table>
-  </div>
-</div>
+<!-- REDES -->
+<div class="page" id="page-redes">
+  <div class="ptitle">🌐 Redes & <span>Fibra Óptica</span></div>
 
-<!-- FIBER -->
-<div class="page" id="page-fiber">
-  <div class="ptitle">💡 Fibra <span>Óptica</span></div>
-  <div class="fcard sm">
-    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);">Monomodo (SM) <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:2px 6px;border-radius:2px;border:1px solid var(--yellow);margin-left:4px;">OS1/OS2</span></div>
-    <table class="ft">
-      <tr><td>Núcleo/Revestimento</td><td>9µm / 125µm</td></tr><tr><td>Janelas Ópticas</td><td>1310nm · 1550nm · 1625nm</td></tr>
-      <tr><td>Distância OS1</td><td>até 10 km</td></tr><tr><td>Distância OS2</td><td>até 200 km</td></tr>
-      <tr><td>Atenuação OS2</td><td>≤ 0,4 dB/km @ 1550nm</td></tr><tr><td>Fonte</td><td>Laser (LD)</td></tr>
-      <tr><td>Cor do cabo</td><td>Amarelo (padrão)</td></tr>
-    </table>
-    <div class="chip-row"><span class="chip y">OS1</span><span class="chip y">OS2</span><span class="chip y">DWDM</span><span class="chip y">1310nm</span><span class="chip y">1550nm</span></div>
-    <div class="tip-box"><div class="tip-ttl">💡 Manutenção SM</div>• Limpe com kit IEC 61300-3-35 antes de conectar<br>• ORL: &gt;55dB (UPC) · &gt;65dB (APC)<br>• Conectores APC (8°) — sempre verdes<br>• Use OTDR nas janelas 1310nm e 1550nm</div>
+  <!-- Sub-menu -->
+  <div class="btabs" style="margin-bottom:14px;">
+    <button class="btab active" id="rtab-rj45"    onclick="setRedesTab('rj45')"   >🔌 RJ45</button>
+    <button class="btab"        id="rtab-fiber"   onclick="setRedesTab('fiber')"  >💡 Fibra</button>
+    <button class="btab"        id="rtab-redes"   onclick="setRedesTab('redes')"  >🔧 Redes</button>
   </div>
-  <div class="fcard mm">
-    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;margin-bottom:7px;color:var(--orange);">Multimodo (MM) <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:2px 6px;border-radius:2px;border:1px solid var(--orange);margin-left:4px;">OM1~OM5</span></div>
-    <table class="pt"><tr><th>Tipo</th><th>Núcleo</th><th>BW@850nm</th><th>1G</th><th>10G</th></tr>
-      <tr><td>OM1</td><td>62,5µm</td><td>200MHz·km</td><td>275m</td><td>33m</td></tr>
-      <tr><td>OM2</td><td>50µm</td><td>500MHz·km</td><td>550m</td><td>82m</td></tr>
-      <tr><td>OM3</td><td>50µm</td><td>2000MHz·km</td><td>1000m</td><td>300m</td></tr>
-      <tr><td>OM4</td><td>50µm</td><td>4700MHz·km</td><td>1000m</td><td>550m</td></tr>
-      <tr><td>OM5</td><td>50µm</td><td>28000MHz·km</td><td>1000m</td><td>550m</td></tr>
-    </table>
-    <div class="chip-row"><span class="chip o">OM1</span><span class="chip o">OM2</span><span class="chip o">OM3</span><span class="chip o">OM4</span><span class="chip o">OM5</span></div>
-  </div>
-  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
-    <div class="sec">Conectores e Polimento</div>
-    <table class="ft">
-      <tr><td>SC</td><td>Push-pull · telecom e industrial · SM/MM</td></tr>
-      <tr><td>LC</td><td>Small form · data centers · duplex</td></tr>
-      <tr><td>FC</td><td>Rosca · alta vibração · industrial</td></tr>
-      <tr><td>ST</td><td>Baioneta · legado · MM</td></tr>
-      <tr><td>MPO/MTP</td><td>Multi-fibra 8/12/24 · alta densidade</td></tr>
-      <tr><td>PC</td><td>ORL &gt;40dB · uso geral</td></tr>
-      <tr><td>UPC</td><td>ORL &gt;55dB · SM recomendado</td></tr>
-      <tr><td>APC (VERDE)</td><td>Ângulo 8° · ORL &gt;65dB · sistemas sensíveis</td></tr>
-    </table>
-    <div class="warn-box" style="margin-top:7px;"><div class="warn-ttl">⚠️ NUNCA conecte APC com UPC/PC!</div>Causa alta reflexão e danos ao laser. Conectores APC são sempre <strong style="color:var(--green);">verdes</strong>.</div>
-  </div>
-  <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
-    <div class="sec">Calculadora de Orçamento Óptico</div>
-    <div class="g2">
-      <div class="fg"><label>Potência TX (dBm)</label><div class="fr"><span class="fp">TX</span><input type="number" id="fib-tx" value="-3" step="0.1"></div></div>
-      <div class="fg"><label>Sensibilidade RX (dBm)</label><div class="fr"><span class="fp">RX</span><input type="number" id="fib-rx" value="-20" step="0.1"></div></div>
-      <div class="fg"><label>Comprimento (km)</label><div class="fr"><span class="fp">km</span><input type="number" id="fib-len" value="2" step="0.1" min="0"></div></div>
-      <div class="fg"><label>Atenuação (dB/km)</label><div class="fr"><span class="fp">α</span><input type="number" id="fib-att" value="0.4" step="0.01" min="0"></div></div>
-      <div class="fg"><label>Nº conectores</label><div class="fr"><span class="fp">CON</span><input type="number" id="fib-con" value="4" min="0"></div></div>
-      <div class="fg"><label>Nº emendas</label><div class="fr"><span class="fp">EMS</span><input type="number" id="fib-spl" value="0" min="0"></div></div>
+
+  <!-- ── RJ45 ── -->
+  <div class="bsub active" id="rsub-rj45">
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div class="sec">T568A</div>
+      <div style="font-size:.82rem;color:var(--label);margin-bottom:8px;">Residencial. Compatível via cruzado com T568B.</div>
+      <div class="pin-row">
+        <div class="pin wGW"><span class="pn">1</span><span class="pname">Bco Verde TX+</span></div><div class="pin wG"><span class="pn">2</span><span class="pname">Verde TX-</span></div>
+        <div class="pin wOW"><span class="pn">3</span><span class="pname">Bco Lar RX+</span></div><div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
+        <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div><div class="pin wO"><span class="pn">6</span><span class="pname">Laranja RX-</span></div>
+        <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div><div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
+      </div>
+      <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
+        <tr><td>1</td><td style="color:#4caf50">Bco/Verde</td><td>TX+</td><td>3</td></tr><tr><td>2</td><td style="color:#4caf50">Verde</td><td>TX−</td><td>3</td></tr>
+        <tr><td>3</td><td style="color:#ff8800">Bco/Laranja</td><td>RX+</td><td>2</td></tr><tr><td>4</td><td style="color:#4488ff">Azul</td><td>—</td><td>1</td></tr>
+        <tr><td>5</td><td style="color:#4488ff">Bco/Azul</td><td>—</td><td>1</td></tr><tr><td>6</td><td style="color:#ff8800">Laranja</td><td>RX−</td><td>2</td></tr>
+        <tr><td>7</td><td style="color:#a0785a">Bco/Marrom</td><td>—</td><td>4</td></tr><tr><td>8</td><td style="color:#a0785a">Marrom</td><td>—</td><td>4</td></tr>
+      </table>
     </div>
-    <div class="fg"><label>Margem (dB)</label><div class="fr"><span class="fp">MRG</span><input type="number" id="fib-mrg" value="3" step="0.5" min="0"></div></div>
-    <button class="bmain" onclick="calcFiber()"><span>📡 Calcular Link</span></button>
-    <div id="fib-result" style="display:none;margin-top:10px;">
-      <div class="rg">
-        <div class="ri hl" id="fib-sb"><div class="rl">Status do Link</div><div class="rv" id="fib-status">—</div></div>
-        <div class="ri"><div class="rl">Budget</div><div class="rv" id="fib-budget">—</div></div>
-        <div class="ri"><div class="rl">Perda total</div><div class="rv" id="fib-loss">—</div></div>
-        <div class="ri"><div class="rl">Margem real</div><div class="rv" id="fib-margin">—</div></div>
-        <div class="ri fw"><div class="rl">Detalhamento</div><div class="rv" id="fib-detail" style="font-size:.78rem;line-height:1.7;"></div></div>
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ffd600,transparent)"></div>
+      <div class="sec">T568B</div>
+      <div style="font-size:.82rem;color:var(--label);margin-bottom:8px;">Padrão corporativo e industrial. Recomendado para novas instalações.</div>
+      <div class="pin-row">
+        <div class="pin wOW"><span class="pn">1</span><span class="pname">Bco Lar TX+</span></div><div class="pin wO"><span class="pn">2</span><span class="pname">Laranja TX-</span></div>
+        <div class="pin wGW"><span class="pn">3</span><span class="pname">Bco Verde RX+</span></div><div class="pin wBL"><span class="pn">4</span><span class="pname">Azul</span></div>
+        <div class="pin wBLW"><span class="pn">5</span><span class="pname">Bco Azul</span></div><div class="pin wG"><span class="pn">6</span><span class="pname">Verde RX-</span></div>
+        <div class="pin wBR"><span class="pn">7</span><span class="pname">Bco Marrom</span></div><div class="pin wBRW"><span class="pn">8</span><span class="pname">Marrom</span></div>
+      </div>
+      <table class="tt"><tr><th>Pino</th><th>Cor</th><th>Função</th><th>Par</th></tr>
+        <tr><td>1</td><td style="color:#ff8800">Bco/Laranja</td><td>TX+</td><td>2</td></tr><tr><td>2</td><td style="color:#ff8800">Laranja</td><td>TX−</td><td>2</td></tr>
+        <tr><td>3</td><td style="color:#4caf50">Bco/Verde</td><td>RX+</td><td>3</td></tr><tr><td>4</td><td style="color:#4488ff">Azul</td><td>—</td><td>1</td></tr>
+        <tr><td>5</td><td style="color:#4488ff">Bco/Azul</td><td>—</td><td>1</td></tr><tr><td>6</td><td style="color:#4caf50">Verde</td><td>RX−</td><td>3</td></tr>
+        <tr><td>7</td><td style="color:#a0785a">Bco/Marrom</td><td>—</td><td>4</td></tr><tr><td>8</td><td style="color:#a0785a">Marrom</td><td>—</td><td>4</td></tr>
+      </table>
+    </div>
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ff4466,transparent)"></div>
+      <div class="sec">Crossover (Cruzado)</div>
+      <table class="tt"><tr><th>Pino A (T568B)</th><th>↔</th><th>Pino B (T568A)</th></tr>
+        <tr><td style="color:#ff8800">1 Bco/Laranja TX+</td><td>↔</td><td style="color:#4caf50">3 Bco/Verde RX+</td></tr>
+        <tr><td style="color:#ff8800">2 Laranja TX−</td><td>↔</td><td style="color:#4caf50">6 Verde RX−</td></tr>
+        <tr><td style="color:#4caf50">3 Bco/Verde RX+</td><td>↔</td><td style="color:#ff8800">1 Bco/Laranja TX+</td></tr>
+        <tr><td style="color:#4caf50">6 Verde RX−</td><td>↔</td><td style="color:#ff8800">2 Laranja TX−</td></tr>
+        <tr><td colspan="3" style="color:var(--dim);font-size:.78rem;">Pinos 4,5,7,8 — diretos nos dois lados</td></tr>
+      </table>
+      <div class="tip-box" style="margin-top:8px;"><div class="tip-ttl">💡 Auto-MDIX</div>Equipamentos modernos detectam e ajustam automaticamente. Crossover necessário apenas em equipamentos legados.</div>
+    </div>
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+      <div class="sec">Categorias de Cabo</div>
+      <table class="pt"><tr><th>Categoria</th><th>Velocidade</th><th>Freq.</th><th>Dist.</th></tr>
+        <tr><td>Cat 5e</td><td>1 Gbps</td><td>100 MHz</td><td>100 m</td></tr>
+        <tr><td>Cat 6</td><td>1 Gbps</td><td>250 MHz</td><td>100 m</td></tr>
+        <tr><td>Cat 6A</td><td>10 Gbps</td><td>500 MHz</td><td>100 m</td></tr>
+        <tr><td>Cat 7</td><td>10 Gbps</td><td>600 MHz</td><td>100 m</td></tr>
+        <tr><td>Cat 8</td><td>25/40 Gbps</td><td>2000 MHz</td><td>30 m</td></tr>
+      </table>
+      <div class="warn-box" style="margin-top:8px;"><div class="warn-ttl">⚠️ Industrial</div>Em ambientes com motores/inversores use cabos <strong>STP/FTP blindados</strong> aterrados.</div>
+    </div>
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#bf7fff,transparent)"></div>
+      <div class="sec">PoE — Power over Ethernet</div>
+      <table class="pt"><tr><th>Padrão</th><th>IEEE</th><th>Potência</th><th>Pares</th></tr>
+        <tr><td>PoE</td><td>802.3af</td><td>15,4 W</td><td>2 pares</td></tr>
+        <tr><td>PoE+</td><td>802.3at</td><td>30 W</td><td>2 pares</td></tr>
+        <tr><td>PoE++ T3</td><td>802.3bt</td><td>60 W</td><td>4 pares</td></tr>
+        <tr><td>PoE++ T4</td><td>802.3bt</td><td>100 W</td><td>4 pares</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── FIBRA ── -->
+  <div class="bsub" id="rsub-fiber">
+    <div class="fcard sm">
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);">Monomodo (SM) <span style="font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:2px 6px;border-radius:2px;border:1px solid var(--yellow);margin-left:4px;">OS1/OS2</span></div>
+      <table class="ft">
+        <tr><td>Núcleo/Revestimento</td><td>9µm / 125µm</td></tr>
+        <tr><td>Janelas Ópticas</td><td>1310nm · 1550nm · 1625nm</td></tr>
+        <tr><td>Distância OS1</td><td>até 10 km</td></tr>
+        <tr><td>Distância OS2</td><td>até 200 km</td></tr>
+        <tr><td>Atenuação OS2</td><td>≤ 0,4 dB/km @ 1550nm</td></tr>
+        <tr><td>Fonte de luz</td><td>Laser (LD)</td></tr>
+        <tr><td>Cor do cabo</td><td>Amarelo (padrão)</td></tr>
+      </table>
+      <div class="chip-row"><span class="chip y">OS1</span><span class="chip y">OS2</span><span class="chip y">DWDM</span><span class="chip y">1310nm</span><span class="chip y">1550nm</span></div>
+    </div>
+
+    <div class="fcard mm">
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;margin-bottom:7px;color:var(--orange);">Multimodo (MM) <span style="font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:2px 6px;border-radius:2px;border:1px solid var(--orange);margin-left:4px;">OM1~OM5</span></div>
+      <table class="pt"><tr><th>Tipo</th><th>Núcleo</th><th>BW@850nm</th><th>1G</th><th>10G</th></tr>
+        <tr><td>OM1</td><td>62,5µm</td><td>200MHz·km</td><td>275m</td><td>33m</td></tr>
+        <tr><td>OM2</td><td>50µm</td><td>500MHz·km</td><td>550m</td><td>82m</td></tr>
+        <tr><td>OM3</td><td>50µm</td><td>2000MHz·km</td><td>1000m</td><td>300m</td></tr>
+        <tr><td>OM4</td><td>50µm</td><td>4700MHz·km</td><td>1000m</td><td>550m</td></tr>
+        <tr><td>OM5</td><td>50µm</td><td>28000MHz·km</td><td>1000m</td><td>550m</td></tr>
+      </table>
+      <div class="chip-row"><span class="chip o">OM1</span><span class="chip o">OM2</span><span class="chip o">OM3</span><span class="chip o">OM4</span><span class="chip o">OM5</span></div>
+    </div>
+
+    <!-- ABNT NBR 14771 -->
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div class="sec">ABNT NBR 14771 — Código de Cores</div>
+      <div style="font-size:.82rem;color:var(--label);margin-bottom:10px;">Padrão brasileiro para identificação de tubos e fibras em cabos ópticos.</div>
+
+      <div style="font-size:.78rem;color:var(--accent);font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Cores dos Tubos (Módulos)</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:14px;">
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#1565c0;flex-shrink:0;border:2px solid #42a5f5;"></span><span style="font-size:.78rem;color:var(--text);">01 Azul</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#ff8f00;flex-shrink:0;border:2px solid #ffca28;"></span><span style="font-size:.78rem;color:var(--text);">02 Laranja</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#2e7d32;flex-shrink:0;border:2px solid #66bb6a;"></span><span style="font-size:.78rem;color:var(--text);">03 Verde</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#4e342e;flex-shrink:0;border:2px solid #a1887f;"></span><span style="font-size:.78rem;color:var(--text);">04 Marrom</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#4a148c;flex-shrink:0;border:2px solid #ab47bc;"></span><span style="font-size:.78rem;color:var(--text);">05 Cinza</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#f5f5f5;flex-shrink:0;border:2px solid #bbb;"></span><span style="font-size:.78rem;color:var(--text);">06 Branco</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#b71c1c;flex-shrink:0;border:2px solid #ef5350;"></span><span style="font-size:.78rem;color:var(--text);">07 Vermelho</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#0d1a2e;flex-shrink:0;border:2px solid #5c6bc0;"></span><span style="font-size:.78rem;color:var(--text);">08 Preto</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#f9a825;flex-shrink:0;border:2px solid #ffee58;"></span><span style="font-size:.78rem;color:var(--text);">09 Amarelo</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#00695c;flex-shrink:0;border:2px solid #26a69a;"></span><span style="font-size:.78rem;color:var(--text);">10 Violeta</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#00838f;flex-shrink:0;border:2px solid #26c6da;"></span><span style="font-size:.78rem;color:var(--text);">11 Rosa</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:18px;height:18px;border-radius:50%;background:#37474f;flex-shrink:0;border:2px solid #78909c;"></span><span style="font-size:.78rem;color:var(--text);">12 Aqua</span></div>
+      </div>
+
+      <div style="font-size:.78rem;color:var(--accent);font-family:'Share Tech Mono',monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Cores das Fibras dentro do Tubo</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px;">
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#1565c0;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F1 Azul</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#ff8f00;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F2 Laranja</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#2e7d32;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F3 Verde</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#4e342e;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F4 Marrom</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#607d8b;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F5 Cinza</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#f5f5f5;flex-shrink:0;border:1px solid #999;"></span><span style="font-size:.78rem;color:var(--text);">F6 Branco</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#b71c1c;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F7 Vermelho</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#111;flex-shrink:0;border:1px solid #555;"></span><span style="font-size:.78rem;color:var(--text);">F8 Preto</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#f9a825;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F9 Amarelo</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#6a1b9a;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F10 Violeta</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#e91e63;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F11 Rosa</span></div>
+        <div style="background:#1a1a2e;border-radius:3px;padding:7px 6px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);"><span style="width:14px;height:14px;border-radius:2px;background:#00acc1;flex-shrink:0;"></span><span style="font-size:.78rem;color:var(--text);">F12 Aqua</span></div>
+      </div>
+
+      <div class="tip-box"><div class="tip-ttl">📖 Como Ler o Endereço da Fibra</div>
+        Exemplo: <strong>Tubo 03 / Fibra 07</strong> = Tubo Verde / Fibra Vermelha<br>
+        Para cabos com mais de 12 tubos, usa-se fita (traço colorido) sobre o tubo para identificar o grupo adicional.<br>
+        Cabo de 24 fibras = 2 tubos × 12 fibras · Cabo de 48 fibras = 4 tubos × 12 fibras
       </div>
     </div>
+
+    <!-- Conectores -->
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+      <div class="sec">Conectores e Polimento</div>
+      <table class="ft">
+        <tr><td>SC</td><td>Push-pull · telecom e industrial · SM/MM</td></tr>
+        <tr><td>LC</td><td>Small form · data centers · duplex</td></tr>
+        <tr><td>FC</td><td>Rosca · alta vibração · industrial</td></tr>
+        <tr><td>ST</td><td>Baioneta · legado · MM</td></tr>
+        <tr><td>MPO/MTP</td><td>Multi-fibra 8/12/24 · alta densidade</td></tr>
+        <tr><td>PC</td><td>ORL &gt;40dB · uso geral</td></tr>
+        <tr><td>UPC</td><td>ORL &gt;55dB · SM recomendado</td></tr>
+        <tr><td>APC (VERDE)</td><td>Ângulo 8° · ORL &gt;65dB · sistemas sensíveis</td></tr>
+      </table>
+      <div class="warn-box" style="margin-top:8px;"><div class="warn-ttl">⚠️ NUNCA conecte APC com UPC/PC!</div>Conectores APC são sempre <strong style="color:var(--green);">verdes</strong>.</div>
+    </div>
+
+    <!-- Calculadora óptica -->
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div class="sec">
+        Calculadora de Orçamento Óptico
+        <button onclick="showFibTutorial()" style="margin-left:8px;background:rgba(0,212,255,.15);border:1px solid var(--accent);color:var(--accent);border-radius:50%;width:24px;height:24px;font-size:.85rem;cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-weight:700;">?</button>
+      </div>
+      <div style="font-size:.82rem;color:var(--label);margin-bottom:10px;">Verifica se o link tem potência suficiente: Budget = TX − RX ≥ Perdas + Margem</div>
+      <div class="g2">
+        <div class="fg"><label>Potência TX (dBm) <span style="color:var(--dim);font-size:.7rem;">transmissor</span></label><div class="fr"><span class="fp">TX</span><input type="number" id="fib-tx" value="-3" step="0.1"></div></div>
+        <div class="fg"><label>Sensibilidade RX (dBm) <span style="color:var(--dim);font-size:.7rem;">receptor</span></label><div class="fr"><span class="fp">RX</span><input type="number" id="fib-rx" value="-20" step="0.1"></div></div>
+        <div class="fg"><label>Comprimento (km)</label><div class="fr"><span class="fp">km</span><input type="number" id="fib-len" value="2" step="0.1" min="0"></div></div>
+        <div class="fg"><label>Aten. fibra (dB/km) <span style="color:var(--dim);font-size:.7rem;">SM≈0.4 MM≈3.5</span></label><div class="fr"><span class="fp">α</span><input type="number" id="fib-att" value="0.4" step="0.01" min="0"></div></div>
+        <div class="fg"><label>Nº conectores <span style="color:var(--dim);font-size:.7rem;">0.5dB cada</span></label><div class="fr"><span class="fp">CON</span><input type="number" id="fib-con" value="4" min="0"></div></div>
+        <div class="fg"><label>Nº emendas fusão <span style="color:var(--dim);font-size:.7rem;">0.1dB cada</span></label><div class="fr"><span class="fp">EMS</span><input type="number" id="fib-spl" value="0" min="0"></div></div>
+      </div>
+      <div class="fg"><label>Margem de segurança (dB) <span style="color:var(--dim);font-size:.7rem;">recomendado ≥3dB</span></label><div class="fr"><span class="fp">MRG</span><input type="number" id="fib-mrg" value="3" step="0.5" min="0"></div></div>
+      <button class="bmain" onclick="calcFiber()"><span>📡 Calcular Link</span></button>
+      <div id="fib-result" style="display:none;margin-top:10px;">
+        <div class="rg">
+          <div class="ri hl" id="fib-sb"><div class="rl">Status do Link</div><div class="rv" id="fib-status">—</div></div>
+          <div class="ri"><div class="rl">Budget</div><div class="rv" id="fib-budget">—</div></div>
+          <div class="ri"><div class="rl">Perda total</div><div class="rv" id="fib-loss">—</div></div>
+          <div class="ri"><div class="rl">Margem real</div><div class="rv" id="fib-margin">—</div></div>
+          <div class="ri fw"><div class="rl">Detalhamento</div><div class="rv" id="fib-detail" style="font-size:.85rem;line-height:1.7;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box" style="margin:0 0 12px 0;"><div class="tip-ttl">🔧 Manutenção SM/MM em Campo</div>
+      • NUNCA olhe para a ponta — risco de lesão ocular<br>
+      • Limpe com kit IEC 61300-3-35 antes de conectar<br>
+      • Use OTDR nas janelas 1310nm (SM) e 850nm (MM)<br>
+      • Raio mínimo de curvatura: 30mm estático · 60mm em movimento<br>
+      • Equip. de teste: OTDR · Power Meter · VFL · Microscópio
+    </div>
+  </div>
+
+  <!-- ── REDES INDUSTRIAIS ── -->
+  <div class="bsub" id="rsub-redes">
+
+    <!-- Profibus -->
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ff8800,transparent)"></div>
+      <div class="sec">Profibus DP/PA</div>
+      <table class="ft">
+        <tr><td>Padrão</td><td>IEC 61158 · EN 50170</td></tr>
+        <tr><td>Velocidade DP</td><td>9,6 kbps a 12 Mbps</td></tr>
+        <tr><td>Velocidade PA</td><td>31,25 kbps (fixo)</td></tr>
+        <tr><td>Cabo DP</td><td>Par trançado blindado · 200m@12Mbps · 1200m@9,6kbps</td></tr>
+        <tr><td>Cabo PA</td><td>Par trançado blindado · até 1900m (com repetidores)</td></tr>
+        <tr><td>Conector DP</td><td>DB9 · pinos A/B + blindagem</td></tr>
+        <tr><td>Terminação DP</td><td>220Ω + RC (33Ω + 220nF) nas extremidades</td></tr>
+        <tr><td>Terminação PA</td><td>100Ω nas extremidades do segmento</td></tr>
+        <tr><td>Cores cabo DP</td><td>A = Verde · B = Vermelho · Blindagem = Marrom/cinza</td></tr>
+      </table>
+      <div class="sec" style="margin-top:12px;">🔧 Diagnóstico e Solução de Falhas</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--red);margin-bottom:4px;">❌ Barramento inteiro off / sem comunicação</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Verifique terminadores nas duas extremidades<br>2. Meça resistência entre A-B com rede desligada: deve ser ≈110Ω<br>3. Se &gt;150Ω: terminador faltando · Se &lt;50Ω: terminador a mais<br>4. Verifique continuidade dos pinos A e B no conector DB9<br>5. Inspecione blindagem: deve ser aterrada em um único ponto</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--yellow);margin-bottom:4px;">⚠️ Escravo específico com falha intermitente</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Troque o conector DB9 do escravo suspeito<br>2. Verifique se o cabo não está dobrado excessivamente<br>3. Meça tensão de alimentação do escravo: deve estar na faixa correta<br>4. Verifique endereço: não pode haver endereços duplicados<br>5. Cheque configuração do mestre: GSD file e parâmetros</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--orange);margin-bottom:4px;">🔍 Diagnóstico com multímetro</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">Com rede energizada:<br>• A(+) em relação à blindagem: +2,0V a +5,0V<br>• B(−) em relação à blindagem: −2,0V a −5,0V<br>• Diferença A−B: ≥ 1,5V em repouso<br>Em comunicação: sinal varia rapidamente (use osciloscópio)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DeviceNet -->
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#d4201a,transparent)"></div>
+      <div class="sec">DeviceNet</div>
+      <table class="ft">
+        <tr><td>Padrão</td><td>ISO 11898 · CAN 2.0A · ODVA</td></tr>
+        <tr><td>Velocidade</td><td>125, 250 ou 500 kbps</td></tr>
+        <tr><td>Distância</td><td>500m@125kbps · 250m@250kbps · 100m@500kbps</td></tr>
+        <tr><td>Alimentação</td><td>24VDC via cabo — V+ e V−</td></tr>
+        <tr><td>Terminação</td><td>121Ω nas duas extremidades do trunk</td></tr>
+        <tr><td>Nós máximos</td><td>64 nós (endereços 0–63)</td></tr>
+      </table>
+      <div style="margin-top:8px;background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;">
+        <div style="font-size:.78rem;color:var(--accent);font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-bottom:6px;">CÓDIGO DE CORES DO CABO</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <div style="display:flex;align-items:center;gap:7px;"><span style="width:14px;height:14px;border-radius:2px;background:#e53935;flex-shrink:0;"></span><span style="font-size:.82rem;color:var(--text);">V+ (alimentação +24V)</span></div>
+          <div style="display:flex;align-items:center;gap:7px;"><span style="width:14px;height:14px;border-radius:2px;background:#111;border:1px solid #555;flex-shrink:0;"></span><span style="font-size:.82rem;color:var(--text);">V− (alimentação 0V)</span></div>
+          <div style="display:flex;align-items:center;gap:7px;"><span style="width:14px;height:14px;border-radius:2px;background:#f5f5f5;border:1px solid #aaa;flex-shrink:0;"></span><span style="font-size:.82rem;color:var(--text);">CAN_H (sinal alto)</span></div>
+          <div style="display:flex;align-items:center;gap:7px;"><span style="width:14px;height:14px;border-radius:2px;background:#1565c0;flex-shrink:0;"></span><span style="font-size:.82rem;color:var(--text);">CAN_L (sinal baixo)</span></div>
+          <div style="display:flex;align-items:center;gap:7px;grid-column:1/-1;"><span style="width:14px;height:14px;border-radius:2px;background:#2e7d32;flex-shrink:0;"></span><span style="font-size:.82rem;color:var(--text);">Blindagem / Terra</span></div>
+        </div>
+      </div>
+      <div class="sec" style="margin-top:12px;">🔧 Diagnóstico e Solução de Falhas</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--red);margin-bottom:4px;">❌ Rede não inicializa / Bus Off</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Verifique terminadores 121Ω nas extremidades do trunk<br>2. Meça CAN_H a CAN_L com rede em repouso: deve ser ≈2,5V<br>3. Meça V+: deve estar entre 22V e 26V<br>4. Verifique endereços duplicados na rede<br>5. Confirme baud rate igual em todos os nós</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--yellow);margin-bottom:4px;">⚠️ Dispositivo em falha / LED vermelho</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Verifique alimentação V+ e V− no conector do dispositivo<br>2. Inspecione drop cable: comprimento máximo 6m por derivação<br>3. Comprimento total de drops: máx 156m@125kbps<br>4. Redefina o endereço MAC ID do dispositivo<br>5. Verifique EDS file no software de configuração</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--orange);margin-bottom:4px;">🔍 Medições com multímetro</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">Rede desligada (sem alimentação):<br>• Resistência CAN_H a CAN_L: ≈60Ω (dois terminadores de 121Ω em paralelo)<br>• Se 121Ω: apenas 1 terminador · Se &lt;50Ω: terminador extra ou curto<br>Rede ligada em repouso:<br>• CAN_H: ≈2,5V · CAN_L: ≈2,5V · Diferença: ≈0V</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ethernet Industrial -->
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00d4ff,transparent)"></div>
+      <div class="sec">Ethernet Industrial (EtherNet/IP · PROFINET · Modbus TCP)</div>
+      <table class="ft">
+        <tr><td>Padrão físico</td><td>IEEE 802.3 · 100Base-TX · 1000Base-T</td></tr>
+        <tr><td>Cabo industrial</td><td>Cat 5e/6 STP · IP67 · M12 D-coded</td></tr>
+        <tr><td>Velocidade</td><td>100 Mbps (Fast) · 1 Gbps (Gigabit)</td></tr>
+        <tr><td>Topologia</td><td>Estrela · Anel (PROFINET MRP) · Linear</td></tr>
+        <tr><td>Conector M12</td><td>D-coded 4 pinos · IP67 · industrial</td></tr>
+      </table>
+      <div style="margin-top:8px;background:#0d1620;border:1px solid var(--border);border-radius:3px;padding:10px 12px;">
+        <div style="font-size:.78rem;color:var(--accent);font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-bottom:6px;">CONECTOR M12 D-CODED (EtherNet Industrial)</div>
+        <table class="tt"><tr><th>Pino</th><th>Sinal</th><th>Cor (T568B)</th></tr>
+          <tr><td>1</td><td>TX+</td><td style="color:#ff8800">Bco/Laranja</td></tr>
+          <tr><td>2</td><td>RX+</td><td style="color:#4caf50">Bco/Verde</td></tr>
+          <tr><td>3</td><td>TX−</td><td style="color:#ff8800">Laranja</td></tr>
+          <tr><td>4</td><td>RX−</td><td style="color:#4caf50">Verde</td></tr>
+        </table>
+      </div>
+      <div class="sec" style="margin-top:12px;">🔧 Diagnóstico e Solução de Falhas</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--red);margin-bottom:4px;">❌ Dispositivo sem link (LED apagado)</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Troque o cabo — teste com cabo known-good<br>2. Verifique conector M12: pinos dobrados ou sujos<br>3. Teste a porta do switch com outro dispositivo<br>4. Verifique negociação de velocidade (autoneg vs. fixo)<br>5. Comprimento máximo: 100m por segmento</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--yellow);margin-bottom:4px;">⚠️ Comunicação instável / timeouts</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Verifique colisões no switch: erros no log de porta<br>2. Certifique que não há loops (use STP ou RSTP no switch)<br>3. Verifique IP duplicado na rede (ping -t para confirmar)<br>4. Separe tráfego de controle em VLAN dedicada<br>5. Use switch gerenciável com QoS para priorizar tráfego RT</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--green);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--green);margin-bottom:4px;">✅ Comandos de diagnóstico rápido</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;font-family:'Share Tech Mono',monospace;">ping [IP] -t → teste contínuo de conectividade<br>arp -a → tabela de IPs e MACs na rede<br>ipconfig /all → configuração do adaptador<br>netstat -an → conexões ativas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modbus RTU -->
+    <div class="card"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div>
+      <div class="sec">Modbus RTU (RS-485)</div>
+      <table class="ft">
+        <tr><td>Padrão físico</td><td>RS-485 (TIA/EIA-485)</td></tr>
+        <tr><td>Topologia</td><td>Barramento linear · mestre/escravos</td></tr>
+        <tr><td>Velocidade</td><td>1.200 a 115.200 bps (típico: 9600 ou 19200)</td></tr>
+        <tr><td>Distância</td><td>até 1200m @ 9600 bps</td></tr>
+        <tr><td>Nós</td><td>até 32 (sem repetidor) · até 247 endereços</td></tr>
+        <tr><td>Terminação</td><td>120Ω nas duas extremidades</td></tr>
+        <tr><td>Fios</td><td>A(+) · B(−) · GND recomendado</td></tr>
+        <tr><td>Parâmetros</td><td>Baud · Data bits · Paridade · Stop bits (ex: 9600-8-N-1)</td></tr>
+      </table>
+      <div class="sec" style="margin-top:12px;">🔧 Diagnóstico e Solução de Falhas</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--red);margin-bottom:4px;">❌ Nenhum escravo responde</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Confirme baud rate, paridade e stop bits iguais em todos<br>2. Verifique polaridade: A(+) e B(−) nos dois lados<br>3. Meça A−B com rede em repouso: deve ser +200mV a +5V<br>4. Verifique terminadores 120Ω nas extremidades<br>5. Teste sem terminadores se a rede for muito curta (&lt;10m)</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--yellow);margin-bottom:4px;">⚠️ Escravo específico sem resposta</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">1. Confirme endereço Modbus do escravo (sem duplicados)<br>2. Verifique timeout do mestre: aumentar se escravo lento<br>3. Inspecione conexão A/B no escravo: sujeira ou oxidação<br>4. Teste o escravo diretamente com laptop + conversor USB-RS485<br>5. Verifique se função Modbus usada é suportada pelo escravo</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--orange);margin-bottom:4px;">🔍 Medições com multímetro</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">Rede em repouso (sem comunicação):<br>• A(+) relativo ao GND: +2,0V a +5,0V<br>• B(−) relativo ao GND: 0V a +2,0V<br>• Diferença A−B: deve ser positiva (&gt;+200mV)<br>• Se A−B &lt; 200mV: verificar bias resistors ou polaridade</div>
+        </div>
+        <div style="background:#0d1620;border:1px solid var(--border);border-left:3px solid var(--green);border-radius:3px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:700;color:var(--green);margin-bottom:4px;">✅ Parâmetros mais comuns por equipamento</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">Inversores de frequência: 9600-8-N-1 ou 19200-8-N-1<br>Medidores de energia: 9600-8-E-1 ou 9600-8-N-2<br>CLPs: 19200-8-N-1 ou 38400-8-N-1<br>Transdutores/sensores: 9600-8-N-1 (maioria)</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1155,6 +1383,9 @@ ${rows}
   <span>Total exportado: <b>${filtered.length} registros</b></span>
   <span>CSN Automacao &mdash; ${dateStr}</span>
 </div>
+
+<!-- FIBER TUTORIAL POPUP -->
+
 </body>
 </html>`;
 
@@ -1179,6 +1410,29 @@ ${rows}
     }
   }, 200);
 }
+
+
+// ══ REDES TABS ══
+function setRedesTab(t){
+  ['rj45','fiber','redes'].forEach(k=>{
+    document.getElementById('rtab-'+k).classList.toggle('active', k===t);
+    document.getElementById('rsub-'+k).classList.toggle('active', k===t);
+  });
+}
+
+// ══ FIBER TUTORIAL POPUP ══
+function showFibTutorial(){
+  const overlay = document.getElementById('fib-tutorial-overlay');
+  overlay.classList.add('show');
+}
+function closeFibTutorial(){
+  document.getElementById('fib-tutorial-overlay').classList.remove('show');
+}
+// Close on overlay click
+document.addEventListener('DOMContentLoaded', ()=>{
+  const ov = document.getElementById('fib-tutorial-overlay');
+  if(ov) ov.addEventListener('click', e=>{ if(e.target===ov) closeFibTutorial(); });
+});
 
 // ══ INIT ══
 (function init(){
@@ -1206,5 +1460,83 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dP=e;setTim
 document.getElementById('install-btn').addEventListener('click',()=>{if(dP){dP.prompt();dP.userChoice.then(()=>dP=null);}document.getElementById('install-banner').classList.remove('show');});
 window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
 </script>
+
+<!-- FIBER TUTORIAL POPUP -->
+<div class="popup-overlay" id="fib-tutorial-overlay">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeFibTutorial()">✕</button>
+    <div class="popup-title">📡 Como usar a Calculadora Óptica</div>
+
+    <div class="tut-step">
+      <div class="ts-num">Campo 01 — TX (Potência do Transmissor)</div>
+      <div class="ts-body">Potência de saída do transceptor óptico em <span class="ts-val">dBm</span>. Encontre no datasheet do equipamento.<br>
+      Valores típicos: <span class="ts-val">SM: −3 a +3 dBm</span> · <span class="ts-val">MM: −10 a −3 dBm</span></div>
+    </div>
+
+    <div class="tut-step">
+      <div class="ts-num">Campo 02 — RX (Sensibilidade do Receptor)</div>
+      <div class="ts-body">Mínima potência que o receptor consegue detectar, em <span class="ts-val">dBm</span>. Sempre é um valor negativo.<br>
+      Valores típicos: <span class="ts-val">SM: −28 a −20 dBm</span> · <span class="ts-val">MM: −22 a −14 dBm</span></div>
+    </div>
+
+    <div class="tut-step">
+      <div class="ts-num">Campo 03 — Comprimento (km)</div>
+      <div class="ts-body">Distância total do link em quilômetros. Para links curtos use decimais:<br>
+      <span class="ts-val">500m = 0,5 km</span> · <span class="ts-val">1500m = 1,5 km</span></div>
+    </div>
+
+    <div class="tut-step">
+      <div class="ts-num">Campo 04 — Atenuação da Fibra (α dB/km)</div>
+      <div class="ts-body">Perda por km do tipo de fibra usado:<br>
+      <span class="ts-val">SM @ 1310nm: ≈ 0,35 dB/km</span><br>
+      <span class="ts-val">SM @ 1550nm: ≈ 0,20 dB/km</span><br>
+      <span class="ts-val">MM @ 850nm:  ≈ 3,50 dB/km</span><br>
+      <span class="ts-val">MM @ 1300nm: ≈ 1,50 dB/km</span></div>
+    </div>
+
+    <div class="tut-step">
+      <div class="ts-num">Campo 05 — Nº de Conectores</div>
+      <div class="ts-body">Conte todos os conectores do link (ponta a ponta). A calculadora usa <span class="ts-val">0,5 dB por conector</span> (valor conservador). Conectores limpos e bem polidos podem ter &lt;0,3 dB.</div>
+    </div>
+
+    <div class="tut-step">
+      <div class="ts-num">Campo 06 — Nº de Emendas por Fusão</div>
+      <div class="ts-body">Número de fusões no link. A calculadora usa <span class="ts-val">0,1 dB por emenda</span>. Uma fusão de qualidade pode ter &lt;0,05 dB.</div>
+    </div>
+
+    <div class="tut-step">
+      <div class="ts-num">Campo 07 — Margem de Segurança (dB)</div>
+      <div class="ts-body">Reserva para degradação futura, emendas não previstas e variações de temperatura. Recomendado: <span class="ts-val">≥ 3 dB</span>. Para links críticos use <span class="ts-val">6 dB</span>.</div>
+    </div>
+
+    <div class="tut-step" style="border-left-color:var(--green);">
+      <div class="ts-num" style="color:var(--green);">Fórmula usada</div>
+      <div class="ts-body" style="font-family:'Share Tech Mono',monospace;font-size:.82rem;line-height:1.8;">
+        Budget = TX − RX<br>
+        Perda fibra = km × α<br>
+        Perda conectores = N × 0,5 dB<br>
+        Perda emendas = N × 0,1 dB<br>
+        Perda total = fibra + conectores + emendas<br>
+        <span class="ts-val">Margem real = Budget − Perda total − Margem</span><br>
+        ✅ Link OK se Margem real ≥ 0
+      </div>
+    </div>
+
+    <div class="tut-step" style="border-left-color:var(--yellow);">
+      <div class="ts-num" style="color:var(--yellow);">Exemplo prático — SM 1310nm, 5km</div>
+      <div class="ts-body" style="font-family:'Share Tech Mono',monospace;font-size:.82rem;line-height:1.8;">
+        TX = −3 dBm · RX = −28 dBm<br>
+        Budget = −3 − (−28) = <span class="ts-val">25 dB</span><br>
+        Fibra: 5 × 0,35 = 1,75 dB<br>
+        Conectores: 4 × 0,5 = 2,0 dB<br>
+        Emendas: 2 × 0,1 = 0,2 dB<br>
+        Margem segurança: 3 dB<br>
+        Total: 1,75+2,0+0,2+3 = 6,95 dB<br>
+        Margem real: 25 − 6,95 = <span class="ts-val">18,05 dB ✅</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
