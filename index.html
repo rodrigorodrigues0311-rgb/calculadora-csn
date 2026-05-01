@@ -235,6 +235,13 @@ select:focus{border-color:var(--accent);}
 .no-result{text-align:center;padding:24px;color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:.88rem;}
 .search-result-count{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--dim);margin-bottom:10px;letter-spacing:1px;}
 
+
+/* ── BRAND LOGOS ── */
+.brand-logo{display:inline-flex;align-items:center;justify-content:center;border-radius:3px;overflow:hidden;flex-shrink:0;}
+.mfr-btn .brand-logo{width:44px;height:28px;}
+.inv-model-header .brand-logo{width:90px;height:44px;}
+.hi-header .brand-logo{width:60px;height:24px;}
+
 /* ── POPUP ── */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;display:none;align-items:flex-start;justify-content:center;padding:20px 14px;overflow-y:auto;}
 .popup-overlay.show{display:flex;}
@@ -1498,6 +1505,99 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(ov) ov.addEventListener('click', e=>{ if(e.target===ov) closeFibTutorial(); });
 });
 
+
+// ══ BRAND LOGOS (SVG estilizados) ══
+const BRAND_LOGOS = {
+
+  // GE — letras "ge" no estilo azul corporativo GE
+  GE: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#00558B" rx="2"/>
+    <text x="40" y="28" font-family="Arial,sans-serif" font-size="24" font-weight="900"
+      fill="white" text-anchor="middle" letter-spacing="-1">ge</text>
+  </svg>`,
+
+  // Rockwell Automation — losango vermelho + "ra" branco
+  ROCK: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#CC0000" rx="2"/>
+    <polygon points="12,20 22,8 32,20 22,32" fill="white"/>
+    <text x="52" y="26" font-family="Arial,sans-serif" font-size="11" font-weight="700"
+      fill="white" text-anchor="middle" letter-spacing="0.5">ROCKWELL</text>
+    <text x="52" y="35" font-family="Arial,sans-serif" font-size="8" font-weight="400"
+      fill="rgba(255,255,255,0.85)" text-anchor="middle" letter-spacing="0.5">AUTOMATION</text>
+  </svg>`,
+
+  // Siemens — fundo branco, texto "Siemens" azul + barra laranja
+  SIEM: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#009999" rx="2"/>
+    <rect x="0" y="30" width="80" height="4" fill="#00CCCC"/>
+    <text x="40" y="23" font-family="Arial,sans-serif" font-size="14" font-weight="700"
+      fill="white" text-anchor="middle" letter-spacing="1">SIEMENS</text>
+  </svg>`,
+
+  // Alstom — azul escuro, "ALSTOM" branco + barra laranja
+  MV3000: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#003087" rx="2"/>
+    <rect x="0" y="0" width="80" height="6" fill="#E87722"/>
+    <text x="40" y="27" font-family="Arial,sans-serif" font-size="13" font-weight="900"
+      fill="white" text-anchor="middle" letter-spacing="2">ALSTOM</text>
+  </svg>`,
+
+  // VACON / GE (LV7000) — verde VACON
+  LV7000: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#007A33" rx="2"/>
+    <text x="40" y="18" font-family="Arial,sans-serif" font-size="13" font-weight="900"
+      fill="white" text-anchor="middle" letter-spacing="1">VACON</text>
+    <text x="40" y="32" font-family="Arial,sans-serif" font-size="8" font-weight="400"
+      fill="rgba(255,255,255,0.85)" text-anchor="middle" letter-spacing="0.5">GE Power Conv.</text>
+  </svg>`,
+
+  // PowerFlex Rockwell
+  PF755: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#CC0000" rx="2"/>
+    <polygon points="8,20 16,10 24,20 16,30" fill="white"/>
+    <text x="53" y="20" font-family="Arial,sans-serif" font-size="9" font-weight="700"
+      fill="white" text-anchor="middle" letter-spacing="0.3">ALLEN-BRADLEY</text>
+    <text x="53" y="32" font-family="Arial,sans-serif" font-size="8.5" font-weight="400"
+      fill="rgba(255,255,255,0.9)" text-anchor="middle">PowerFlex</text>
+  </svg>`,
+
+  // Yaskawa — azul Yaskawa
+  YASKAWA: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#003087" rx="2"/>
+    <rect x="0" y="28" width="80" height="4" fill="#0072CE"/>
+    <text x="40" y="23" font-family="Arial,sans-serif" font-size="11" font-weight="900"
+      fill="white" text-anchor="middle" letter-spacing="1.5">YASKAWA</text>
+  </svg>`,
+
+  // SEW Eurodrive
+  SEW: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#FFD700" rx="2"/>
+    <text x="40" y="24" font-family="Arial,sans-serif" font-size="16" font-weight="900"
+      fill="#1A1A1A" text-anchor="middle" letter-spacing="1">SEW</text>
+    <text x="40" y="35" font-family="Arial,sans-serif" font-size="6.5" font-weight="700"
+      fill="#333" text-anchor="middle" letter-spacing="0.8">EURODRIVE</text>
+  </svg>`,
+
+  // Simovert
+  SIMOVERT: (w=80,h=40) => `<svg width="${w}" height="${h}" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="40" fill="#009999" rx="2"/>
+    <rect x="0" y="0" width="4" height="40" fill="#00CCCC"/>
+    <text x="44" y="18" font-family="Arial,sans-serif" font-size="11" font-weight="700"
+      fill="white" text-anchor="middle" letter-spacing="0.5">SIEMENS</text>
+    <text x="44" y="31" font-family="Arial,sans-serif" font-size="8" font-weight="400"
+      fill="rgba(255,255,255,0.9)" text-anchor="middle" letter-spacing="0.3">SIMOVERT MD</text>
+  </svg>`,
+};
+
+// Map model key → logo key
+const MODEL_LOGO_MAP = {
+  mv3000: 'MV3000', lv7000: 'LV7000', pf755: 'PF755',
+  a1000: 'YASKAWA', ga800: 'YASKAWA', sew: 'SEW',
+  simovert: 'SIMOVERT', simorect: 'SIMOVERT'
+};
+const MFR_LOGO_MAP = { GE:'GE', ROCK:'ROCK', SIEM:'SIEM' };
+
+
 // ══ INVERSORES ══
 // ══ INVERSORES DE FREQUÊNCIA ══
 
@@ -1734,9 +1834,11 @@ function setInvModel(key){
 
   bar.style.background = `linear-gradient(90deg,transparent,${m.color},transparent)`;
 
+  const invLogoKey = MODEL_LOGO_MAP[key];
+  const invLogoSVG = invLogoKey && BRAND_LOGOS[invLogoKey] ? BRAND_LOGOS[invLogoKey](90,44) : '';
   let html = `
     <div class="inv-model-header" style="border-color:${m.color}30;">
-      <div class="inv-model-logo">${m.logo}</div>
+      <div style="border-radius:3px;overflow:hidden;flex-shrink:0;">${invLogoSVG || '<span style="font-size:1.8rem;">'+m.logo+'</span>'}</div>
       <div class="inv-model-info">
         <div class="inv-model-name" style="color:${m.color};">${m.name}</div>
         <div class="inv-model-sub">${m.sub}</div>
@@ -1790,9 +1892,11 @@ function searchFault(){
 
   let html = `<div class="search-result-count">🔍 ${results.length} resultado${results.length>1?'s':''} encontrado${results.length>1?'s':''} para "${q}"</div>`;
   results.forEach(r => {
+    const sLogoKey = MODEL_LOGO_MAP[key];
+    const sLogoSVG = sLogoKey && BRAND_LOGOS[sLogoKey] ? `<span style="display:inline-block;border-radius:2px;overflow:hidden;vertical-align:middle;margin-right:6px;">${BRAND_LOGOS[sLogoKey](60,22)}</span>` : r.model.logo+' ';
     html += `
       <div style="margin-bottom:4px;">
-        <div style="font-size:.72rem;color:${r.model.color};font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-bottom:3px;">${r.model.logo} ${r.model.name}</div>
+        <div style="font-size:.72rem;color:${r.model.color};font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-bottom:3px;">${sLogoSVG}${r.model.name}</div>
         ${renderFaultCard(r.fault, r.model.color)}
       </div>`;
   });
@@ -1802,6 +1906,21 @@ function searchFault(){
 
 // ══ INIT ══
 (function init(){
+  // Inject brand logos into CLP MFR buttons on load
+  setTimeout(()=>{
+    ['GE','ROCK','SIEM'].forEach(k=>{
+      const btn=document.getElementById('mfr-'+k);
+      if(!btn) return;
+      const logoKey=MFR_LOGO_MAP[k];
+      if(logoKey && BRAND_LOGOS[logoKey] && !btn.querySelector('.mfr-logo-svg')){
+        const div=document.createElement('div');
+        div.className='mfr-logo-svg';
+        div.style.cssText='margin-bottom:4px;border-radius:2px;overflow:hidden;display:flex;justify-content:center;';
+        div.innerHTML=BRAND_LOGOS[logoKey](70,28);
+        btn.insertBefore(div,btn.firstChild);
+      }
+    });
+  },100);
   const now=new Date();
   const d=now.toISOString().slice(0,10);
   const t=now.toTimeString().slice(0,5);
