@@ -745,24 +745,10 @@ select:focus{border-color:var(--accent);}
 <div class="page" id="page-inv">
   <div class="ptitle">🔁 Inversores de <span>Frequência</span></div>
 
-  <!-- PESQUISA DE FALHAS -->
-  <div class="card" style="margin-bottom:14px;">
-    <div class="cbar" style="background:linear-gradient(90deg,transparent,#ff8800,transparent)"></div>
-    <div class="sec">🔍 Pesquisa de Código de Falha</div>
-    <div style="font-size:.82rem;color:var(--label);margin-bottom:10px;">Digite o código ou palavra-chave para buscar em todos os modelos</div>
-    <div class="inv-search-box">
-      <input type="text" id="inv-search-input" placeholder="Ex: OV, F002, overcurrent, sobretensão..."
-             onkeydown="if(event.key==='Enter') searchFault()">
-      <button class="inv-search-btn" onclick="searchFault()">🔍</button>
-    </div>
-    <div id="inv-search-results"></div>
-  </div>
-
-  <!-- SELEÇÃO DE MODELO -->
   <div class="card">
     <div class="cbar" id="inv-bar" style="background:linear-gradient(90deg,transparent,#ff8800,transparent)"></div>
     <div class="sec">Selecione o Modelo</div>
-    <div class="fg" style="margin-bottom:14px;">
+    <div class="fg" style="margin-bottom:0;">
       <label>Inversor de Frequência</label>
       <select id="inv-model-sel" onchange="setInvModel(this.value)">
         <option value="">— Selecione o modelo —</option>
@@ -776,8 +762,10 @@ select:focus{border-color:var(--accent);}
         <option value="sew">SEW MOVIDRIVE MD60</option>
       </select>
     </div>
-    <div id="inv-content"></div>
   </div>
+
+  <!-- Conteúdo do modelo selecionado (header + busca + falhas) -->
+  <div id="inv-content"></div>
 </div>
 
 
@@ -1836,8 +1824,13 @@ function setInvModel(key){
 
   const invLogoKey = MODEL_LOGO_MAP[key];
   const invLogoSVG = invLogoKey && BRAND_LOGOS[invLogoKey] ? BRAND_LOGOS[invLogoKey](90,44) : '';
-  let html = `
-    <div class="inv-model-header" style="border-color:${m.color}30;">
+
+  // Build full content: header + search + fault list
+  let html = `<div class="card" style="margin-top:0;">
+    <div class="cbar" style="background:linear-gradient(90deg,transparent,${m.color},transparent);"></div>
+
+    <!-- Header do modelo -->
+    <div class="inv-model-header" style="border-color:${m.color}30;margin-bottom:14px;">
       <div style="border-radius:3px;overflow:hidden;flex-shrink:0;">${invLogoSVG || '<span style="font-size:1.8rem;">'+m.logo+'</span>'}</div>
       <div class="inv-model-info">
         <div class="inv-model-name" style="color:${m.color};">${m.name}</div>
@@ -1845,13 +1838,34 @@ function setInvModel(key){
         <div class="inv-model-sub" style="margin-top:4px;color:var(--dim);">${m.specs}</div>
       </div>
     </div>
-    <div class="sec">Falhas e Diagnóstico — ${m.faults.length} códigos</div>`;
 
-  m.faults.forEach(f => {
-    html += renderFaultCard(f, m.color);
-  });
+    <!-- Campo de pesquisa do modelo -->
+    <div style="margin-bottom:14px;">
+      <div class="sec">🔍 Pesquisar Código de Falha</div>
+      <div class="inv-search-box">
+        <input type="text"
+               id="inv-search-${key}"
+               placeholder="Ex: ${m.faults[0]?.code || 'F001'}, temperatura, encoder, sobrecorrente..."
+               onkeydown="if(event.key==='Enter') searchFault()"
+               oninput="if(this.value==='') document.getElementById('inv-search-results-${key}').innerHTML=''">
+        <button class="inv-search-btn" onclick="searchFault()" style="background:${m.color};">🔍</button>
+      </div>
+      <div id="inv-search-results-${key}"></div>
+    </div>
+
+    <!-- Lista de falhas -->
+    <div class="sec">Todas as Falhas — ${m.faults.length} códigos registrados</div>`;
+
+  m.faults.forEach(f => { html += renderFaultCard(f, m.color); });
+  html += `</div>`;
 
   content.innerHTML = html;
+
+  // Focus no campo de busca
+  setTimeout(() => {
+    const inp = document.getElementById('inv-search-'+key);
+    if(inp) inp.focus();
+  }, 150);
 }
 
 function renderFaultCard(f, color){
@@ -1870,37 +1884,36 @@ function renderFaultCard(f, color){
 }
 
 // ── Fault search across all models ───────────────
+// Busca dentro do modelo atualmente selecionado
 function searchFault(){
-  const q = document.getElementById('inv-search-input').value.trim().toLowerCase();
-  const out = document.getElementById('inv-search-results');
+  const key = document.getElementById('inv-model-sel').value;
+  if(!key) return;
+  const q = document.getElementById('inv-search-'+key).value.trim().toLowerCase();
+  const out = document.getElementById('inv-search-results-'+key);
   if(!q){ out.innerHTML=''; return; }
 
-  const results = [];
-  Object.entries(INV_MODELS).forEach(([key, m]) => {
-    m.faults.forEach(f => {
-      const searchStr = [f.code, f.name, f.desc, f.causes, f.solution, ...(f.params||[])].join(' ').toLowerCase();
-      if(searchStr.includes(q)){
-        results.push({ model: m, fault: f });
-      }
-    });
+  const m = INV_MODELS[key];
+  const results = m.faults.filter(f => {
+    const s = [f.code, f.name, f.desc, f.causes, f.solution, ...(f.params||[])].join(' ').toLowerCase();
+    return s.includes(q);
   });
 
   if(!results.length){
-    out.innerHTML = `<div class="no-result">🔍 Nenhuma falha encontrada para "<strong>${q}</strong>"</div>`;
+    out.innerHTML = `<div class="no-result">🔍 Nenhuma falha encontrada para "<strong>${q}</strong>"<br><span style="font-size:.75rem;color:var(--dim);">Tente: código (ex: F006), palavra (ex: temperatura, encoder)</span></div>`;
     return;
   }
 
-  let html = `<div class="search-result-count">🔍 ${results.length} resultado${results.length>1?'s':''} encontrado${results.length>1?'s':''} para "${q}"</div>`;
-  results.forEach(r => {
-    const sLogoKey = MODEL_LOGO_MAP[key];
-    const sLogoSVG = sLogoKey && BRAND_LOGOS[sLogoKey] ? `<span style="display:inline-block;border-radius:2px;overflow:hidden;vertical-align:middle;margin-right:6px;">${BRAND_LOGOS[sLogoKey](60,22)}</span>` : r.model.logo+' ';
-    html += `
-      <div style="margin-bottom:4px;">
-        <div style="font-size:.72rem;color:${r.model.color};font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-bottom:3px;">${sLogoSVG}${r.model.name}</div>
-        ${renderFaultCard(r.fault, r.model.color)}
-      </div>`;
-  });
+  let html = `<div class="search-result-count">🔍 ${results.length} resultado${results.length>1?'s':''} para "${q}"</div>`;
+  results.forEach(f => { html += renderFaultCard(f, m.color); });
   out.innerHTML = html;
+}
+
+// Limpa busca ao trocar modelo
+function clearSearch(key){
+  const inp = document.getElementById('inv-search-'+key);
+  const out = document.getElementById('inv-search-results-'+key);
+  if(inp) inp.value='';
+  if(out) out.innerHTML='';
 }
 
 
