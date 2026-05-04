@@ -315,13 +315,14 @@ select:focus{border-color:var(--accent);}
 
 /* ══ FOOTER ══ */
 .app-footer{
-  position:relative;
-  background:transparent;
-  padding:10px 0 max(14px,env(safe-area-inset-bottom));
-  display:flex;flex-direction:column;align-items:center;gap:3px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  padding:16px 0 20px;
+  margin-top:16px;
+  border-top:1px solid rgba(0,212,255,.15);
   pointer-events:none;
-  border-top:1px solid rgba(0,212,255,.12);
-  margin-top:8px;
 }
 .footer-logo{
   display:flex;align-items:baseline;gap:0;
@@ -478,6 +479,16 @@ select:focus{border-color:var(--accent);}
     <div class="card" style="cursor:pointer;grid-column:1/-1;" onclick="goPage('inv')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#ff8800,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">🔁</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Inversores de Frequência</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">MV3000 · LV7000 · PowerFlex 753/755 · A1000 · GA800 · SEW MD60 · Simovert · Pesquisa de Falhas</div></div>
     <div class="card" style="cursor:pointer;grid-column:1/-1;" onclick="goPage('balanca')"><div class="cbar" style="background:linear-gradient(90deg,transparent,#00ff88,transparent)"></div><div style="font-size:1.8rem;margin-bottom:5px;">⚖️</div><div style="font-weight:700;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:1px;">Balanças Integradoras</div><div style="font-size:.7rem;color:var(--label);margin-top:3px;">PABR · BAL-05 TM111 · BAL-06 TM111 · Calibração Zero/Span · Correção de Massa · Histórico</div></div>
   </div>
+
+  <!-- Lima Store Footer -->
+  <div class="app-footer">
+    <div class="footer-logo">
+      <span class="fl-lima">LIMA</span>
+      <span class="fl-store">STORE</span>
+    </div>
+    <div class="footer-line"></div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,212,255,.35);letter-spacing:2px;">TECNOLOGIA SIMPLES PARA TODOS</div>
+  </div>
 </div>
 
 <!-- CLP -->
@@ -526,6 +537,16 @@ select:focus{border-color:var(--accent);}
       <div class="irow" id="clp-range"></div>
     </div>
   </div>
+
+  <!-- Lima Store Footer -->
+  <div class="app-footer">
+    <div class="footer-logo">
+      <span class="fl-lima">LIMA</span>
+      <span class="fl-store">STORE</span>
+    </div>
+    <div class="footer-line"></div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,212,255,.35);letter-spacing:2px;">TECNOLOGIA SIMPLES PARA TODOS</div>
+  </div>
 </div>
 
 <!-- GATES -->
@@ -554,6 +575,16 @@ select:focus{border-color:var(--accent);}
       <div id="gate-truth"></div>
       <div class="tip-box" id="gate-desc" style="margin-top:10px;"></div>
     </div>
+  </div>
+
+  <!-- Lima Store Footer -->
+  <div class="app-footer">
+    <div class="footer-logo">
+      <span class="fl-lima">LIMA</span>
+      <span class="fl-store">STORE</span>
+    </div>
+    <div class="footer-line"></div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,212,255,.35);letter-spacing:2px;">TECNOLOGIA SIMPLES PARA TODOS</div>
   </div>
 </div>
 
@@ -903,6 +934,16 @@ select:focus{border-color:var(--accent);}
     </div>
 
   </div>
+
+  <!-- Lima Store Footer -->
+  <div class="app-footer">
+    <div class="footer-logo">
+      <span class="fl-lima">LIMA</span>
+      <span class="fl-store">STORE</span>
+    </div>
+    <div class="footer-line"></div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,212,255,.35);letter-spacing:2px;">TECNOLOGIA SIMPLES PARA TODOS</div>
+  </div>
 </div>
 
 <!-- INVERSORES -->
@@ -930,6 +971,16 @@ select:focus{border-color:var(--accent);}
 
   <!-- Conteúdo do modelo selecionado (header + busca + falhas) -->
   <div id="inv-content"></div>
+
+  <!-- Lima Store Footer -->
+  <div class="app-footer">
+    <div class="footer-logo">
+      <span class="fl-lima">LIMA</span>
+      <span class="fl-store">STORE</span>
+    </div>
+    <div class="footer-line"></div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,212,255,.35);letter-spacing:2px;">TECNOLOGIA SIMPLES PARA TODOS</div>
+  </div>
 </div>
 
 
@@ -1059,6 +1110,16 @@ select:focus{border-color:var(--accent);}
       <div id="hist-list"></div>
     </div>
   </div>
+
+  <!-- Lima Store Footer -->
+  <div class="app-footer">
+    <div class="footer-logo">
+      <span class="fl-lima">LIMA</span>
+      <span class="fl-store">STORE</span>
+    </div>
+    <div class="footer-line"></div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,212,255,.35);letter-spacing:2px;">TECNOLOGIA SIMPLES PARA TODOS</div>
+  </div>
 </div>
 
 <script>
@@ -1069,13 +1130,6 @@ function goPage(p){
   document.getElementById('page-'+p).classList.add('active');
   document.getElementById('nav-'+p).classList.add('active');
   window.scrollTo(0,0);
-  // Move footer to bottom of active page
-  const footer = document.getElementById('app-footer');
-  const page   = document.getElementById('page-'+p);
-  if(footer && page){
-    page.appendChild(footer);
-    footer.style.display='flex';
-  }
 }
 
 // ══ CLP ══
@@ -2151,7 +2205,7 @@ function clearSearch(key){
   const bar   = document.getElementById('splash-bar');
   const pct   = document.getElementById('splash-pct');
   const splash= document.getElementById('splash');
-  const footer= document.getElementById('app-footer');
+  // footer is now static
 
   const msgs = [
     {p:10,  t:'Iniciando sistema...'},
@@ -2175,7 +2229,7 @@ function clearSearch(key){
         clearInterval(iv);
         setTimeout(()=>{
           splash.classList.add('hide');
-          footer.style.display='flex';
+          // footer handled by static CSS
           setTimeout(()=>{ splash.classList.add('gone'); }, 900);
         }, 700);
       }
