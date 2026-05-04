@@ -29,7 +29,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .nb.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 /* PAGES */
-.page{display:none;padding:16px 14px 70px;max-width:660px;margin:0 auto;}
+.page{display:none;padding:16px 14px 90px;max-width:660px;margin:0 auto;}
 .page.active{display:block;}
 
 /* COMMON */
@@ -236,6 +236,111 @@ select:focus{border-color:var(--accent);}
 .search-result-count{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--dim);margin-bottom:10px;letter-spacing:1px;}
 
 
+
+/* ══ SPLASH SCREEN ══ */
+#splash{
+  position:fixed;inset:0;background:#000;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .8s ease;
+}
+#splash.hide{opacity:0;pointer-events:none;}
+#splash.gone{display:none;}
+
+.splash-bag{
+  width:140px;height:140px;margin-bottom:28px;
+  filter:drop-shadow(0 0 30px #00d4ff) drop-shadow(0 0 60px #0066ff88);
+  animation:bagPop .8s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes bagPop{
+  from{transform:scale(0) rotate(-10deg);opacity:0;}
+  to{transform:scale(1) rotate(0deg);opacity:1;}
+}
+
+.splash-lima{
+  display:flex;align-items:baseline;gap:0;margin-bottom:4px;
+  font-family:'Rajdhani',sans-serif;font-weight:900;font-size:3.2rem;
+  letter-spacing:6px;text-transform:uppercase;
+}
+.sl-L{color:#fff;text-shadow:0 0 20px #00d4ff,0 0 40px #0066ff;
+  animation:slideFromLeft .7s .4s cubic-bezier(.34,1.2,.64,1) both;}
+.sl-I{color:#fff;text-shadow:0 0 20px #00d4ff,0 0 40px #0066ff;
+  animation:fadeUp .5s .55s ease both;}
+.sl-M{color:#fff;text-shadow:0 0 20px #00d4ff,0 0 40px #0066ff;
+  animation:fadeUp .5s .65s ease both;}
+.sl-A{color:#fff;text-shadow:0 0 20px #00d4ff,0 0 40px #0066ff;
+  animation:slideFromRight .7s .4s cubic-bezier(.34,1.2,.64,1) both;}
+
+@keyframes slideFromLeft{from{transform:translateX(-80px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes slideFromRight{from{transform:translateX(80px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes fadeUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+
+.splash-store{
+  font-family:'Share Tech Mono',monospace;font-size:.9rem;
+  letter-spacing:6px;text-transform:uppercase;color:#00d4ff;
+  display:flex;align-items:center;gap:8px;margin-bottom:48px;
+  animation:fadeIn .6s .9s ease both;
+}
+.splash-store::before,.splash-store::after{
+  content:'';width:28px;height:1px;background:linear-gradient(90deg,transparent,#00d4ff);
+}
+.splash-store::after{background:linear-gradient(90deg,#00d4ff,transparent);}
+
+.splash-tagline{
+  font-family:'Rajdhani',sans-serif;font-size:.88rem;
+  color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:52px;
+  animation:fadeIn .6s 1.1s ease both;
+}
+
+/* Loading bar */
+.splash-bar-wrap{
+  width:220px;height:3px;background:rgba(0,212,255,.15);
+  border-radius:3px;overflow:hidden;
+  animation:fadeIn .4s 1s ease both;
+}
+.splash-bar{
+  height:100%;width:0%;border-radius:3px;
+  background:linear-gradient(90deg,#0066ff,#00d4ff,#ffffff);
+  box-shadow:0 0 12px #00d4ff,0 0 24px #0066ff;
+  transition:width .1s linear;
+}
+.splash-pct{
+  font-family:'Share Tech Mono',monospace;font-size:.72rem;
+  color:#00d4ff;margin-top:8px;letter-spacing:2px;
+  animation:fadeIn .4s 1s ease both;
+  min-height:18px;
+}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ══ FOOTER ══ */
+.app-footer{
+  position:fixed;bottom:0;left:0;right:0;z-index:90;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.95));
+  padding:6px 0 max(8px,env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  pointer-events:none;
+}
+.footer-logo{
+  display:flex;align-items:baseline;gap:0;
+  font-family:'Rajdhani',sans-serif;font-weight:900;
+  font-size:1.1rem;letter-spacing:3px;text-transform:uppercase;
+}
+.footer-logo .fl-lima{
+  color:#fff;text-shadow:0 0 8px #00d4ff,0 0 16px #0066ff88;
+}
+.footer-logo .fl-store{
+  font-family:'Share Tech Mono',monospace;font-size:.55rem;
+  letter-spacing:3px;color:#00d4ff;align-self:flex-end;
+  margin-left:4px;margin-bottom:2px;
+}
+.footer-line{
+  width:60px;height:1px;
+  background:linear-gradient(90deg,transparent,#00d4ff,transparent);
+  opacity:.6;
+}
+/* ══ END SPLASH/FOOTER ══ */
+
 /* ── BRAND LOGOS ── */
 .brand-logo{display:inline-flex;align-items:center;justify-content:center;border-radius:3px;overflow:hidden;flex-shrink:0;}
 .mfr-btn .brand-logo{width:44px;height:28px;}
@@ -256,6 +361,70 @@ select:focus{border-color:var(--accent);}
 </style>
 </head>
 <body>
+
+<!-- ══ SPLASH SCREEN ══ -->
+<div id="splash">
+  <!-- Bag SVG neon -->
+  <svg class="splash-bag" viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00e5ff"/>
+        <stop offset="60%" stop-color="#0066ff"/>
+        <stop offset="100%" stop-color="#003399"/>
+      </linearGradient>
+      <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="5" result="blur1"/>
+        <feGaussianBlur stdDeviation="10" result="blur2"/>
+        <feMerge><feMergeNode in="blur2"/><feMergeNode in="blur1"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- Handle -->
+    <path d="M42,38 Q42,18 60,18 Q78,18 78,38" fill="none" stroke="url(#bagGrad)" stroke-width="7" stroke-linecap="round" filter="url(#neonGlow)"/>
+    <!-- Bag body outer glow -->
+    <rect x="14" y="38" width="92" height="80" rx="16" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.4" filter="url(#strongGlow)"/>
+    <!-- Bag body fill dark -->
+    <rect x="16" y="40" width="88" height="76" rx="14" fill="#050a14"/>
+    <!-- Bag body border neon -->
+    <rect x="16" y="40" width="88" height="76" rx="14" fill="none" stroke="url(#bagGrad)" stroke-width="3.5" filter="url(#neonGlow)"/>
+    <!-- L letter inside bag -->
+    <path d="M32,54 L32,98 L80,98" fill="none" stroke="url(#bagGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)"/>
+    <!-- Glossy highlight -->
+    <ellipse cx="75" cy="52" rx="14" ry="8" fill="rgba(255,255,255,0.07)" transform="rotate(-20,75,52)"/>
+  </svg>
+
+  <!-- LIMA text -->
+  <div class="splash-lima">
+    <span class="sl-L">L</span>
+    <span class="sl-I">I</span>
+    <span class="sl-M">M</span>
+    <span class="sl-A">A</span>
+  </div>
+
+  <!-- STORE -->
+  <div class="splash-store">STORE</div>
+
+  <!-- Tagline -->
+  <div class="splash-tagline">Tecnologia Simples Para Todos</div>
+
+  <!-- Loading bar -->
+  <div class="splash-bar-wrap">
+    <div class="splash-bar" id="splash-bar"></div>
+  </div>
+  <div class="splash-pct" id="splash-pct">Carregando...</div>
+</div>
+
+<!-- ══ FOOTER LOGO ══ -->
+<div class="app-footer" id="app-footer" style="display:none;">
+  <div class="footer-logo">
+    <span class="fl-lima">LIMA</span>
+    <span class="fl-store">STORE</span>
+  </div>
+  <div class="footer-line"></div>
+</div>
 
 <div class="install-banner" id="install-banner">
   <p>📱 Instalar <strong>CSN Automação</strong> na tela inicial?</p>
@@ -1425,6 +1594,70 @@ function exportPDF(){
 </style>
 </head>
 <body>
+
+<!-- ══ SPLASH SCREEN ══ -->
+<div id="splash">
+  <!-- Bag SVG neon -->
+  <svg class="splash-bag" viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00e5ff"/>
+        <stop offset="60%" stop-color="#0066ff"/>
+        <stop offset="100%" stop-color="#003399"/>
+      </linearGradient>
+      <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="5" result="blur1"/>
+        <feGaussianBlur stdDeviation="10" result="blur2"/>
+        <feMerge><feMergeNode in="blur2"/><feMergeNode in="blur1"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- Handle -->
+    <path d="M42,38 Q42,18 60,18 Q78,18 78,38" fill="none" stroke="url(#bagGrad)" stroke-width="7" stroke-linecap="round" filter="url(#neonGlow)"/>
+    <!-- Bag body outer glow -->
+    <rect x="14" y="38" width="92" height="80" rx="16" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.4" filter="url(#strongGlow)"/>
+    <!-- Bag body fill dark -->
+    <rect x="16" y="40" width="88" height="76" rx="14" fill="#050a14"/>
+    <!-- Bag body border neon -->
+    <rect x="16" y="40" width="88" height="76" rx="14" fill="none" stroke="url(#bagGrad)" stroke-width="3.5" filter="url(#neonGlow)"/>
+    <!-- L letter inside bag -->
+    <path d="M32,54 L32,98 L80,98" fill="none" stroke="url(#bagGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)"/>
+    <!-- Glossy highlight -->
+    <ellipse cx="75" cy="52" rx="14" ry="8" fill="rgba(255,255,255,0.07)" transform="rotate(-20,75,52)"/>
+  </svg>
+
+  <!-- LIMA text -->
+  <div class="splash-lima">
+    <span class="sl-L">L</span>
+    <span class="sl-I">I</span>
+    <span class="sl-M">M</span>
+    <span class="sl-A">A</span>
+  </div>
+
+  <!-- STORE -->
+  <div class="splash-store">STORE</div>
+
+  <!-- Tagline -->
+  <div class="splash-tagline">Tecnologia Simples Para Todos</div>
+
+  <!-- Loading bar -->
+  <div class="splash-bar-wrap">
+    <div class="splash-bar" id="splash-bar"></div>
+  </div>
+  <div class="splash-pct" id="splash-pct">Carregando...</div>
+</div>
+
+<!-- ══ FOOTER LOGO ══ -->
+<div class="app-footer" id="app-footer" style="display:none;">
+  <div class="footer-logo">
+    <span class="fl-lima">LIMA</span>
+    <span class="fl-store">STORE</span>
+  </div>
+  <div class="footer-line"></div>
+</div>
 <div class="hdr">
   <div class="hdr-left">
     <div class="title">CSN AUTOMACAO</div>
@@ -1916,6 +2149,44 @@ function clearSearch(key){
   if(out) out.innerHTML='';
 }
 
+
+
+// ══ SPLASH SCREEN ══
+(function runSplash(){
+  const bar   = document.getElementById('splash-bar');
+  const pct   = document.getElementById('splash-pct');
+  const splash= document.getElementById('splash');
+  const footer= document.getElementById('app-footer');
+
+  const msgs = [
+    {p:10,  t:'Iniciando sistema...'},
+    {p:25,  t:'Carregando módulos...'},
+    {p:45,  t:'Preparando inversores...'},
+    {p:60,  t:'Carregando redes...'},
+    {p:75,  t:'Carregando balanças...'},
+    {p:88,  t:'Quase pronto...'},
+    {p:100, t:'Bem-vindo! ✓'},
+  ];
+
+  let step = 0;
+  // Start after animations settle (1.2s)
+  setTimeout(()=>{
+    const iv = setInterval(()=>{
+      if(step >= msgs.length){ clearInterval(iv); return; }
+      const {p, t} = msgs[step++];
+      bar.style.width = p+'%';
+      pct.textContent = t;
+      if(p===100){
+        clearInterval(iv);
+        setTimeout(()=>{
+          splash.classList.add('hide');
+          footer.style.display='flex';
+          setTimeout(()=>{ splash.classList.add('gone'); }, 900);
+        }, 700);
+      }
+    }, 320);
+  }, 1200);
+})();
 
 // ══ INIT ══
 (function init(){
