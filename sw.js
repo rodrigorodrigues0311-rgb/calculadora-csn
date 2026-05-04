@@ -1,24 +1,48 @@
-// CSN Automação - SW v5 NUCLEAR
-// Este SW se auto-destrói, limpa TODO o cache e força reload
-const CACHE = 'csn-v5';
+const CACHE_NAME = 'simulado-v35';
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './logo.png',
+  './icon-192.png',
+  './icon-512.png'
+];
 
-self.addEventListener('install', () => self.skipWaiting());
-
-self.addEventListener('activate', e => {
-  e.waitUntil((async () => {
-    // Apaga TODOS os caches sem exceção
-    const keys = await caches.keys();
-    await Promise.all(keys.map(k => caches.delete(k)));
-    await self.clients.claim();
-    // Força reload em todas as abas abertas
-    const clients = await self.clients.matchAll({ type: 'window' });
-    clients.forEach(c => c.navigate(c.url));
-  })());
+self.addEventListener('install', e => {
+  self.skipWaiting();
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS).catch(()=>{})));
 });
 
-// Sem cache - sempre busca da rede
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
 self.addEventListener('fetch', e => {
+  if (e.request.url.includes('workers.dev') || e.request.url.includes('anthropic.com')) return;
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        const c = res.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(e.request, c));
+        return res;
+      }).catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
   e.respondWith(
-    fetch(e.request, { cache: 'no-store' }).catch(() => caches.match(e.request))
+    caches.match(e.request).then(cached => {
+      const net = fetch(e.request).then(res => {
+        if (res && res.status === 200 && res.type !== 'opaque') {
+          const c = res.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(e.request, c));
+        }
+        return res;
+      });
+      return cached || net;
+    })
   );
 });
