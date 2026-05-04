@@ -1,12 +1,16 @@
 {
-  "name": "Calculadora CLP – Automação CSN",
-  "short_name": "CLP CSN",
-  "description": "Calculadora de endereços I/O para CLP",
-  "start_url": "./index.html",
+  "id": "csn-automacao-industrial-v1",
+  "name": "CSN Automação — Ferramentas Industriais",
+  "short_name": "CSN Automação",
+  "description": "Ferramentas de Automação Industrial: CLP, Inversores, Balanças, Redes e Fibra",
+  "start_url": "./index.html?app=csn-automacao",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0a0e14",
   "theme_color": "#1a6fd4",
   "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "categories": ["productivity", "utilities"],
   "icons": [
     {
       "src": "icon-192.png",
