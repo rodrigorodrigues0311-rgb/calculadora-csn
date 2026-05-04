@@ -29,7 +29,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .nb.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 /* PAGES */
-.page{display:none;padding:16px 14px 90px;max-width:660px;margin:0 auto;}
+.page{display:none;padding:16px 14px 20px;max-width:660px;margin:0 auto;}
 .page.active{display:block;}
 
 /* COMMON */
@@ -315,11 +315,13 @@ select:focus{border-color:var(--accent);}
 
 /* ══ FOOTER ══ */
 .app-footer{
-  position:fixed;bottom:0;left:0;right:0;z-index:90;
-  background:linear-gradient(180deg,transparent,rgba(0,0,0,.95));
-  padding:6px 0 max(8px,env(safe-area-inset-bottom));
+  position:relative;
+  background:transparent;
+  padding:10px 0 max(14px,env(safe-area-inset-bottom));
   display:flex;flex-direction:column;align-items:center;gap:3px;
   pointer-events:none;
+  border-top:1px solid rgba(0,212,255,.12);
+  margin-top:8px;
 }
 .footer-logo{
   display:flex;align-items:baseline;gap:0;
@@ -417,14 +419,7 @@ select:focus{border-color:var(--accent);}
   <div class="splash-pct" id="splash-pct">Carregando...</div>
 </div>
 
-<!-- ══ FOOTER LOGO ══ -->
-<div class="app-footer" id="app-footer" style="display:none;">
-  <div class="footer-logo">
-    <span class="fl-lima">LIMA</span>
-    <span class="fl-store">STORE</span>
-  </div>
-  <div class="footer-line"></div>
-</div>
+
 
 <div class="install-banner" id="install-banner">
   <p>📱 Instalar <strong>CSN Automação</strong> na tela inicial?</p>
@@ -1074,6 +1069,13 @@ function goPage(p){
   document.getElementById('page-'+p).classList.add('active');
   document.getElementById('nav-'+p).classList.add('active');
   window.scrollTo(0,0);
+  // Move footer to bottom of active page
+  const footer = document.getElementById('app-footer');
+  const page   = document.getElementById('page-'+p);
+  if(footer && page){
+    page.appendChild(footer);
+    footer.style.display='flex';
+  }
 }
 
 // ══ CLP ══
@@ -1650,14 +1652,7 @@ function exportPDF(){
   <div class="splash-pct" id="splash-pct">Carregando...</div>
 </div>
 
-<!-- ══ FOOTER LOGO ══ -->
-<div class="app-footer" id="app-footer" style="display:none;">
-  <div class="footer-logo">
-    <span class="fl-lima">LIMA</span>
-    <span class="fl-store">STORE</span>
-  </div>
-  <div class="footer-line"></div>
-</div>
+
 <div class="hdr">
   <div class="hdr-left">
     <div class="title">CSN AUTOMACAO</div>
