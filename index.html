@@ -1154,30 +1154,54 @@ const MFR={
       s2a:(c,ch)=>(c-1)*8+ch,a2s:(a,o)=>{const i=a-o;return{card:Math.floor(i/8)+1,ch:(i%8)+1};},rng:(c,o)=>({f:(c-1)*8+1+o-1,l:c*8+o-1,p:'%AQ'})}}},
   ROCK:{name:'Rockwell ControlLogix 5000',color:'#d4201a',badge:'Rockwell · ControlLogix 5000',signals:{
     ED:{label:'Entrada Digital',icon:'📥',size:16,chWord:'BIT',addrSub:'Local:S:I.Data.B',
-      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0-15)',prefix:'Bit',ph:'0',min:0,max:15}],
-      calcFn:(s,c)=>({address:'Local:'+s+':I.Data.'+c,location:'Slot '+s+' · Bit '+c,card:'Slot '+s,channel:'Bit '+c,extra:'DI_Slot'+s+'_Bit'+c}),rng:(s)=>({label:'Local:'+s+':I.Data.0 → Local:'+s+':I.Data.15'})},
+      addrInput:{id:'inp-rock-addr',label:'Tag do CLP (ex: Local:2:I.Data.5)',prefix:'Tag',ph:'Local:2:I.Data.5'},
+      inputs:[{id:'inp-slot',label:'Slot do Rack (0-99)',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0-15)',prefix:'Bit',ph:'0',min:0,max:15}],
+      calcFn:(s,ch)=>({address:'Local:'+s+':I.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'DI_Slot'+s+'_Bit'+ch}),
+      parseFn:(tag)=>{const m=tag.trim().match(/^Local:(\d+):I\.Data\.(\d+)$/i);return m?{slot:+m[1],ch:+m[2]}:null;},
+      rng:(s)=>({label:'Local:'+s+':I.Data.0 → Local:'+s+':I.Data.15'})},
     SD:{label:'Saída Digital',icon:'📤',size:16,chWord:'BIT',addrSub:'Local:S:O.Data.B',
-      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0-15)',prefix:'Bit',ph:'0',min:0,max:15}],
-      calcFn:(s,c)=>({address:'Local:'+s+':O.Data.'+c,location:'Slot '+s+' · Bit '+c,card:'Slot '+s,channel:'Bit '+c,extra:'DO_Slot'+s+'_Bit'+c}),rng:(s)=>({label:'Local:'+s+':O.Data.0 → Local:'+s+':O.Data.15'})},
+      addrInput:{id:'inp-rock-addr',label:'Tag do CLP (ex: Local:2:O.Data.3)',prefix:'Tag',ph:'Local:2:O.Data.3'},
+      inputs:[{id:'inp-slot',label:'Slot do Rack (0-99)',prefix:'Slot',ph:'0',min:0,max:99},{id:'inp-bit',label:'Bit (0-15)',prefix:'Bit',ph:'0',min:0,max:15}],
+      calcFn:(s,ch)=>({address:'Local:'+s+':O.Data.'+ch,location:'Slot '+s+' · Bit '+ch,card:'Rack Local · Slot '+s,channel:'Bit '+ch,extra:'DO_Slot'+s+'_Bit'+ch}),
+      parseFn:(tag)=>{const m=tag.trim().match(/^Local:(\d+):O\.Data\.(\d+)$/i);return m?{slot:+m[1],ch:+m[2]}:null;},
+      rng:(s)=>({label:'Local:'+s+':O.Data.0 → Local:'+s+':O.Data.15'})},
     EA:{label:'Entrada Analógica',icon:'📊',size:8,chWord:'CANAL',addrSub:'Local:S:I.ChXData',
-      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'1',min:0,max:99},{id:'inp-ch',label:'Canal (0-7)',prefix:'Ch',ph:'0',min:0,max:7}],
-      calcFn:(s,c)=>({address:'Local:'+s+':I.Ch'+c+'Data',location:'Slot '+s+' · Ch'+c,card:'Slot '+s,channel:'Canal '+c,extra:'AI_Slot'+s+'_Ch'+c}),rng:(s)=>({label:'Local:'+s+':I.Ch0Data → Local:'+s+':I.Ch7Data'})},
+      addrInput:{id:'inp-rock-addr',label:'Tag do CLP (ex: Local:1:I.Ch3Data)',prefix:'Tag',ph:'Local:1:I.Ch3Data'},
+      inputs:[{id:'inp-slot',label:'Slot do Rack (0-99)',prefix:'Slot',ph:'1',min:0,max:99},{id:'inp-ch',label:'Canal (0-7)',prefix:'Ch',ph:'0',min:0,max:7}],
+      calcFn:(s,ch)=>({address:'Local:'+s+':I.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'AI_Slot'+s+'_Ch'+ch}),
+      parseFn:(tag)=>{const m=tag.trim().match(/^Local:(\d+):I\.Ch(\d+)Data$/i);return m?{slot:+m[1],ch:+m[2]}:null;},
+      rng:(s)=>({label:'Local:'+s+':I.Ch0Data → Local:'+s+':I.Ch7Data'})},
     SA:{label:'Saída Analógica',icon:'🎛️',size:8,chWord:'CANAL',addrSub:'Local:S:O.ChXData',
-      inputs:[{id:'inp-slot',label:'Slot',prefix:'Slot',ph:'2',min:0,max:99},{id:'inp-ch',label:'Canal (0-7)',prefix:'Ch',ph:'0',min:0,max:7}],
-      calcFn:(s,c)=>({address:'Local:'+s+':O.Ch'+c+'Data',location:'Slot '+s+' · Ch'+c,card:'Slot '+s,channel:'Canal '+c,extra:'AO_Slot'+s+'_Ch'+c}),rng:(s)=>({label:'Local:'+s+':O.Ch0Data → Local:'+s+':O.Ch7Data'})}}},
+      addrInput:{id:'inp-rock-addr',label:'Tag do CLP (ex: Local:2:O.Ch1Data)',prefix:'Tag',ph:'Local:2:O.Ch1Data'},
+      inputs:[{id:'inp-slot',label:'Slot do Rack (0-99)',prefix:'Slot',ph:'2',min:0,max:99},{id:'inp-ch',label:'Canal (0-7)',prefix:'Ch',ph:'0',min:0,max:7}],
+      calcFn:(s,ch)=>({address:'Local:'+s+':O.Ch'+ch+'Data',location:'Slot '+s+' · Ch'+ch,card:'Rack Local · Slot '+s,channel:'Canal '+ch,extra:'AO_Slot'+s+'_Ch'+ch}),
+      parseFn:(tag)=>{const m=tag.trim().match(/^Local:(\d+):O\.Ch(\d+)Data$/i);return m?{slot:+m[1],ch:+m[2]}:null;},
+      rng:(s)=>({label:'Local:'+s+':O.Ch0Data → Local:'+s+':O.Ch7Data'})}}},
   SIEM:{name:'Siemens S7-400',color:'#009999',badge:'Siemens · S7-400 / Step 7',signals:{
     ED:{label:'Entrada Digital',icon:'📥',size:8,chWord:'BIT',addrSub:'Ibyte.bit',
-      inputs:[{id:'inp-byte',label:'Byte',prefix:'I',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0-7)',prefix:'Bit',ph:'0',min:0,max:7}],
-      calcFn:(b,bi)=>({address:'I'+b+'.'+bi,location:'Byte '+b+' · Bit '+bi,card:'Byte '+b,channel:'Bit '+bi,extra:'IB'+b}),rng:(b)=>({label:'I'+b+'.0 → I'+b+'.7'})},
+      addrInput:{id:'inp-siem-addr',label:'Endereço S7 (ex: I5.3)',prefix:'Addr',ph:'I5.3'},
+      inputs:[{id:'inp-byte',label:'Byte (0-65535)',prefix:'I',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0-7)',prefix:'Bit',ph:'0',min:0,max:7}],
+      calcFn:(b,bi)=>({address:'I'+b+'.'+bi,location:'Byte '+b+' · Bit '+bi,card:'Byte de Entrada '+b,channel:'Bit '+bi,extra:'IB'+b+' (byte completo)'}),
+      parseFn:(addr)=>{const m=addr.trim().match(/^I(\d+)\.([0-7])$/i);return m?{byte:+m[1],bit:+m[2]}:null;},
+      rng:(b)=>({label:'I'+b+'.0 → I'+b+'.7'})},
     SD:{label:'Saída Digital',icon:'📤',size:8,chWord:'BIT',addrSub:'Qbyte.bit',
-      inputs:[{id:'inp-byte',label:'Byte',prefix:'Q',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0-7)',prefix:'Bit',ph:'0',min:0,max:7}],
-      calcFn:(b,bi)=>({address:'Q'+b+'.'+bi,location:'Byte '+b+' · Bit '+bi,card:'Byte '+b,channel:'Bit '+bi,extra:'QB'+b}),rng:(b)=>({label:'Q'+b+'.0 → Q'+b+'.7'})},
+      addrInput:{id:'inp-siem-addr',label:'Endereço S7 (ex: Q5.3)',prefix:'Addr',ph:'Q5.3'},
+      inputs:[{id:'inp-byte',label:'Byte (0-65535)',prefix:'Q',ph:'0',min:0,max:65535},{id:'inp-bit',label:'Bit (0-7)',prefix:'Bit',ph:'0',min:0,max:7}],
+      calcFn:(b,bi)=>({address:'Q'+b+'.'+bi,location:'Byte '+b+' · Bit '+bi,card:'Byte de Saída '+b,channel:'Bit '+bi,extra:'QB'+b+' (byte completo)'}),
+      parseFn:(addr)=>{const m=addr.trim().match(/^Q(\d+)\.([0-7])$/i);return m?{byte:+m[1],bit:+m[2]}:null;},
+      rng:(b)=>({label:'Q'+b+'.0 → Q'+b+'.7'})},
     EA:{label:'Entrada Analógica',icon:'📊',size:0,chWord:'CANAL',addrSub:'PIW par',
-      inputs:[{id:'inp-piw',label:'Endereço PIW (par)',prefix:'PIW',ph:'256',min:0,max:65534}],
-      calcFn:(v)=>({address:'PIW'+v,location:'Word '+v,card:'Módulo AI',channel:'PIW'+v,extra:'Próximo: PIW'+(v+2)}),rng:()=>null},
+      addrInput:{id:'inp-siem-addr',label:'Endereço S7 (ex: PIW256)',prefix:'Addr',ph:'PIW256'},
+      inputs:[{id:'inp-piw',label:'Endereço PIW (número par)',prefix:'PIW',ph:'256',min:0,max:65534}],
+      calcFn:(v)=>({address:'PIW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PIW'+v,extra:'Próximo canal: PIW'+(v+2)}),
+      parseFn:(addr)=>{const m=addr.trim().match(/^PIW(\d+)$/i);return m?{piw:+m[1]}:null;},
+      rng:()=>null},
     SA:{label:'Saída Analógica',icon:'🎛️',size:0,chWord:'CANAL',addrSub:'PQW par',
-      inputs:[{id:'inp-pqw',label:'Endereço PQW (par)',prefix:'PQW',ph:'256',min:0,max:65534}],
-      calcFn:(v)=>({address:'PQW'+v,location:'Word '+v,card:'Módulo AO',channel:'PQW'+v,extra:'Próximo: PQW'+(v+2)}),rng:()=>null}}}
+      addrInput:{id:'inp-siem-addr',label:'Endereço S7 (ex: PQW256)',prefix:'Addr',ph:'PQW256'},
+      inputs:[{id:'inp-pqw',label:'Endereço PQW (número par)',prefix:'PQW',ph:'256',min:0,max:65534}],
+      calcFn:(v)=>({address:'PQW'+v,location:'Word '+v,card:'Módulo Analógico',channel:'Canal PQW'+v,extra:'Próximo canal: PQW'+(v+2)}),
+      parseFn:(addr)=>{const m=addr.trim().match(/^PQW(\d+)$/i);return m?{pqw:+m[1]}:null;},
+      rng:()=>null}}}
 };
 
 let curLR=null,curMfr=null,curSig=null,curDir='addr',remOff=1;
@@ -1231,8 +1255,16 @@ function setClpSig(s){
   curSig=s;const mfr=MFR[curMfr];
   Object.keys(mfr.signals).forEach(k=>{const b=document.getElementById('ctb-'+k);if(!b)return;const c=SC[k];b.style.cssText=k===s?`border-color:${c.color};background:${c.bg};color:${c.color}`:''});
   const isGE=curMfr==='GE';
-  document.getElementById('clp-ba').textContent=isGE?'Endereço → Cartão':'Local → Detalhes';
-  document.getElementById('clp-bs').textContent=isGE?'Cartão → Endereço':'Slot → Tag';
+  if(isGE){
+    document.getElementById('clp-ba').textContent='Endereço → Cartão/Canal';
+    document.getElementById('clp-bs').textContent='Cartão/Canal → Endereço';
+  } else if(curMfr==='ROCK'){
+    document.getElementById('clp-ba').textContent='Tag → Slot/Bit';
+    document.getElementById('clp-bs').textContent='Slot/Bit → Tag';
+  } else {
+    document.getElementById('clp-ba').textContent='Endereço → Byte/Bit';
+    document.getElementById('clp-bs').textContent='Byte/Bit → Endereço';
+  }
   sEl('clp-s4');sEl('clp-dir');sEl('clp-calc');
   setClpDir(curDir);hV('clp-result');hV('clp-err');
 }
@@ -1249,20 +1281,65 @@ function renderClpInputs(){
   const sig=MFR[curMfr].signals[curSig];
   const area=document.getElementById('clp-inputs');area.innerHTML='';
   const sc=SC[curSig];const isR=curLR==='remote';
-  let defs;
+
+  // GE — addr mode: campo numérico de endereço
   if(curMfr==='GE'&&curDir==='addr'){
     const pfxMap={ED:'%I',SD:'%Q',EA:'%AI',SA:'%AQ'};const pfx=pfxMap[curSig];
-    defs=[{id:'inp-addr',label:'Endereço '+pfx+(isR?' (offset '+pad(remOff,4)+')':''),prefix:pfx,ph:isR?pad(remOff,4):'0001',min:isR?remOff:1,max:99999}];
-  } else defs=sig.inputs;
-  if(isR&&curMfr==='GE'){
-    const h=document.createElement('div');
-    h.style.cssText='font-size:.68rem;color:var(--orange);font-family:"Share Tech Mono",monospace;margin-bottom:8px;padding:5px 9px;background:rgba(255,136,0,.06);border:1px solid rgba(255,136,0,.2);border-radius:3px;';
-    h.textContent='📡 Remota: offset base = '+pad(remOff,4);
-    area.appendChild(h);
-  }
-  defs.forEach(inp=>{
+    if(isR){
+      const h=document.createElement('div');
+      h.style.cssText='font-size:.68rem;color:var(--orange);font-family:"Share Tech Mono",monospace;margin-bottom:8px;padding:5px 9px;background:rgba(255,136,0,.06);border:1px solid rgba(255,136,0,.2);border-radius:3px;';
+      h.textContent='📡 Remota: offset base = '+pad(remOff,4);
+      area.appendChild(h);
+    }
     const d=document.createElement('div');d.className='fg';
-    d.innerHTML=`<label>${inp.label}</label><div class="fr"><span class="clp-pfx">${inp.prefix}</span><input type="number" id="${inp.id}" placeholder="${inp.ph}" min="${inp.min}" max="${inp.max}" style="color:${sc.color}" onkeydown="if(event.key==='Enter')calcClp()"></div>`;
+    const ph=isR?pad(remOff,4):'0001';
+    const mn=isR?remOff:1;
+    const lbl='Endereço '+pfx+(isR?' (offset '+pad(remOff,4)+')':'');
+    d.innerHTML='<label>'+lbl+'</label><div class="fr"><span class="clp-pfx">'+pfx+'</span>'
+      +'<input type="number" id="inp-addr" placeholder="'+ph+'" min="'+mn+'" max="99999"'
+      +' style="color:'+sc.color+'" onkeydown="if(event.key===\'Enter\')calcClp()"></div>';
+    area.appendChild(d);
+    return;
+  }
+
+  // ROCK — addr mode: campo de texto para Tag
+  if(curMfr==='ROCK'&&curDir==='addr'&&sig.addrInput){
+    const inp=sig.addrInput;
+    const d=document.createElement('div');d.className='fg';
+    d.innerHTML='<label>'+inp.label+'</label>'
+      +'<div class="fr"><span class="clp-pfx" style="font-size:.75rem;">'+inp.prefix+'</span>'
+      +'<input type="text" id="'+inp.id+'" placeholder="'+inp.ph+'"'
+      +' style="color:'+sc.color+';border-radius:0 3px 3px 0;border:1px solid var(--border);'
+      +'background:#0d1620;padding:9px 10px;font-family:\'Share Tech Mono\',monospace;'
+      +'font-size:.88rem;outline:none;flex:1;min-width:0;"'
+      +' onkeydown="if(event.key===\'Enter\')calcClp()"></div>';
+    area.appendChild(d);
+    return;
+  }
+
+  // SIEM — addr mode: campo de texto para endereço
+  if(curMfr==='SIEM'&&curDir==='addr'&&sig.addrInput){
+    const inp=sig.addrInput;
+    const d=document.createElement('div');d.className='fg';
+    d.innerHTML='<label>'+inp.label+'</label>'
+      +'<div class="fr"><span class="clp-pfx" style="font-size:.75rem;">'+inp.prefix+'</span>'
+      +'<input type="text" id="'+inp.id+'" placeholder="'+inp.ph+'"'
+      +' style="color:'+sc.color+';border-radius:0 3px 3px 0;border:1px solid var(--border);'
+      +'background:#0d1620;padding:9px 10px;font-family:\'Share Tech Mono\',monospace;'
+      +'font-size:.88rem;outline:none;flex:1;min-width:0;"'
+      +' onkeydown="if(event.key===\'Enter\')calcClp()"></div>';
+    area.appendChild(d);
+    return;
+  }
+
+  // Campos numéricos padrão (slot/bit/byte)
+  sig.inputs.forEach(function(inp){
+    const d=document.createElement('div');d.className='fg';
+    d.innerHTML='<label>'+inp.label+'</label>'
+      +'<div class="fr"><span class="clp-pfx">'+inp.prefix+'</span>'
+      +'<input type="number" id="'+inp.id+'" placeholder="'+inp.ph+'"'
+      +' min="'+inp.min+'" max="'+inp.max+'" style="color:'+sc.color+'"'
+      +' onkeydown="if(event.key===\'Enter\')calcClp()"></div>';
     area.appendChild(d);
   });
 }
@@ -1289,19 +1366,53 @@ function calcClp(){
       const r=sig.rFn(addr,card,ch,off);const rg=sig.rng(card,off);
       res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:null,index:addr-1,size:sig.size,activeCell:ch,range:'Faixa: '+rg.p+pad(rg.f,4)+' → '+rg.p+pad(rg.l,4)};
     } else if(curMfr==='ROCK'){
-      const slot=gV('inp-slot');const chId=document.getElementById('inp-bit')?'inp-bit':'inp-ch';const ch=gV(chId);
-      if(slot===null)throw new Error('Informe o slot.');if(ch===null)throw new Error('Informe o bit/canal.');
+      let slot,ch;
+      if(curDir==='addr'){
+        // Tag → Slot/Bit
+        const tagEl=document.getElementById('inp-rock-addr');
+        if(!tagEl||!tagEl.value.trim())throw new Error('Informe a Tag do CLP (ex: Local:2:I.Data.5).');
+        const parsed=sig.parseFn(tagEl.value);
+        if(!parsed)throw new Error('Tag inválida. Formato esperado: '+sig.addrInput.ph);
+        slot=parsed.slot; ch=parsed.ch!==undefined?parsed.ch:parsed.ch;
+      } else {
+        // Slot/Bit → Tag
+        slot=gV('inp-slot');
+        const chId=document.getElementById('inp-bit')?'inp-bit':'inp-ch';
+        ch=gV(chId);
+        if(slot===null)throw new Error('Informe o slot.');
+        if(ch===null)throw new Error('Informe o bit/canal.');
+      }
       const r=sig.calcFn(slot,ch);const rg=sig.rng(slot);
       res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:sig.size,activeCell:ch+1,range:rg.label};
     } else {
+      // SIEMENS
       if(curSig==='EA'||curSig==='SA'){
-        const id=curSig==='EA'?'inp-piw':'inp-pqw';const v=gV(id);
-        if(v===null||v<0)throw new Error('Informe o endereço.');
-        if(v%2!==0)throw new Error('Endereço deve ser par (ex: 256, 258).');
+        let v;
+        if(curDir==='addr'){
+          const addrEl=document.getElementById('inp-siem-addr');
+          if(!addrEl||!addrEl.value.trim())throw new Error('Informe o endereço (ex: '+sig.addrInput.ph+').');
+          const parsed=sig.parseFn(addrEl.value);
+          if(!parsed)throw new Error('Endereço inválido. Formato esperado: '+sig.addrInput.ph);
+          v=parsed.piw!==undefined?parsed.piw:parsed.pqw;
+        } else {
+          const id=curSig==='EA'?'inp-piw':'inp-pqw';v=gV(id);
+          if(v===null||v<0)throw new Error('Informe o endereço.');
+          if(v%2!==0)throw new Error('Endereço deve ser par (ex: 256, 258).');
+        }
         const r=sig.calcFn(v);res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:0,activeCell:null,range:null};
       } else {
-        const by=gV('inp-byte');const bi=gV('inp-bit');
-        if(by===null||by<0)throw new Error('Informe o byte.');if(bi===null||bi<0||bi>7)throw new Error('Bit deve ser 0 a 7.');
+        let by,bi;
+        if(curDir==='addr'){
+          const addrEl=document.getElementById('inp-siem-addr');
+          if(!addrEl||!addrEl.value.trim())throw new Error('Informe o endereço (ex: '+sig.addrInput.ph+').');
+          const parsed=sig.parseFn(addrEl.value);
+          if(!parsed)throw new Error('Endereço inválido. Formato esperado: '+sig.addrInput.ph);
+          by=parsed.byte; bi=parsed.bit;
+        } else {
+          by=gV('inp-byte');bi=gV('inp-bit');
+          if(by===null||by<0)throw new Error('Informe o byte.');
+          if(bi===null||bi<0||bi>7)throw new Error('Bit deve ser 0 a 7.');
+        }
         const r=sig.calcFn(by,bi);const rg=sig.rng(by);
         res={full:r.location,address:r.address,card:r.card,channel:r.channel,extra:r.extra,index:null,size:8,activeCell:bi+1,range:rg?rg.label:null};
       }
